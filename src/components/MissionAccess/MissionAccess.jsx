@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useInViewAnimation } from '../../hooks/useInViewAnimation';
 import { MOTION_EASING } from '../../utils/motion';
+import ticket9Logo from '../../assets/Ticket9Logo.png';
 
 export default function MissionAccess() {
   const [sectionRef, inView] = useInViewAnimation({ threshold: 0.15 });
@@ -262,58 +263,54 @@ export default function MissionAccess() {
               </div>
             </div>
 
-            {/* Perforated Stub (Right ~30%) — Custom Text-Based Security Symbols Panel */}
+            {/* Perforated Stub (Right ~30%) — Ticket9 Official Ticketing Partner Badge */}
             <div className="w-full md:w-64 p-6 sm:p-7 bg-[#0d0c10] flex flex-col justify-between items-center text-center relative border-t md:border-t-0 md:border-l border-dashed border-[#ff1e27]/30">
               {/* Semi-circle notch cutouts on perforated edge */}
               <div className="hidden md:block absolute -left-3 -top-3 w-6 h-6 bg-[#08080A] rounded-full border border-[#2d2d35]" />
               <div className="hidden md:block absolute -left-3 -bottom-3 w-6 h-6 bg-[#08080A] rounded-full border border-[#2d2d35]" />
 
-              {/* Security Cipher Header */}
-              <div className="w-full flex flex-col items-center">
-                <div className="w-full py-1.5 px-3 bg-[#181214] border border-[#ff1e27]/40 rounded text-center mb-4">
+              {/* Official Partner Top Header */}
+              <div className="w-full">
+                <div className="w-full py-1.5 px-3 bg-[#181214] border border-[#ff1e27]/40 rounded text-center">
                   <span className="font-code-md text-[10px] text-[#ff544b] font-bold uppercase tracking-[0.24em] block">
-                    SECURITY CIPHER
+                    OFFICIAL PARTNER
                   </span>
                 </div>
+              </div>
 
-                {/* Custom Text/Glyph Classified Security Panel */}
-                <div className="w-full bg-[#121117] border border-[#2a2933] p-3 rounded space-y-2 text-[#d4d1da] font-mono select-none">
-                  {/* Glyph Header */}
-                  <div className="text-[#ff544b] text-xs tracking-[0.3em] font-bold">
-                    ╫ ║ ▪ ║ ╫
+              {/* Vertically Balanced Ticket9 Partner Block */}
+              <div className="w-full flex-1 flex flex-col items-center justify-center my-3 sm:my-4">
+                <div className="w-full bg-[#121117] border border-[#2a2933] p-5 sm:p-6 rounded-sm flex flex-col items-center justify-center space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.5)] select-none">
+                  <div className="p-3 sm:p-3.5 bg-black/50 rounded border border-[#23222a] flex items-center justify-center w-full shadow-inner">
+                    <img
+                      src={ticket9Logo}
+                      alt="Ticket9 — Ticketing Partner"
+                      className="h-10 sm:h-12 w-auto max-w-[170px] object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)] filter brightness-105"
+                    />
                   </div>
 
-                  {/* Encoded Matrix Coordinates */}
-                  <div className="text-[11px] text-[#e0dde6] tracking-[0.2em] font-semibold border-y border-[#262530] py-1">
-                    09 · 26 · 10
+                  <div className="pt-2 border-t border-[#262530] w-full text-center space-y-1">
+                    <span className="font-code-md text-xs sm:text-[13px] text-white font-bold tracking-[0.22em] uppercase block">
+                      TICKETING PARTNER
+                    </span>
+                    <span className="font-code-md text-[9px] sm:text-[10px] text-[#ff544b] tracking-widest uppercase block font-semibold">
+                      OFFICIAL ADMISSION GATEWAY
+                    </span>
                   </div>
 
-                  {/* Technical Markings */}
-                  <div className="text-[10px] text-[#ffdad6] tracking-[0.16em] uppercase">
-                    TB // CSE-KPRIET
-                  </div>
-
-                  {/* Geometric Checksum Glyphs */}
-                  <div className="text-neutral-400 text-xs tracking-[0.25em]">
-                    ⌁ ⌁ ◈ ⌁ ⌁
-                  </div>
-
-                  {/* Checksum Hex Sequence */}
-                  <div className="text-[9px] text-[#909099] tracking-widest font-mono">
-                    AUTH // 0x4D:9E:26
-                  </div>
-
-                  {/* Clearance Badge */}
-                  <div className="pt-1 border-t border-[#262530]">
-                    <span className="inline-block bg-[#ff1e27]/20 border border-[#ff1e27]/50 text-[#ff544b] text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-[0.18em]">
-                      VALIDATED
+                  <div className="pt-1 flex flex-col items-center gap-1.5 w-full">
+                    <span className="inline-block bg-[#ff1e27]/15 border border-[#ff1e27]/40 text-[#ff544b] text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-[0.16em]">
+                      AUTHORIZED PLATFORM
+                    </span>
+                    <span className="font-code-md text-[8.5px] text-[#8e8a96] tracking-wider uppercase">
+                      VERIFIED TICKETING PORTAL
                     </span>
                   </div>
                 </div>
               </div>
 
               {/* Bottom Verification Label */}
-              <div className="w-full pt-4 flex flex-col items-center">
+              <div className="w-full pt-3 border-t border-[#1a1922] flex flex-col items-center">
                 <span className="font-code-md text-[9px] text-[#a09ca8] uppercase tracking-[0.2em]">
                   DELEGATE PASS // 2026
                 </span>
@@ -343,7 +340,7 @@ export default function MissionAccess() {
             <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
           </a>
           <span className="font-code-md text-xs text-[#c8c5ca]/70 tracking-[0.22em] uppercase mt-3 text-center">
-            ₹399 • 2 DAY ACCESS • LIMITED OPERATIVE SEATS
+            ₹399 • 2 DAY ACCESS • VIA TICKET9
           </span>
         </div>
       </div>

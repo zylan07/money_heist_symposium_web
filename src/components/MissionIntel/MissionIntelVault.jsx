@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { MISSIONS_DATA } from '../../data/events';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+import gfgLogo from '../../assets/geeksforgeeks.png';
 
 export default function MissionIntelVault({ missionId, onClose }) {
   const canvasRef = useRef(null);
@@ -760,6 +761,14 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 <h2 className="font-headline-sm text-2xl sm:text-3xl lg:text-4xl text-white uppercase tracking-[0.08em] leading-tight">
                   {mission.fullTitle}
                 </h2>
+                {mission.poweredBy && (
+                  <div className="inline-flex items-center gap-2 bg-[#0e1c12] border border-[#2f8d46]/70 px-2.5 py-1 rounded mt-1.5 shadow-sm">
+                    <img src={gfgLogo} alt="GeeksforGeeks" className="h-4 w-auto object-contain" />
+                    <span className="font-code-md text-[11px] text-[#48bb78] uppercase font-bold tracking-wider">
+                      POWERED BY GEEKSFORGEEKS
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -798,8 +807,8 @@ export default function MissionIntelVault({ missionId, onClose }) {
               </p>
             </div>
 
-            {/* Classified Mission Bounty / Rewards (Day 1 Events only: 1st, 2nd, 3rd) */}
-            {mission.prizes && (
+            {/* DAY 1 EVENTS REWARD BLOCK: Generalized ₹5,000 PRIZE POOL */}
+            {mission.prizePool && (
               <div className="relative bg-[#1d1214] border-2 border-[#ff1e27] p-5 sm:p-6 rounded shadow-[0_8px_30px_rgba(255,30,39,0.3)] transform rotate-[0.2deg]">
                 <div className="red-pushpin -top-2.5 left-8" />
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#3d191d] pb-3 mb-4">
@@ -823,22 +832,104 @@ export default function MissionIntelVault({ missionId, onClose }) {
                   </div>
                 </div>
 
-                {/* 3 Clear Prize Positions (1ST, 2ND, 3RD) */}
-                <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                  {mission.prizes.map((p, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-[#12080a] border border-[#ff1e27]/50 rounded p-3 sm:p-4 text-center flex flex-col items-center justify-center shadow-inner hover:border-[#ff1e27] transition-colors"
-                    >
-                      <span className="font-code-md text-[10px] min-[380px]:text-[11px] sm:text-xs text-[#ff9995] uppercase tracking-widest font-bold block mb-1">
-                        {p.rank} PRIZE
-                      </span>
-                      <span className="font-headline-sm text-xl min-[380px]:text-2xl sm:text-3xl lg:text-4xl text-[#ff544b] font-bold tracking-tight block">
-                        {p.amount}
+                {/* Generalized ₹5,000 Prize Pool Display */}
+                <div className="p-4 sm:p-5 bg-[#12080a] border border-[#ff1e27]/50 rounded text-center flex flex-col items-center justify-center shadow-inner">
+                  <span className="font-code-md text-xs sm:text-sm text-[#ff9995] uppercase tracking-widest font-bold mb-1">
+                    TOTAL EVENT BOUNTY
+                  </span>
+                  <span className="font-headline-lg text-3xl sm:text-4xl lg:text-5xl text-[#ff544b] font-bold tracking-tight">
+                    {mission.prizePool}
+                  </span>
+                </div>
+
+                {/* Certificate Policy */}
+                {mission.certificatePolicy && (
+                  <div className="mt-4 pt-3 border-t border-[#3d191d] grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                    <div className="p-2.5 bg-[#160c0e] border border-[#3d191d] rounded flex items-center gap-2.5">
+                      <span className="material-symbols-outlined text-[#ff544b] text-base shrink-0">verified</span>
+                      <span className="font-code-md text-[11px] sm:text-xs text-[#ffdad6] font-medium leading-tight">
+                        {mission.certificatePolicy.hardCopy}
                       </span>
                     </div>
-                  ))}
+                    <div className="p-2.5 bg-[#160c0e] border border-[#3d191d] rounded flex items-center gap-2.5">
+                      <span className="material-symbols-outlined text-[#c8c5ca] text-base shrink-0">card_membership</span>
+                      <span className="font-code-md text-[11px] sm:text-xs text-[#c8c5ca] font-medium leading-tight">
+                        {mission.certificatePolicy.eCert}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* CODING CONTEST REWARD BLOCK: Powered by GeeksforGeeks */}
+            {mission.id === 'mission-06' && (
+              <div className="relative bg-[#0d1612] border-2 border-[#2f8d46] p-5 sm:p-6 rounded shadow-[0_8px_30px_rgba(47,141,70,0.3)] transform rotate-[0.2deg]">
+                <div className="red-pushpin -top-2.5 left-8" />
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#1c3822] pb-3 mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded bg-[#132819] border border-[#2f8d46] p-1.5 flex items-center justify-center shrink-0">
+                      <img src={gfgLogo} alt="GeeksforGeeks" className="w-full h-full object-contain" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-code-md text-xs sm:text-sm uppercase tracking-[0.22em] text-[#9ae6b4] font-bold">
+                          CODING CONTEST // POWERED BY GEEKSFORGEEKS
+                        </span>
+                        <span className="bg-[#2f8d46]/30 text-[#48bb78] text-[10px] font-code-md px-2 py-0.5 rounded uppercase font-semibold">
+                          OFFICIAL
+                        </span>
+                      </div>
+                      <span className="font-label-sm text-[11px] text-[#68d391] uppercase tracking-wider block mt-0.5">
+                        ALGORITHMIC PROGRAMMING ARENA
+                      </span>
+                    </div>
+                  </div>
                 </div>
+
+                {/* GeeksforGeeks Coupons Display */}
+                <div className="p-4 sm:p-5 bg-[#08100b] border border-[#2f8d46]/50 rounded text-center flex flex-col items-center justify-center shadow-inner">
+                  <span className="font-code-md text-xs sm:text-sm text-[#9ae6b4] uppercase tracking-widest font-bold mb-1">
+                    MISSION REWARDS
+                  </span>
+                  <span className="font-headline-lg text-2xl sm:text-3xl lg:text-4xl text-[#48bb78] font-bold tracking-tight">
+                    GEEKSFORGEEKS COUPONS
+                  </span>
+                  <span className="font-code-md text-[11px] sm:text-xs text-[#a0aec0] mt-1">
+                    Official platform coupons for contest rank holders
+                  </span>
+                </div>
+
+                {/* Certificate Policy */}
+                <div className="mt-4 pt-3 border-t border-[#1c3822] grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                  <div className="p-2.5 bg-[#0e1c12] border border-[#23452b] rounded flex items-center gap-2.5">
+                    <span className="material-symbols-outlined text-[#48bb78] text-base shrink-0">verified</span>
+                    <span className="font-code-md text-[11px] sm:text-xs text-[#dcfce7] font-medium leading-tight">
+                      1st, 2nd &amp; 3rd Place Winners — Hard Copy Certificates
+                    </span>
+                  </div>
+                  <div className="p-2.5 bg-[#0e1c12] border border-[#23452b] rounded flex items-center gap-2.5">
+                    <span className="material-symbols-outlined text-[#68d391] text-base shrink-0">card_membership</span>
+                    <span className="font-code-md text-[11px] sm:text-xs text-[#dcfce7] font-medium leading-tight">
+                      All Other Participants — GeeksforGeeks-Powered E-Certificates
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* DAY 2 WORKSHOP / CONCLAVE CERTIFICATE POLICY */}
+            {(mission.id === 'mission-04' || mission.id === 'mission-05') && (
+              <div className="relative bg-[#16151c] border border-[#3c3a4a] p-4 sm:p-5 rounded">
+                <div className="flex items-center gap-2 text-[#ffdad6] mb-2">
+                  <span className="material-symbols-outlined text-[#ff544b] text-base">card_membership</span>
+                  <span className="font-code-md text-xs uppercase tracking-wider font-bold">
+                    CERTIFICATE POLICY
+                  </span>
+                </div>
+                <p className="font-body-sm text-xs sm:text-sm text-[#c8c5ca]">
+                  {mission.certificatePolicy?.eCert || "All registered participants receive official E-Certificates."}
+                </p>
               </div>
             )}
 

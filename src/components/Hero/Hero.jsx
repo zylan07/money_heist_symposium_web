@@ -1,219 +1,249 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
-import { easeCinematic } from '../../utils/motion';
-import HeroFragmentAssembly from './HeroFragmentAssembly';
+import { easeCinematic, easeOutExpo } from '../../utils/motion';
+import HeroDoubleStairPreloader from './HeroDoubleStairPreloader';
+import RollingText from './RollingText';
 
 // Local high-resolution assets provided by the user in public/hero/
 const MASKED_IMG_URL = "/hero/masked.png";
 const UNMASKED_IMG_URL = "/hero/unmasked.jpg";
 
 export default function Hero() {
+  const stageRef = useRef(null);
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const baseImgRef = useRef(null);
   const unmaskedImgRef = useRef(null);
 
-  // Mask reveal DOM references for unified 60/120fps RAF master timeline
+  // Preloader elements refs for direct RAF manipulation
+  const preloaderRef = useRef(null);
+  const bgOverlayRef = useRef(null);
+  const leftTiersRef = useRef([]);
+  const rightTiersRef = useRef([]);
+  const seamRef = useRef(null);
+
+  // Layout container refs
   const titleWrapRef = useRef(null);
   const titleRef = useRef(null);
   const dateWrapRef = useRef(null);
-  const dateTextRef = useRef(null);
   const instWrapRef = useRef(null);
-  const instTextRef = useRef(null);
+  const prizeRef = useRef(null);
   const ctaWrapRef = useRef(null);
   const scrollRef = useRef(null);
 
   const prefersReducedMotion = useReducedMotion();
 
-  const [assemblyComplete, setAssemblyComplete] = useState(prefersReducedMotion);
   const [entranceComplete, setEntranceComplete] = useState(prefersReducedMotion);
+  const [preloaderMounted, setPreloaderMounted] = useState(!prefersReducedMotion);
 
+  // Rolling Text trigger states (driven deterministically by master timeline)
+  const [title1Active, setTitle1Active] = useState(prefersReducedMotion);
+  const [title2Active, setTitle2Active] = useState(prefersReducedMotion);
+  const [dateActive, setDateActive] = useState(prefersReducedMotion);
+  const [instActive, setInstActive] = useState(prefersReducedMotion);
+  const [prizeActive, setPrizeActive] = useState(prefersReducedMotion);
+  const [ctaActive, setCtaActive] = useState(prefersReducedMotion);
+  const [scrollActive, setScrollActive] = useState(prefersReducedMotion);
+
+  // =========================================================================
+  // ONE MASTER DETERMINISTIC ENTRANCE TIMELINE (RAF @ 60/120fps)
+  // Slightly increased duration (~3.6s) with silky cubic-bezier(0.16, 1, 0.3, 1)
+  // =========================================================================
   useEffect(() => {
     if (prefersReducedMotion) {
-      setAssemblyComplete(true);
       setEntranceComplete(true);
+      setPreloaderMounted(false);
+      setTitle1Active(true);
+      setTitle2Active(true);
+      setDateActive(true);
+      setInstActive(true);
+      setPrizeActive(true);
+      setCtaActive(true);
+      setScrollActive(true);
       return;
     }
 
     let animId = null;
     let isDisposed = false;
     const startTime = performance.now();
-    const MASTER_DURATION = 2800; // 2.8s total master timeline
+    const MASTER_DURATION = 3600; // 3.6s relaxed, cinematic master timeline
+
+    // Trigger flags to ensure exactly one state update per milestone
+    const flags = {
+      title1: false,
+      title2: false,
+      date: false,
+      inst: false,
+      prize: false,
+      cta: false,
+      scroll: false,
+      preloaderDone: false,
+    };
 
     const tick = (now) => {
       if (isDisposed) return;
       const elapsed = now - startTime;
 
-      // 1. Base image seamless blend-in: 1450ms -> 1950ms (500ms)
+      // -----------------------------------------------------------------
+      // 1. DOUBLE-STAIR PRELOADER (0.00s -> 1.95s)
+      // -----------------------------------------------------------------
+      if (elapsed < 1950) {
+        // A. Shutter Tiers Movement
+        for (let i = 0; i < 6; i++) {
+          const leftEl = leftTiersRef.current ? leftTiersRef.current[i] : null;
+          const rightEl = rightTiersRef.current ? rightTiersRef.current[i] : null;
+
+          const inStart = 100 + i * 40;
+          const inDuration = 500;
+
+          const outStart = 1150 + (5 - i) * 45;
+          const outDuration = 620;
+
+          if (elapsed < inStart) {
+            if (leftEl) leftEl.style.transform = 'translate3d(-105%, 0, 0)';
+            if (rightEl) rightEl.style.transform = 'translate3d(105%, 0, 0)';
+          } else if (elapsed < 1150) {
+            if (elapsed < inStart + inDuration) {
+              const p = (elapsed - inStart) / inDuration;
+              const e = easeOutExpo(p);
+              const lx = (-105 * (1 - e)).toFixed(2);
+              const rx = (105 * (1 - e)).toFixed(2);
+              if (leftEl) leftEl.style.transform = `translate3d(${lx}%, 0, 0)`;
+              if (rightEl) rightEl.style.transform = `translate3d(${rx}%, 0, 0)`;
+            } else {
+              // Locked in central composition (0.65s - 1.15s)
+              if (leftEl) leftEl.style.transform = 'translate3d(0%, 0, 0)';
+              if (rightEl) rightEl.style.transform = 'translate3d(0%, 0, 0)';
+            }
+          } else {
+            // Retract outward & upward in silky cinematic motion (1.15s - 1.85s)
+            if (elapsed < outStart) {
+              if (leftEl) leftEl.style.transform = 'translate3d(0%, 0, 0)';
+              if (rightEl) rightEl.style.transform = 'translate3d(0%, 0, 0)';
+            } else if (elapsed < outStart + outDuration) {
+              const p = (elapsed - outStart) / outDuration;
+              const e = easeOutExpo(p);
+              const lx = (-115 * e).toFixed(2);
+              const ly = (-7 * e).toFixed(2);
+              const rx = (115 * e).toFixed(2);
+              const ry = (7 * e).toFixed(2);
+              const op = Math.max(0, 1 - e * 1.15).toFixed(3);
+              if (leftEl) {
+                leftEl.style.transform = `translate3d(${lx}%, ${ly}%, 0)`;
+                leftEl.style.opacity = op;
+              }
+              if (rightEl) {
+                rightEl.style.transform = `translate3d(${rx}%, ${ry}%, 0)`;
+                rightEl.style.opacity = op;
+              }
+            } else {
+              if (leftEl) {
+                leftEl.style.transform = 'translate3d(-115%, -7%, 0)';
+                leftEl.style.opacity = '0';
+              }
+              if (rightEl) {
+                rightEl.style.transform = 'translate3d(115%, 7%, 0)';
+                rightEl.style.opacity = '0';
+              }
+            }
+          }
+        }
+
+        // B. Central Laser Seam Pulse (650ms -> 1200ms)
+        if (seamRef.current) {
+          if (elapsed >= 650 && elapsed <= 1200) {
+            const p = (elapsed - 650) / 550;
+            const op = (Math.sin(p * Math.PI) * 0.95).toFixed(3);
+            seamRef.current.style.opacity = op;
+          } else {
+            seamRef.current.style.opacity = '0';
+          }
+        }
+
+        // C. Ambient Background Overlay Fade Out (1250ms -> 1850ms)
+        if (bgOverlayRef.current) {
+          if (elapsed < 1250) {
+            bgOverlayRef.current.style.opacity = '1';
+          } else if (elapsed >= 1850) {
+            bgOverlayRef.current.style.opacity = '0';
+          } else {
+            const p = (elapsed - 1250) / 600;
+            bgOverlayRef.current.style.opacity = (1 - easeOutExpo(p)).toFixed(3);
+          }
+        }
+      } else if (!flags.preloaderDone) {
+        flags.preloaderDone = true;
+        if (preloaderRef.current) preloaderRef.current.style.display = 'none';
+        setPreloaderMounted(false);
+      }
+
+      // -----------------------------------------------------------------
+      // 2. HERO BASE IMAGE REVEAL (1250ms -> 1850ms, 600ms)
+      // -----------------------------------------------------------------
       if (baseImgRef.current) {
-        if (elapsed < 1450) {
+        if (elapsed < 1250) {
           baseImgRef.current.style.opacity = '0';
-        } else if (elapsed >= 1950) {
+        } else if (elapsed >= 1850) {
           baseImgRef.current.style.opacity = '1';
         } else {
-          const p = (elapsed - 1450) / 500;
-          baseImgRef.current.style.opacity = easeCinematic(p).toFixed(3);
+          const p = (elapsed - 1250) / 600;
+          baseImgRef.current.style.opacity = easeOutExpo(p).toFixed(3);
         }
       }
 
-      // 2. Main Title Lockup Aperture Reveal (Bottom -> Top): 1450ms -> 2350ms (900ms)
-      if (titleWrapRef.current) {
-        if (elapsed < 1450) {
-          titleWrapRef.current.style.clipPath = 'inset(100% 0% 0% 0%)';
-          titleWrapRef.current.style.opacity = '0';
-        } else if (elapsed >= 2350) {
-          titleWrapRef.current.style.clipPath = 'none';
-          titleWrapRef.current.style.opacity = '1';
-          if (titleRef.current) {
-            titleRef.current.style.transform = 'none';
-            titleRef.current.style.filter = 'none';
-          }
-        } else {
-          const p = (elapsed - 1450) / 900;
-          const e = easeCinematic(p);
-          const topInset = ((1 - e) * 100).toFixed(2);
-          titleWrapRef.current.style.clipPath = `inset(${topInset}% 0% 0% 0%)`;
-          titleWrapRef.current.style.opacity = Math.min(1, e * 1.8).toFixed(3);
-          if (titleRef.current) {
-            const y = ((1 - e) * 7).toFixed(2); // subtle 7px micro-drift
-            titleRef.current.style.transform = `translate3d(0, ${y}px, 0)`;
-            const blur = ((1 - e) * 2.5).toFixed(2);
-            titleRef.current.style.filter = `blur(${blur}px)`;
-          }
-        }
+      // -----------------------------------------------------------------
+      // 3. SKIPER27 ROLLING TEXT REVEAL TIMELINE
+      // As preloader retracts outward, rolling reveals begin from center-out
+      // All animations happen directly in their actual resting position!
+      // -----------------------------------------------------------------
+      // 1250ms: TECHBYTES center-out letter roll begins
+      if (elapsed >= 1250 && !flags.title1) {
+        flags.title1 = true;
+        setTitle1Active(true);
       }
 
-      // 3. Date Reveal (Bottom -> Top): 1850ms -> 2450ms (600ms)
-      if (dateWrapRef.current) {
-        if (elapsed < 1850) {
-          dateWrapRef.current.style.clipPath = 'inset(100% 0% 0% 0%)';
-          dateWrapRef.current.style.opacity = '0';
-        } else if (elapsed >= 2450) {
-          dateWrapRef.current.style.clipPath = 'none';
-          dateWrapRef.current.style.opacity = '1';
-          if (dateTextRef.current) {
-            dateTextRef.current.style.transform = 'none';
-            dateTextRef.current.style.filter = 'none';
-          }
-        } else {
-          const p = (elapsed - 1850) / 600;
-          const e = easeCinematic(p);
-          const topInset = ((1 - e) * 100).toFixed(2);
-          dateWrapRef.current.style.clipPath = `inset(${topInset}% 0% 0% 0%)`;
-          dateWrapRef.current.style.opacity = Math.min(1, e * 2).toFixed(3);
-          if (dateTextRef.current) {
-            const y = ((1 - e) * 5).toFixed(2);
-            dateTextRef.current.style.transform = `translate3d(0, ${y}px, 0)`;
-            const blur = ((1 - e) * 1.5).toFixed(2);
-            dateTextRef.current.style.filter = `blur(${blur}px)`;
-          }
-        }
+      // 1450ms: SUMMIT '26 center-out letter roll begins (~200ms stagger)
+      if (elapsed >= 1450 && !flags.title2) {
+        flags.title2 = true;
+        setTitle2Active(true);
       }
 
-      // 4. Institution Reveal (Bottom -> Top): 2050ms -> 2600ms (550ms)
-      if (instWrapRef.current) {
-        if (elapsed < 2050) {
-          instWrapRef.current.style.clipPath = 'inset(100% 0% 0% 0%)';
-          instWrapRef.current.style.opacity = '0';
-        } else if (elapsed >= 2600) {
-          instWrapRef.current.style.clipPath = 'none';
-          instWrapRef.current.style.opacity = '1';
-          if (instTextRef.current) {
-            instTextRef.current.style.transform = 'none';
-          }
-        } else {
-          const p = (elapsed - 2050) / 550;
-          const e = easeCinematic(p);
-          const topInset = ((1 - e) * 100).toFixed(2);
-          instWrapRef.current.style.clipPath = `inset(${topInset}% 0% 0% 0%)`;
-          instWrapRef.current.style.opacity = Math.min(1, e * 2).toFixed(3);
-          if (instTextRef.current) {
-            const y = ((1 - e) * 4).toFixed(2);
-            instTextRef.current.style.transform = `translate3d(0, ${y}px, 0)`;
-          }
-        }
+      // 1950ms: Date roll begins (right as preloader fully finishes)
+      if (elapsed >= 1950 && !flags.date) {
+        flags.date = true;
+        setDateActive(true);
       }
 
-      // 5. Buttons Reveal (Compact Aperture Wipe + Scale 0.985 -> 1.0): 2250ms -> 2750ms (500ms)
-      if (ctaWrapRef.current) {
-        if (elapsed < 2250) {
-          ctaWrapRef.current.style.clipPath = 'inset(100% 0% 0% 0%)';
-          ctaWrapRef.current.style.opacity = '0';
-          ctaWrapRef.current.style.pointerEvents = 'none';
-        } else if (elapsed >= 2750) {
-          ctaWrapRef.current.style.clipPath = 'none';
-          ctaWrapRef.current.style.opacity = '1';
-          ctaWrapRef.current.style.transform = 'none';
-          ctaWrapRef.current.style.pointerEvents = 'auto';
-        } else {
-          const p = (elapsed - 2250) / 500;
-          const e = easeCinematic(p);
-          const topInset = ((1 - e) * 100).toFixed(2);
-          ctaWrapRef.current.style.clipPath = `inset(${topInset}% 0% 0% 0%)`;
-          ctaWrapRef.current.style.opacity = Math.min(1, e * 2).toFixed(3);
-          const scale = (0.985 + e * 0.015).toFixed(4);
-          const y = ((1 - e) * 4).toFixed(2);
-          ctaWrapRef.current.style.transform = `translate3d(0, ${y}px, 0) scale(${scale})`;
-          if (e > 0.6) ctaWrapRef.current.style.pointerEvents = 'auto';
-        }
+      // 2250ms: Institution roll begins
+      if (elapsed >= 2250 && !flags.inst) {
+        flags.inst = true;
+        setInstActive(true);
       }
 
-      // 6. Scroll Indicator: 2450ms -> 2750ms (300ms)
-      if (scrollRef.current) {
-        if (elapsed < 2450) {
-          scrollRef.current.style.opacity = '0';
-          scrollRef.current.style.pointerEvents = 'none';
-        } else if (elapsed >= 2750) {
-          scrollRef.current.style.opacity = '1';
-          scrollRef.current.style.transform = 'none';
-          scrollRef.current.style.pointerEvents = 'auto';
-        } else {
-          const p = (elapsed - 2450) / 300;
-          const e = easeCinematic(p);
-          scrollRef.current.style.opacity = e.toFixed(3);
-          const y = ((1 - e) * 4).toFixed(2);
-          scrollRef.current.style.transform = `translate3d(0, ${y}px, 0)`;
-        }
+      // 2550ms: Prize Pool badge roll begins
+      if (elapsed >= 2550 && !flags.prize) {
+        flags.prize = true;
+        setPrizeActive(true);
       }
 
+      // 2850ms: CTA Buttons reveal
+      if (elapsed >= 2850 && !flags.cta) {
+        flags.cta = true;
+        setCtaActive(true);
+      }
+
+      // 3150ms: Scroll indicator fades in
+      if (elapsed >= 3150 && !flags.scroll) {
+        flags.scroll = true;
+        setScrollActive(true);
+      }
+
+      // -----------------------------------------------------------------
+      // 4. SETTLE / FINALIZE (3600ms)
+      // -----------------------------------------------------------------
       if (elapsed < MASTER_DURATION) {
         animId = requestAnimationFrame(tick);
       } else {
-        // Complete settle: cleanly wipe all inline styles for zero CPU overhead
-        if (titleWrapRef.current) {
-          titleWrapRef.current.style.clipPath = '';
-          titleWrapRef.current.style.opacity = '';
-        }
-        if (titleRef.current) {
-          titleRef.current.style.transform = '';
-          titleRef.current.style.filter = '';
-        }
-        if (dateWrapRef.current) {
-          dateWrapRef.current.style.clipPath = '';
-          dateWrapRef.current.style.opacity = '';
-        }
-        if (dateTextRef.current) {
-          dateTextRef.current.style.transform = '';
-          dateTextRef.current.style.filter = '';
-        }
-        if (instWrapRef.current) {
-          instWrapRef.current.style.clipPath = '';
-          instWrapRef.current.style.opacity = '';
-        }
-        if (instTextRef.current) {
-          instTextRef.current.style.transform = '';
-        }
-        if (ctaWrapRef.current) {
-          ctaWrapRef.current.style.clipPath = '';
-          ctaWrapRef.current.style.opacity = '';
-          ctaWrapRef.current.style.transform = '';
-          ctaWrapRef.current.style.pointerEvents = 'auto';
-        }
-        if (scrollRef.current) {
-          scrollRef.current.style.opacity = '';
-          scrollRef.current.style.transform = '';
-          scrollRef.current.style.pointerEvents = 'auto';
-        }
         if (baseImgRef.current) {
           baseImgRef.current.style.opacity = '1';
         }
@@ -229,17 +259,18 @@ export default function Hero() {
     };
   }, [prefersReducedMotion]);
 
-  const handleAssemblyComplete = () => {
-    setAssemblyComplete(true);
-  };
-
+  // =========================================================================
+  // INTERACTIVE REVEAL CANVAS (Layer 2)
+  // Preserved 100% — high-fidelity feathered flashlight unmask effect
+  // Now hit-tests across the ENTIRE Hero section (including directly behind text)
+  // =========================================================================
   useEffect(() => {
-    const container = containerRef.current;
+    const stage = stageRef.current || containerRef.current;
     const mainCanvas = canvasRef.current;
     const unmaskedImg = unmaskedImgRef.current;
     const baseImg = baseImgRef.current;
 
-    if (!container || !mainCanvas || !unmaskedImg || !baseImg) return;
+    if (!stage || !mainCanvas || !unmaskedImg || !baseImg) return;
 
     const mainCtx = mainCanvas.getContext('2d');
     const maskCanvas = document.createElement('canvas');
@@ -253,12 +284,12 @@ export default function Hero() {
     let animId = null;
     let isRunning = true;
 
-    const LIFETIME = 600; // ms for the trail to dissolve softly
-    const HOLD = 140; // ms for full opacity
+    const LIFETIME = 600;
+    const HOLD = 140;
 
     function resize() {
-      if (!container) return;
-      const r = container.getBoundingClientRect();
+      if (!stage) return;
+      const r = stage.getBoundingClientRect();
       width = r.width;
       height = r.height;
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -283,109 +314,118 @@ export default function Hero() {
       const nh = img.naturalHeight;
       const tr = width / height;
       const ir = nw / nh;
-      let sx, sy, sw, sh;
-      // Exactly match base masked image object-cover object-top coordinates
-      if (ir > tr) {
-        sh = nh;
-        sw = nh * tr;
-        sx = (nw - sw) / 2;
-        sy = 0;
-      } else {
+
+      let sw, sh, sx, sy;
+      if (tr > ir) {
         sw = nw;
         sh = nw / tr;
         sx = 0;
         sy = 0;
+      } else {
+        sh = nh;
+        sw = nh * tr;
+        sx = (nw - sw) / 2;
+        sy = 0;
       }
+
       ctx.drawImage(img, sx, sy, sw, sh, 0, 0, width, height);
     }
 
-    function addPt(x, y) {
-      const r = Math.max(160, Math.min(270, width * 0.18));
+    function addPoint(x, y) {
       const now = performance.now();
-      trail.push({
-        x,
-        y,
-        px: lastPt ? lastPt.x : x,
-        py: lastPt ? lastPt.y : y,
-        r,
-        t: now
-      });
+      const radius = Math.min(Math.max(width * 0.12, 100), 170);
+
+      if (lastPt) {
+        const dx = x - lastPt.x;
+        const dy = y - lastPt.y;
+        const dist = Math.hypot(dx, dy);
+        const step = radius * 0.28;
+
+        if (dist > step) {
+          const count = Math.min(Math.floor(dist / step), 10);
+          for (let i = 1; i <= count; i++) {
+            const t = i / (count + 1);
+            trail.push({
+              x: lastPt.x + dx * t,
+              y: lastPt.y + dy * t,
+              t: now,
+              radius: radius * 0.95,
+            });
+          }
+        }
+      }
+
+      trail.push({ x, y, t: now, radius });
       lastPt = { x, y };
+
+      if (trail.length > 80) {
+        trail = trail.slice(-80);
+      }
     }
 
-    const onMouseMove = (e) => {
-      const r = container.getBoundingClientRect();
-      addPt(e.clientX - r.left, e.clientY - r.top);
-    };
+    function onMouseMove(e) {
+      if (!stage) return;
+      const r = stage.getBoundingClientRect();
+      addPoint(e.clientX - r.left, e.clientY - r.top);
+    }
 
-    const onMouseEnter = (e) => {
-      const r = container.getBoundingClientRect();
-      lastPt = { x: e.clientX - r.left, y: e.clientY - r.top };
-    };
-
-    const onMouseLeave = () => {
+    function onMouseEnter(e) {
+      if (!stage) return;
+      const r = stage.getBoundingClientRect();
       lastPt = null;
-    };
+      addPoint(e.clientX - r.left, e.clientY - r.top);
+    }
 
-    const onTouchMove = (e) => {
-      if (e.touches.length) {
-        const r = container.getBoundingClientRect();
-        addPt(e.touches[0].clientX - r.left, e.touches[0].clientY - r.top);
+    function onMouseLeave() {
+      lastPt = null;
+    }
+
+    function onTouchMove(e) {
+      if (e.touches.length > 0 && stage) {
+        const r = stage.getBoundingClientRect();
+        addPoint(e.touches[0].clientX - r.left, e.touches[0].clientY - r.top);
       }
-    };
+    }
 
-    const onTouchEnd = () => {
+    function onTouchEnd() {
       lastPt = null;
-    };
+    }
 
-    container.addEventListener('mousemove', onMouseMove);
-    container.addEventListener('mouseenter', onMouseEnter);
-    container.addEventListener('mouseleave', onMouseLeave);
-    container.addEventListener('touchmove', onTouchMove, { passive: true });
-    container.addEventListener('touchend', onTouchEnd);
+    // Attach to the entire stage so moving across text or buttons never breaks disclosure
+    stage.addEventListener('mousemove', onMouseMove, { passive: true });
+    stage.addEventListener('mouseenter', onMouseEnter, { passive: true });
+    stage.addEventListener('mouseleave', onMouseLeave, { passive: true });
+    stage.addEventListener('touchmove', onTouchMove, { passive: true });
+    stage.addEventListener('touchend', onTouchEnd, { passive: true });
 
-    // Render loop
-    function render(time) {
+    function render(now) {
       if (!isRunning) return;
-      const now = time || performance.now();
 
-      // Clean old trail points
-      trail = trail.filter((p) => now - p.t < LIFETIME);
+      trail = trail.filter((pt) => now - pt.t < LIFETIME);
 
       maskCtx.clearRect(0, 0, width, height);
 
-      if (trail.length > 0) {
-        maskCtx.save();
-        maskCtx.globalCompositeOperation = 'screen';
+      for (let i = 0; i < trail.length; i++) {
+        const pt = trail[i];
+        const age = now - pt.t;
 
-        for (let i = 0; i < trail.length; i++) {
-          const seg = trail[i];
-          const age = now - seg.t;
-          let alpha = 1;
-          if (age > HOLD) {
-            alpha = Math.max(0, 1 - (age - HOLD) / (LIFETIME - HOLD));
-          }
-          if (alpha <= 0.01) continue;
-
-          const dist = Math.hypot(seg.x - seg.px, seg.y - seg.py);
-          const steps = Math.max(1, Math.min(8, Math.floor(dist / 14)));
-
-          for (let s = 0; s <= steps; s++) {
-            const t = s / steps;
-            const cx = seg.px + (seg.x - seg.px) * t;
-            const cy = seg.py + (seg.y - seg.py) * t;
-
-            const rad = maskCtx.createRadialGradient(cx, cy, 0, cx, cy, seg.r);
-            rad.addColorStop(0, `rgba(255,255,255,${(0.95 * alpha).toFixed(2)})`);
-            rad.addColorStop(0.4, `rgba(255,255,255,${(0.75 * alpha).toFixed(2)})`);
-            rad.addColorStop(1, 'rgba(255,255,255,0)');
-
-            maskCtx.fillStyle = rad;
-            maskCtx.beginPath();
-            maskCtx.arc(cx, cy, seg.r, 0, Math.PI * 2);
-            maskCtx.fill();
-          }
+        let alpha = 1;
+        if (age > HOLD) {
+          alpha = Math.max(0, 1 - (age - HOLD) / (LIFETIME - HOLD));
         }
+
+        const r = pt.radius;
+        const grad = maskCtx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, r);
+        grad.addColorStop(0, `rgba(0, 0, 0, ${alpha * 0.95})`);
+        grad.addColorStop(0.35, `rgba(0, 0, 0, ${alpha * 0.85})`);
+        grad.addColorStop(0.7, `rgba(0, 0, 0, ${alpha * 0.35})`);
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+        maskCtx.save();
+        maskCtx.fillStyle = grad;
+        maskCtx.beginPath();
+        maskCtx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+        maskCtx.fill();
         maskCtx.restore();
       }
 
@@ -407,26 +447,27 @@ export default function Hero() {
       isRunning = false;
       if (animId) cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
-      container.removeEventListener('mousemove', onMouseMove);
-      container.removeEventListener('mouseenter', onMouseEnter);
-      container.removeEventListener('mouseleave', onMouseLeave);
-      container.removeEventListener('touchmove', onTouchMove);
-      container.removeEventListener('touchend', onTouchEnd);
+      stage.removeEventListener('mousemove', onMouseMove);
+      stage.removeEventListener('mouseenter', onMouseEnter);
+      stage.removeEventListener('mouseleave', onMouseLeave);
+      stage.removeEventListener('touchmove', onTouchMove);
+      stage.removeEventListener('touchend', onTouchEnd);
     };
   }, [prefersReducedMotion]);
 
   return (
     <section
+      ref={stageRef}
       id="poster-stage"
-      className="relative w-full min-h-screen h-[100vh] flex flex-col justify-between overflow-hidden bg-transparent"
+      className="relative w-full min-h-screen h-[100vh] flex flex-col justify-between overflow-hidden bg-transparent cursor-crosshair"
     >
       {/* Visual Lens Stage with 1:1 Perfectly Aligned Layers */}
       <div
         ref={containerRef}
         id="lens-container"
-        className="absolute inset-0 w-full h-full cursor-crosshair overflow-hidden pointer-events-auto"
+        className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
       >
-        {/* Layer 1: Base Masked Operatives - seamless blend-in from fragment assembly */}
+        {/* Layer 1: Base Masked Operatives */}
         <div className="absolute inset-0 w-full h-full">
           <img
             ref={baseImgRef}
@@ -438,15 +479,24 @@ export default function Hero() {
           />
         </div>
 
-        {/* Layer 1.5: Cinematic Fragment Assembly Overlay (Active during entrance, unmounts cleanly on completion) */}
-        {!assemblyComplete && (
-          <HeroFragmentAssembly
-            imageSrc={MASKED_IMG_URL}
-            onComplete={handleAssemblyComplete}
+        {/* DOUBLE-STAIR PRELOADER OVERLAY */}
+        {preloaderMounted && (
+          <HeroDoubleStairPreloader
+            preloaderRef={preloaderRef}
+            bgOverlayRef={bgOverlayRef}
+            leftTiersRef={leftTiersRef}
+            rightTiersRef={rightTiersRef}
+            seamRef={seamRef}
           />
         )}
 
-        {/* Layer 2: Interactive Feathered Reveal Canvas */}
+        {/* Ambient Film Vignettes & Gradients on Base Layer (darkens base masked image) */}
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#08080A] via-[#08080A]/70 via-25% to-transparent" />
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#08080A]/85 via-transparent to-transparent h-32" />
+        <div className="absolute inset-y-0 left-0 w-32 pointer-events-none bg-gradient-to-r from-[#08080A]/70 to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-32 pointer-events-none bg-gradient-to-l from-[#08080A]/70 to-transparent" />
+
+        {/* Layer 2: Interactive Feathered Reveal Canvas (renders unmasked operative above base & vignettes) */}
         <canvas
           ref={canvasRef}
           id="reveal-canvas"
@@ -461,83 +511,145 @@ export default function Hero() {
           alt="Unmasked Operatives"
           className="hidden"
         />
-
-        {/* Ambient Film Vignettes & Gradients — subtle at bottom so operatives are prominently illuminated */}
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#08080A] via-[#08080A]/70 via-25% to-transparent" />
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#08080A]/85 via-transparent to-transparent h-32" />
-        <div className="absolute inset-y-0 left-0 w-32 pointer-events-none bg-gradient-to-r from-[#08080A]/70 to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-32 pointer-events-none bg-gradient-to-l from-[#08080A]/70 to-transparent" />
       </div>
 
-      {/* Hero Typography — Master Continuous Aperture Mask Reveal */}
-      <div className="relative z-10 w-full mt-auto pb-4 sm:pb-6 md:pb-8 flex flex-col items-center text-center px-4 select-none">
+      {/* Hero Typography — Exactly preserved layout, positioning, and text elements */}
+      {/* pointer-events-none on wrapper ensures disclosure tracks continuously behind text */}
+      <div className="relative z-10 w-full mt-auto pb-4 sm:pb-6 md:pb-8 flex flex-col items-center text-center px-4 select-none pointer-events-none">
         <div className="flex flex-col items-center w-full max-w-[1500px] mx-auto">
-          {/* Main Symposium Title Mask Region — Emerging through a vertical bottom-to-top aperture as one lockup */}
+          {/* Main Symposium Title Mask Region */}
           <div
             ref={titleWrapRef}
             className="overflow-hidden py-1 sm:py-2 -my-1 sm:-my-2 px-3 sm:px-6 -mx-3 sm:-mx-6 will-change-[clip-path,opacity]"
-            style={entranceComplete || prefersReducedMotion ? undefined : { clipPath: 'inset(100% 0% 0% 0%)', opacity: 0 }}
           >
             <h1
               ref={titleRef}
               className="font-display-lg flex flex-wrap md:flex-nowrap items-baseline justify-center md:whitespace-nowrap gap-x-3 sm:gap-x-4 md:gap-x-5 lg:gap-x-7 leading-[0.85] uppercase drop-shadow-[0_12px_45px_rgba(0,0,0,0.98)] tracking-[0.03em] will-change-transform"
             >
-              <span className="text-[34px] min-[360px]:text-[40px] min-[400px]:text-[46px] sm:text-[68px] md:text-[84px] lg:text-[112px] xl:text-[134px] 2xl:text-[150px] tracking-[0.03em] text-[#f2edf0] font-bold scale-y-[1.06] inline-block">
-                TECHBYTES
-              </span>
-              <span className="text-[34px] min-[360px]:text-[40px] min-[400px]:text-[46px] sm:text-[68px] md:text-[84px] lg:text-[112px] xl:text-[134px] 2xl:text-[150px] tracking-[0.03em] text-[#ff1e27] font-bold scale-y-[1.06] inline-block drop-shadow-[0_0_35px_rgba(255,30,39,0.55)]">
-                SUMMIT '26
-              </span>
+              {/* Skiper27-Style Rolling Title: Group 1 (TECHBYTES) */}
+              <RollingText
+                text="TECHBYTES"
+                className="text-[34px] min-[360px]:text-[40px] min-[400px]:text-[46px] sm:text-[68px] md:text-[84px] lg:text-[112px] xl:text-[134px] 2xl:text-[150px] tracking-[0.03em] text-[#f2edf0] font-bold scale-y-[1.06]"
+                active={title1Active}
+                isComplete={entranceComplete}
+                reducedMotion={prefersReducedMotion}
+                stagger={0.045}
+                duration={0.85}
+                centerOut={true}
+              />
+
+              {/* Skiper27-Style Rolling Title: Group 2 (SUMMIT '26) */}
+              <RollingText
+                text="SUMMIT '26"
+                className="text-[34px] min-[360px]:text-[40px] min-[400px]:text-[46px] sm:text-[68px] md:text-[84px] lg:text-[112px] xl:text-[134px] 2xl:text-[150px] tracking-[0.03em] text-[#ff1e27] font-bold scale-y-[1.06] drop-shadow-[0_0_35px_rgba(255,30,39,0.55)]"
+                active={title2Active}
+                isComplete={entranceComplete}
+                reducedMotion={prefersReducedMotion}
+                stagger={0.040}
+                duration={0.85}
+                centerOut={true}
+              />
             </h1>
           </div>
 
           {/* Breathing Space: Date and Institution Masked Regions */}
           <div className="flex flex-col items-center mt-4 sm:mt-6 md:mt-7">
-            {/* Date Mask Region */}
+            {/* Date Mask Region — Moderate Rolling Effect */}
             <div
               ref={dateWrapRef}
               className="overflow-hidden py-0.5 -my-0.5 px-3 -mx-3 will-change-[clip-path,opacity]"
-              style={entranceComplete || prefersReducedMotion ? undefined : { clipPath: 'inset(100% 0% 0% 0%)', opacity: 0 }}
             >
-              <span
-                ref={dateTextRef}
-                className="font-code-md text-xs min-[360px]:text-sm sm:text-base md:text-lg lg:text-[19px] tracking-[0.20em] sm:tracking-[0.28em] text-[#ffdad6] font-semibold uppercase drop-shadow text-center block will-change-transform"
-              >
-                09 — 10 OCTOBER 2026
-              </span>
+              <RollingText
+                text="09 — 10 OCTOBER 2026"
+                className="font-code-md text-xs min-[360px]:text-sm sm:text-base md:text-lg lg:text-[19px] tracking-[0.20em] sm:tracking-[0.28em] text-[#ffdad6] font-semibold uppercase drop-shadow text-center block"
+                active={dateActive}
+                isComplete={entranceComplete}
+                reducedMotion={prefersReducedMotion}
+                stagger={0.022}
+                duration={0.75}
+                centerOut={true}
+              />
             </div>
 
-            {/* Institution Mask Region */}
+            {/* Institution Mask Region — Restrained Rolling Effect */}
             <div
               ref={instWrapRef}
-              className="overflow-hidden py-0.5 -my-0.5 px-3 -mx-3 mt-1.5 sm:mt-2.5 will-change-[clip-path,opacity]"
-              style={entranceComplete || prefersReducedMotion ? undefined : { clipPath: 'inset(100% 0% 0% 0%)', opacity: 0 }}
+              className="overflow-hidden py-2 -my-2 px-4 -mx-4 mt-1.5 sm:mt-2.5 will-change-[clip-path,opacity]"
             >
-              <span
-                ref={instTextRef}
-                className="font-code-md text-[10px] sm:text-[11px] md:text-xs tracking-[0.15em] sm:tracking-[0.18em] text-[#c8c5ca]/80 uppercase text-center px-2 block will-change-transform"
+              <RollingText
+                text="KPR INSTITUTE OF ENGINEERING & TECHNOLOGY, COIMBATORE"
+                className="font-code-md text-[10px] sm:text-[11px] md:text-xs tracking-[0.15em] sm:tracking-[0.18em] text-[#c8c5ca]/80 uppercase text-center px-2 block"
+                active={instActive}
+                isComplete={entranceComplete}
+                reducedMotion={prefersReducedMotion}
+                stagger={0.014}
+                duration={0.70}
+                centerOut={true}
+              />
+
+              {/* Major Hero Highlight: Large Prominent Prize Pool & Perks — Compact Rolling Reveal */}
+              <div
+                ref={prizeRef}
+                className="mt-3.5 sm:mt-4 md:mt-5 flex items-center justify-center w-full px-2 will-change-transform"
+                style={
+                  entranceComplete || prefersReducedMotion
+                    ? undefined
+                    : {
+                        transform: prizeActive ? 'translate3d(0, 0%, 0) scale(1)' : 'translate3d(0, 110%, 0) scale(0.985)',
+                        opacity: prizeActive ? 1 : 0,
+                        transition: prizeActive
+                          ? 'transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1)'
+                          : 'none',
+                      }
+                }
               >
-                KPR INSTITUTE OF ENGINEERING &amp; TECHNOLOGY, COIMBATORE
-              </span>
+                <div className="inline-flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3.5 md:gap-5 px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-3.5 bg-[#110e16]/80 border-2 border-[#ff1e27]/60 rounded-md sm:rounded-full shadow-[0_0_35px_rgba(255,30,39,0.3),inset_0_0_20px_rgba(255,30,39,0.12)] backdrop-blur-md">
+                  <div className="flex items-center gap-2.5 sm:gap-3">
+                    <span className="material-symbols-outlined text-2xl sm:text-3xl md:text-4xl text-[#ff544b] drop-shadow-[0_0_12px_rgba(255,30,39,0.7)]">
+                      workspace_premium
+                    </span>
+                    <span className="font-headline-sm text-2xl sm:text-3xl md:text-4xl text-white font-bold tracking-[0.10em] sm:tracking-[0.12em] uppercase leading-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+                      ₹15K PRIZE POOL
+                    </span>
+                  </div>
+                  <span className="hidden sm:inline text-[#ff1e27]/70 font-bold text-xl md:text-2xl select-none">•</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-code-md text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-[0.16em] sm:tracking-[0.20em] uppercase text-[#48bb78] drop-shadow-[0_0_15px_rgba(72,187,120,0.4)]">
+                      + GEEKSFORGEEKS COUPONS
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Action CTAs Mask Region — Settles naturally with compact bottom-to-top aperture wipe + scale */}
+        {/* Action CTAs Mask Region — Settles naturally with controlled gap */}
         <div
           ref={ctaWrapRef}
-          className="overflow-hidden pt-1 pb-2 sm:pb-3 -mb-2 sm:-mb-3 px-2 -mx-2 mt-6 sm:mt-10 md:mt-12 lg:mt-14 w-full max-w-md will-change-[clip-path,opacity,transform]"
-          style={entranceComplete || prefersReducedMotion ? undefined : { clipPath: 'inset(100% 0% 0% 0%)', opacity: 0, pointerEvents: 'none' }}
+          className="overflow-hidden pt-1 pb-2 sm:pb-3 -mb-2 sm:-mb-3 px-2 -mx-2 mt-4 sm:mt-5 md:mt-6 w-full max-w-md will-change-[transform,opacity] pointer-events-auto"
+          style={
+            entranceComplete || prefersReducedMotion
+              ? { pointerEvents: 'auto' }
+              : {
+                  transform: ctaActive ? 'translate3d(0, 0%, 0)' : 'translate3d(0, 100%, 0)',
+                  opacity: ctaActive ? 1 : 0,
+                  pointerEvents: ctaActive ? 'auto' : 'none',
+                  transition: ctaActive
+                    ? 'transform 0.70s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.60s cubic-bezier(0.16, 1, 0.3, 1)'
+                    : 'none',
+                }
+          }
         >
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full">
             <a
-              className="w-full sm:w-auto min-w-[160px] sm:min-w-[190px] h-12 flex items-center justify-center font-headline-sm text-lg sm:text-xl tracking-[0.14em] uppercase bg-[#ff544b] text-[#5c0005] hover:brightness-110 shadow-[0_0_30px_rgba(255,84,75,0.45)] transition-all font-semibold cursor-pointer"
+              className="w-full sm:w-auto min-w-[160px] sm:min-w-[190px] h-12 flex items-center justify-center font-headline-sm text-lg sm:text-xl tracking-[0.14em] uppercase bg-[#ff544b] text-[#5c0005] hover:brightness-110 shadow-[0_0_30px_rgba(255,84,75,0.45)] transition-all font-semibold cursor-pointer pointer-events-auto"
               href="#access"
             >
               GET ACCESS
             </a>
             <a
-              className="w-full sm:w-auto min-w-[160px] sm:min-w-[190px] h-12 flex items-center justify-center gap-2 font-headline-sm text-lg sm:text-xl tracking-[0.14em] uppercase text-white bg-[#1c1b1e]/80 hover:bg-[#2a2a2c] hover:text-[#ffb4ab] transition-all backdrop-blur-sm border border-[#353437]/60 cursor-pointer"
+              className="w-full sm:w-auto min-w-[160px] sm:min-w-[190px] h-12 flex items-center justify-center gap-2 font-headline-sm text-lg sm:text-xl tracking-[0.14em] uppercase text-white bg-[#1c1b1e]/80 hover:bg-[#2a2a2c] hover:text-[#ffb4ab] transition-all backdrop-blur-sm border border-[#353437]/60 cursor-pointer pointer-events-auto"
               href="#missions"
             >
               <span>VIEW MISSIONS</span>
@@ -549,8 +661,19 @@ export default function Hero() {
         {/* Scroll Indicator */}
         <a
           ref={scrollRef}
-          className="group flex flex-col items-center gap-1 mt-5 sm:mt-6 text-[#c8c5ca]/60 hover:text-white transition-all duration-700 pointer-events-auto"
-          style={entranceComplete || prefersReducedMotion ? undefined : { opacity: 0, pointerEvents: 'none' }}
+          className="group flex flex-col items-center gap-1 mt-5 sm:mt-6 text-[#c8c5ca]/60 hover:text-white transition-all duration-700 pointer-events-auto will-change-[transform,opacity]"
+          style={
+            entranceComplete || prefersReducedMotion
+              ? undefined
+              : {
+                  opacity: scrollActive ? 1 : 0,
+                  transform: scrollActive ? 'translate3d(0, 0, 0)' : 'translate3d(0, 8px, 0)',
+                  pointerEvents: scrollActive ? 'auto' : 'none',
+                  transition: scrollActive
+                    ? 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1)'
+                    : 'none',
+                }
+          }
           href="#the-operation"
         >
           <span className="font-label-sm text-[10px] tracking-[0.3em] uppercase">
@@ -562,4 +685,3 @@ export default function Hero() {
     </section>
   );
 }
-

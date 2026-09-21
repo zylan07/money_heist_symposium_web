@@ -2,6 +2,8 @@ import React from 'react';
 import { SYMPOSIUM_INFO } from '../../data/events';
 import { useInViewAnimation } from '../../hooks/useInViewAnimation';
 import { MOTION_EASING } from '../../utils/motion';
+import ticket9Logo from '../../assets/Ticket9Logo.png';
+import gfgLogo from '../../assets/geeksforgeeks.png';
 
 /**
  * Placeholders for social and contact channels.
@@ -142,7 +144,19 @@ export default function Footer() {
                 </p>
               </div>
 
-              <div className="pt-2">
+              {/* Official Partners Badge Strip */}
+              <div className="pt-3 border-t border-[#1c1b22] flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="font-code-md text-[9px] text-[#70707a] uppercase tracking-wider">TICKETING:</span>
+                  <img src={ticket9Logo} alt="Ticket9" className="h-4 w-auto object-contain filter brightness-95" />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-code-md text-[9px] text-[#70707a] uppercase tracking-wider">CODING:</span>
+                  <img src={gfgLogo} alt="GeeksforGeeks" className="h-4 w-auto object-contain filter brightness-95" />
+                </div>
+              </div>
+
+              <div className="pt-1">
                 <span className="font-code-md text-[11px] text-[#70707a] uppercase tracking-wider block">
                   © 2026 TechBytes Summit '26. All rights reserved.
                 </span>

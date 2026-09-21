@@ -75,5 +75,6 @@ export function createCubicBezierSolver(p1x, p1y, p2x, p2y) {
 }
 
 export const easeCinematic = createCubicBezierSolver(0.22, 1, 0.36, 1);
+export const easeOutExpo = createCubicBezierSolver(0.16, 1, 0.3, 1);
 
 

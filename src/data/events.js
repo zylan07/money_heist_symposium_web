@@ -15,6 +15,9 @@ export const SYMPOSIUM_INFO = {
   dates: "09–10 OCTOBER 2026",
   department: "Department of Computer Science and Engineering",
   passPrice: "₹399",
+  overallPrizePool: "₹15K PRIZE POOL",
+  additionalPerks: "GeeksforGeeks Coupons",
+  ticketingPartner: "Ticket9",
   passPerks: [
     "ALL 6 MISSIONS",
     "BOTH DAYS",
@@ -29,6 +32,7 @@ export const SYMPOSIUM_INFO = {
     students: [
       { name: "Sathya R V", phone: "7604903115" },
       { name: "Srivishnu J", phone: "6382906285" },
+      { name: "Aswath S", phone: "8056473519" },
     ]
   }
 };
@@ -51,16 +55,18 @@ export const MISSIONS_DATA = {
     duration: "5 + 3 mins",
     presentationTime: "5 minutes presentation",
     qaTime: "3 minutes Q&A",
-    prizes: [
-      { rank: "1ST", amount: "₹2,500" },
-      { rank: "2ND", amount: "₹1,500" },
-      { rank: "3RD", amount: "₹1,000" }
-    ],
+    prizePool: "₹5,000 PRIZE POOL",
+    certificatePolicy: {
+      hardCopy: "1st, 2nd & 3rd Place Winners — Hard Copy Certificates",
+      eCert: "All Other Participants — E-Certificates"
+    },
     rules: [
       "Come prepared",
       "No vulnerable topic",
       "Present within the time limit",
-      "Jury decision would be final"
+      "Jury decision would be final",
+      "1st, 2nd & 3rd Place Winners receive Hard Copy Certificates",
+      "All other participants receive E-Certificates"
     ],
     coordinators: [
       { name: "Vishnushri S", phone: "8807831204" },
@@ -85,11 +91,11 @@ export const MISSIONS_DATA = {
     duration: "5 + 3 mins",
     presentationTime: "5 minutes presentation",
     qaTime: "3 minutes Q&A",
-    prizes: [
-      { rank: "1ST", amount: "₹2,500" },
-      { rank: "2ND", amount: "₹1,500" },
-      { rank: "3RD", amount: "₹1,000" }
-    ],
+    prizePool: "₹5,000 PRIZE POOL",
+    certificatePolicy: {
+      hardCopy: "1st, 2nd & 3rd Place Winners — Hard Copy Certificates",
+      eCert: "All Other Participants — E-Certificates"
+    },
     rules: [
       "Come prepared",
       "No vulnerable theme",
@@ -97,7 +103,9 @@ export const MISSIONS_DATA = {
       "Jury decision would be final",
       "Prototype is mandatory for both hardware and software",
       "Prototype explanation must be included within the presentation time limit",
-      "There is no separate time for prototype explanation"
+      "There is no separate time for prototype explanation",
+      "1st, 2nd & 3rd Place Winners receive Hard Copy Certificates",
+      "All other participants receive E-Certificates"
     ],
     coordinators: [
       { name: "Thinakar V", phone: "9345733975" },
@@ -121,18 +129,19 @@ export const MISSIONS_DATA = {
     duration: "5 + 3 mins",
     presentationTime: "5 minutes presentation",
     qaTime: "3 minutes Q&A",
-    prizes: [
-      { rank: "1ST", amount: "₹2,500" },
-      { rank: "2ND", amount: "₹1,500" },
-      { rank: "3RD", amount: "₹1,000" }
-    ],
+    prizePool: "₹5,000 PRIZE POOL",
+    certificatePolicy: {
+      hardCopy: "1st, 2nd & 3rd Place Winners — Hard Copy Certificates",
+      eCert: "All Other Participants — E-Certificates"
+    },
     rules: [
       "Come prepared",
       "No vulnerable topic",
       "Present within the time limit",
       "Jury decision would be final",
-      "Fully AI-generated posters will be immediately disqualified",
-      "Usage of AI is not restricted"
+      "AI usage is permitted. Participants must clearly disclose which parts or elements of the poster were generated or assisted using AI.",
+      "1st, 2nd & 3rd Place Winners receive Hard Copy Certificates",
+      "All other participants receive E-Certificates"
     ],
     coordinators: [
       { name: "Varnika M", phone: "9360659455" },
@@ -150,17 +159,21 @@ export const MISSIONS_DATA = {
     categoryBadge: "WORKSHOP",
     icon: "military_tech",
     briefing: "Executive Development Programme — Topic and Resource Person will be updated shortly.",
-    about: "Executive Development Programme for delegates. Certificates will be provided.",
+    about: "Executive Development Programme for delegates. E-Certificates will be provided.",
     topic: "Will be updated shortly",
     resourcePerson: "Will be updated shortly",
     participation: "Individual participation",
     duration: "Will be announced shortly",
-    certificate: "Certificates will be provided",
+    certificate: "E-Certificates for all registered participants",
+    certificatePolicy: {
+      hardCopy: null,
+      eCert: "All Registered Participants — E-Certificates"
+    },
     rules: [
       "Individual participation",
       "Topic: Will be updated shortly",
       "Resource Person: Will be updated shortly",
-      "Certificates will be provided"
+      "All registered participants receive E-Certificates"
     ],
     coordinators: [
       { name: "Shri Harithraa D", phone: "9345558509", role: "Workshop Coordinator" },
@@ -178,17 +191,21 @@ export const MISSIONS_DATA = {
     categoryBadge: "CONCLAVE",
     icon: "groups",
     briefing: "Conclave on emergent trends. More details will be furnished shortly.",
-    about: "Conclave on emergent trends.",
+    about: "Conclave on emergent trends. E-Certificates will be provided.",
     participation: "Individual participation",
     theme: "Conclave on emergent trends",
     duration: "Will be announced",
-    certificate: "Certificates will be provided",
+    certificate: "E-Certificates for all registered delegates",
+    certificatePolicy: {
+      hardCopy: null,
+      eCert: "All Registered Delegates — E-Certificates"
+    },
     additionalDetails: "More details will be furnished shortly",
     rules: [
       "Participation: Individual participation",
       "Theme: Conclave on emergent trends",
       "Duration: Will be announced",
-      "Certificates will be provided",
+      "All registered delegates receive E-Certificates",
       "More details will be furnished shortly"
     ],
     coordinators: [
@@ -204,17 +221,29 @@ export const MISSIONS_DATA = {
     dayTrack: "DAY 02 // 10 OCTOBER 2026",
     title: "CODING CONTEST",
     fullTitle: "MISSION 06 // CODING CONTEST",
+    subtitle: "Powered by GeeksforGeeks",
+    poweredBy: "GeeksforGeeks",
     categoryBadge: "ALGO WAR",
     icon: "terminal",
-    briefing: "Time based competitive coding contest. Other details will be shared shortly.",
-    about: "Time based competitive programming contest.",
+    briefing: "Time based competitive programming contest. Powered by GeeksforGeeks.",
+    about: "Time based competitive programming contest powered by GeeksforGeeks. Prizes: GeeksforGeeks Coupons. Participants receive GeeksforGeeks-powered certificates.",
+    participation: "Individual",
     format: "Time based",
-    theme: "Will be announced shortly",
-    additionalDetails: "Other details will be shared shortly",
+    theme: "Algorithms & Competitive Programming",
+    additionalDetails: "Powered by GeeksforGeeks • Prizes: GeeksforGeeks Coupons",
+    rewardTitle: "GEEKSFORGEEKS COUPONS",
+    certificatePolicy: {
+      hardCopy: "1st, 2nd & 3rd Place Winners — Hard Copy Certificates",
+      eCert: "All Other Participants — GeeksforGeeks-Powered E-Certificates"
+    },
     rules: [
-      "Format: Time based",
-      "Theme: Will be announced shortly",
-      "Other details will be shared shortly"
+      "Powered by GeeksforGeeks",
+      "Participation: Individual",
+      "Format: Time based competitive programming",
+      "Coding Contest prizes: GeeksforGeeks Coupons",
+      "1st, 2nd & 3rd Place Winners receive Hard Copy Certificates",
+      "All other participants receive GeeksforGeeks-powered E-Certificates",
+      "Other operational details will be shared shortly"
     ],
     coordinators: [
       { name: "Vigneshwaran K K", phone: "9543772772" },
@@ -294,12 +323,13 @@ export const TIMELINE_POINTS = [
     id: "mission-06",
     title: "CODING CONTEST",
     shortTitle: "CODING CONTEST",
+    subtitle: "Powered by GeeksforGeeks",
     day: "DAY 02",
     timing: "TIME BASED",
     schedule: [
-      { time: "FORMAT", label: "Time Based" },
-      { time: "ENV", label: "Details Shared Shortly" },
-      { time: "BREACH", label: "Synchronized Execution" }
+      { time: "POWERED", label: "By GeeksforGeeks" },
+      { time: "FORMAT", label: "Individual • Time Based" },
+      { time: "PRIZES", label: "GeeksforGeeks Coupons" }
     ]
   }
 ];

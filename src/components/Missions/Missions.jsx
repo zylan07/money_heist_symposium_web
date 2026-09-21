@@ -13,7 +13,7 @@ export default function Missions({ onSelectMission, activeMissionId }) {
         activeMissionId ? 'missions-dimmed' : ''
       }`}
     >
-      <div className="mx-auto flex flex-col space-y-12 relative z-10 w-full max-w-[1680px]" id="missions-wrapper">
+      <div className="mx-auto flex flex-col space-y-10 relative z-10 w-full max-w-[1680px]" id="missions-wrapper">
         {/* Section Header */}
         <div
           className={`flex flex-col space-y-3 transition-all duration-700 ${

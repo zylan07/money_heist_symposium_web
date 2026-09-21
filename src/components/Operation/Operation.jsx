@@ -34,13 +34,6 @@ export default function Operation() {
               THE OPERATION.
             </h3>
 
-            <div className="inline-flex items-center gap-2.5 bg-[#121215] border border-[#26252d] px-3.5 py-1.5 rounded-sm self-start">
-              <span className="w-2 h-2 rounded-full bg-[#ff1e27] animate-ping" />
-              <span className="font-code-md text-xs sm:text-sm tracking-[0.25em] uppercase text-[#ff544b] font-semibold">
-                MORE THAN A SYMPOSIUM.
-              </span>
-            </div>
-
             <p className="font-body-md text-sm sm:text-base text-[#c8c5ca] leading-relaxed font-light">
               TECHBYTES SUMMIT '26 is a two-day technical symposium organized by the Department of Computer Science and Engineering at {SYMPOSIUM_INFO.institution}, Coimbatore. The symposium brings together technical presentations, projects, posters, industry interaction, professional development, and coding across two days.
             </p>

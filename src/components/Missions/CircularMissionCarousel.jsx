@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { MISSIONS_DATA } from '../../data/events';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { MOTION_EASING } from '../../utils/motion';
+import gfgLogo from '../../assets/geeksforgeeks.png';
 
 /**
  * TECHBYTES SUMMIT '26 — HIGH-PERFORMANCE 3D CIRCULAR MISSION CAROUSEL
@@ -438,6 +439,31 @@ export default function CircularMissionCarousel({
                     <p className="font-body-sm text-xs sm:text-sm text-[#b0aeb5] mt-3.5 sm:mt-4 leading-relaxed line-clamp-4 sm:line-clamp-none">
                       {m.briefing}
                     </p>
+
+                    {/* Day 1 Generalized Prize Pool Badge */}
+                    {m.prizePool && (
+                      <div className="mt-3.5 inline-flex items-center gap-2 px-2.5 py-1 bg-[#ff1e27]/15 border border-[#ff1e27]/40 rounded-sm">
+                        <span className="material-symbols-outlined text-xs text-[#ff544b]">workspace_premium</span>
+                        <span className="font-code-md text-[10px] sm:text-[11px] text-[#ffdad6] uppercase font-bold tracking-wider">
+                          {m.prizePool}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Coding Contest GeeksforGeeks Powered Badge */}
+                    {m.poweredBy && (
+                      <div className="mt-3.5 flex items-center justify-between px-2.5 py-1.5 bg-[#0e1c12] border border-[#2f8d46]/50 rounded-sm">
+                        <div className="flex items-center gap-1.5">
+                          <img src={gfgLogo} alt="GeeksforGeeks" className="h-4 w-auto object-contain" />
+                          <span className="font-code-md text-[10px] sm:text-[11px] text-[#48bb78] uppercase font-bold tracking-wider">
+                            POWERED BY GEEKSFORGEEKS
+                          </span>
+                        </div>
+                        <span className="font-code-md text-[9px] text-[#9ae6b4] tracking-widest uppercase font-semibold">
+                          COUPONS
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
