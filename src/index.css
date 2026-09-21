@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #060608;
+    color: #e5e1e4;
+  }
+  
+  body {
+    overscroll-behavior: none;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0e0e11;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a30;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff1e27;
+}
+
+.custom-modal-scrollbar::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+}
+
+.custom-modal-scrollbar::-webkit-scrollbar-track {
+  background: #0e0e11;
+}
+
+.custom-modal-scrollbar::-webkit-scrollbar-thumb {
+  background: #ff1e27;
+  border-radius: 2px;
+}
+
+/* Mission card breach focus effect */
+.mission-card.active-breach {
+  border-color: #ff1e27 !important;
+  box-shadow: 0 0 40px rgba(255, 30, 39, 0.85) !important;
+  transform: scale(1.03) !important;
+  z-index: 30;
+}
+
+.missions-dimmed .mission-card:not(.active-breach) {
+  opacity: 0.25;
+  filter: blur(3px);
+  pointer-events: none;
+  transform: scale(0.97);
+}
+
+/* Pushpins, taped polaroids, and cork string styling */
+.red-pushpin {
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 35% 35%, #ff5252, #b71c1c);
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  position: absolute;
+  z-index: 20;
+}
+
+.tape-strip {
+  background: rgba(235, 230, 215, 0.45);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transform: rotate(-3deg);
+}
+
+.stamp-classified {
+  border: 2.5px solid #d32f2f;
+  color: #ff3838;
+  text-shadow: 0 0 8px rgba(255, 56, 56, 0.3);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+  opacity: 0.85;
+}
+
+/* Timeline dot dynamics */
+.timeline-dot.dot-active {
+  transform: scale(1.35) !important;
+  background-color: #ff1e27 !important;
+  box-shadow: 0 0 20px rgba(255, 30, 39, 0.85), 0 0 40px rgba(255, 30, 39, 0.4) !important;
+  border-color: #ffffff !important;
+}
+
+.timeline-item.item-active .timeline-title {
+  color: #ffffff !important;
+  text-shadow: 0 0 12px rgba(255, 30, 39, 0.4);
+}
+
+.timeline-item.item-active .timeline-badge {
+  border-color: #ff1e27 !important;
+  color: #ff544b !important;
+  background-color: rgba(255, 30, 39, 0.12) !important;
+}
+
+.timeline-item:hover .timeline-tooltip,
+.timeline-item.tooltip-open .timeline-tooltip {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(-50%) translateY(0) !important;
+  pointer-events: auto !important;
+}
