@@ -55,7 +55,7 @@ export default function Footer() {
                 transitionTimingFunction: MOTION_EASING.cinematic,
               }}
             >
-              TECHBYTES
+              TECHBYTE
             </h2>
             <h3
               className="font-display-lg text-2xl min-[360px]:text-3xl sm:text-5xl md:text-6xl lg:text-[76px] leading-[0.92] uppercase text-[#ff1e27] mt-1 transition-all duration-1000"
@@ -114,7 +114,7 @@ export default function Footer() {
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
             </a>
             <span className="font-code-md text-[11px] tracking-[0.25em] text-[#c8c5ca]/60 uppercase">
-              LIMITED OPERATIVE PASSES AVAILABLE
+              LIMITED PASSES AVAILABLE
             </span>
           </div>
         </div>
@@ -136,12 +136,20 @@ export default function Footer() {
                   </span>
                 </div>
                 <h3 className="font-headline-sm text-2xl sm:text-3xl text-white uppercase tracking-[0.08em] font-bold">
-                  TECHBYTES SUMMIT '26
+                  TECHBYTE SUMMIT '26
                 </h3>
                 <p className="font-body-sm text-xs sm:text-sm text-[#909099] mt-2 leading-relaxed">
                   KPR Institute of Engineering and Technology<br />
                   Coimbatore, Tamil Nadu
                 </p>
+                <div className="mt-2.5 pt-2.5 border-t border-[#1c1b22]">
+                  <span className="font-code-md text-[10px] text-[#ff544b] uppercase tracking-wider block font-bold">
+                    CONDUCTED BY
+                  </span>
+                  <span className="font-body-sm text-xs text-[#c8c5ca] mt-0.5 block">
+                    Department of CSE in collaboration with Yi Yuva Club, KPRIET
+                  </span>
+                </div>
               </div>
 
               {/* Official Partners Badge Strip */}
@@ -158,7 +166,7 @@ export default function Footer() {
 
               <div className="pt-1">
                 <span className="font-code-md text-[11px] text-[#70707a] uppercase tracking-wider block">
-                  © 2026 TechBytes Summit '26. All rights reserved.
+                  © 2026 TECHBYTE SUMMIT '26. All rights reserved.
                 </span>
               </div>
             </div>
@@ -255,8 +263,8 @@ export default function Footer() {
           </div>
 
           {/* Bottom Terminal Row */}
-          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 font-code-md text-[10px] text-[#70707a] uppercase tracking-widest">
-            <span>DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING</span>
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 font-code-md text-[10px] text-[#70707a] uppercase tracking-widest text-center sm:text-left">
+            <span>DEPARTMENT OF CSE IN COLLABORATION WITH YI YUVA CLUB, KPRIET</span>
             <span className="text-[#ff544b]/80">TRANSMISSION TERMINATED // 2026</span>
           </div>
         </div>

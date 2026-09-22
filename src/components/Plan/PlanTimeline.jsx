@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TIMELINE_POINTS } from '../../data/events';
 import { useInViewAnimation } from '../../hooks/useInViewAnimation';
+import RollingText from '../Hero/RollingText';
 
 export default function PlanTimeline() {
   const [sectionRef, inView] = useInViewAnimation({ threshold: 0.15 });
@@ -34,7 +35,7 @@ export default function PlanTimeline() {
       <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1720px] mx-auto relative z-10">
         {/* 1. Section Header */}
         <div
-          className={`flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12 sm:mb-16 transition-all duration-700 ${
+          className={`flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12 sm:mb-16 transition-[opacity,transform] duration-700 will-change-[transform,opacity] ${
             inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
           }`}
           style={{ transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)' }}
@@ -47,10 +48,16 @@ export default function PlanTimeline() {
               </span>
             </div>
             <h2 className="font-headline-lg text-5xl sm:text-6xl lg:text-7xl text-white uppercase tracking-[0.05em] leading-none">
-              THE PLAN
+              <RollingText
+                text="THE PLAN"
+                active={inView}
+                isComplete={inView}
+                duration={0.7}
+                stagger={0.025}
+              />
             </h2>
             <p className="font-code-md text-xs sm:text-sm tracking-[0.25em] text-[#ffdad6]/80 uppercase mt-2">
-              09 — 10 OCTOBER 2026
+              14 — 15 OCTOBER 2026
             </p>
           </div>
 
@@ -87,7 +94,7 @@ export default function PlanTimeline() {
                     transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
                     transitionDelay: inView ? `${nodeDelay}ms` : '0ms'
                   }}
-                  className={`timeline-item relative flex flex-col items-center group cursor-pointer transition-all duration-700 px-1 ${
+                  className={`timeline-item relative flex flex-col items-center group cursor-pointer transition-[opacity,transform] duration-700 px-1 ${
                     isActive ? 'item-active' : ''
                   } ${isTooltipOpen ? 'tooltip-open' : ''} ${
                     inView ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
@@ -96,18 +103,18 @@ export default function PlanTimeline() {
                   {/* Top Day Badge on first item of each day */}
                   {idx === 0 && (
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1.5 font-code-md text-[10px] tracking-[0.22em] text-[#ff544b] uppercase font-bold bg-[#141419] px-2.5 py-0.5 border border-[#ff1e27]/40 rounded whitespace-nowrap">
-                      <span>DAY 01 // 09 OCT</span>
+                      <span>DAY 01 // 14 OCT</span>
                     </div>
                   )}
                   {idx === 3 && (
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 flex items-center gap-1.5 font-code-md text-[10px] tracking-[0.22em] text-[#ff544b] uppercase font-bold bg-[#141419] px-2.5 py-0.5 border border-[#ff1e27]/40 rounded whitespace-nowrap">
-                      <span>DAY 02 // 10 OCT</span>
+                      <span>DAY 02 // 15 OCT</span>
                     </div>
                   )}
 
                   {/* Timing & Title — Exactly 84px uniform vertical height for all 6 items */}
                   <div className="flex flex-col items-center text-center mb-4 space-y-1 h-[84px] justify-end w-full">
-                    <span className="timeline-badge font-code-md text-[10px] tracking-[0.18em] text-[#c8c5ca]/70 bg-[#16161b] px-2 py-0.5 border border-[#282832] rounded transition-all">
+                    <span className="timeline-badge font-code-md text-[10px] tracking-[0.18em] text-[#c8c5ca]/70 bg-[#16161b] px-2 py-0.5 border border-[#282832] rounded transition-colors">
                       {point.timing}
                     </span>
                     <h3 className="timeline-title font-headline-sm text-xs xl:text-sm text-[#b5b2bb] group-hover:text-white uppercase tracking-[0.03em] transition-colors px-1 text-center w-full">
@@ -132,10 +139,17 @@ export default function PlanTimeline() {
                     />
                   </div>
 
-                  {/* Day Label Below Dot */}
-                  <span className="font-code-md text-[10px] text-[#909099] tracking-widest uppercase mt-3">
-                    {point.day}
-                  </span>
+                  {/* Day / Category Tag Below Dot */}
+                  <div className="flex flex-col items-center text-center mt-2.5 space-y-0.5 max-w-[170px]">
+                    <span className="font-code-md text-[10px] text-[#ff544b] tracking-wider uppercase font-semibold">
+                      {point.timelineTag || point.day}
+                    </span>
+                    {point.timelineBlurb && (
+                      <p className="font-body-sm text-[11px] text-[#a09ca8] leading-tight line-clamp-2">
+                        {point.timelineBlurb}
+                      </p>
+                    )}
+                  </div>
 
                   {/* Interactive Schedule Tooltip */}
                   <div className="timeline-tooltip opacity-0 invisible translate-y-2 transition-all duration-300 absolute top-28 left-1/2 -translate-x-1/2 z-30 w-64 p-3.5 bg-[#121214]/98 backdrop-blur-md border border-[#ff1e27]/50 rounded shadow-[0_10px_35px_rgba(0,0,0,0.9)] pointer-events-none">
@@ -169,7 +183,7 @@ export default function PlanTimeline() {
             <div className="flex items-center gap-2 mb-6">
               <span className="w-2 h-2 rounded-full bg-[#ff1e27]" />
               <span className="font-code-md text-xs tracking-[0.25em] text-[#ff544b] uppercase font-bold">
-                DAY 01 // 09 OCTOBER 2026
+                DAY 01 // 14 OCTOBER 2026
               </span>
             </div>
 
@@ -182,20 +196,31 @@ export default function PlanTimeline() {
                     className="relative cursor-pointer group"
                   >
                     {/* Glowing Node on the left line */}
-                    <div className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-[#18181e] border-2 border-[#ff1e27] group-hover:bg-[#ff1e27] transition-all" />
+                    <div className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-[#18181e] border-2 border-[#ff1e27] group-hover:bg-[#ff1e27] transition-colors" />
 
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <span className="font-code-md text-[10px] text-[#ff544b] tracking-wider bg-[#1c1b22] px-2 py-0.5 rounded border border-[#2c2b36]">
                         {point.timing}
                       </span>
                       <span className="font-code-md text-[10px] text-neutral-400">
                         MISSION {point.num}
                       </span>
+                      {point.timelineTag && (
+                        <span className="font-code-md text-[9px] text-[#ffdad6] tracking-wider bg-[#ff1e27]/20 px-1.5 py-0.5 rounded border border-[#ff1e27]/30">
+                          {point.timelineTag}
+                        </span>
+                      )}
                     </div>
 
                     <h3 className="font-headline-sm text-lg text-white uppercase tracking-wider group-hover:text-[#ffdad6] transition-colors">
                       {point.title}
                     </h3>
+
+                    {point.timelineBlurb && (
+                      <p className="font-body-sm text-xs text-[#b0aeb8] mt-1 leading-snug">
+                        {point.timelineBlurb}
+                      </p>
+                    )}
 
                     {/* Schedule Preview */}
                     <div className="mt-2 space-y-1 bg-[#131317] p-2.5 rounded border border-[#24232c] max-w-md">
@@ -229,7 +254,7 @@ export default function PlanTimeline() {
             <div className="flex items-center gap-2 mb-6">
               <span className="w-2 h-2 rounded-full bg-[#ff544b]" />
               <span className="font-code-md text-xs tracking-[0.25em] text-[#ff544b] uppercase font-bold">
-                DAY 02 // 10 OCTOBER 2026
+                DAY 02 // 15 OCTOBER 2026
               </span>
             </div>
 
@@ -243,20 +268,31 @@ export default function PlanTimeline() {
                     className="relative cursor-pointer group"
                   >
                     {/* Glowing Node on the left line */}
-                    <div className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-[#18181e] border-2 border-[#ff1e27] group-hover:bg-[#ff1e27] transition-all" />
+                    <div className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-[#18181e] border-2 border-[#ff1e27] group-hover:bg-[#ff1e27] transition-colors" />
 
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <span className="font-code-md text-[10px] text-[#ff544b] tracking-wider bg-[#1c1b22] px-2 py-0.5 rounded border border-[#2c2b36]">
                         {point.timing}
                       </span>
                       <span className="font-code-md text-[10px] text-neutral-400">
                         MISSION {point.num}
                       </span>
+                      {point.timelineTag && (
+                        <span className="font-code-md text-[9px] text-[#ffdad6] tracking-wider bg-[#ff1e27]/20 px-1.5 py-0.5 rounded border border-[#ff1e27]/30">
+                          {point.timelineTag}
+                        </span>
+                      )}
                     </div>
 
                     <h3 className="font-headline-sm text-lg text-white uppercase tracking-wider group-hover:text-[#ffdad6] transition-colors">
                       {point.title}
                     </h3>
+
+                    {point.timelineBlurb && (
+                      <p className="font-body-sm text-xs text-[#b0aeb8] mt-1 leading-snug">
+                        {point.timelineBlurb}
+                      </p>
+                    )}
 
                     {/* Schedule Preview */}
                     <div className="mt-2 space-y-1 bg-[#131317] p-2.5 rounded border border-[#24232c] max-w-md">
@@ -282,11 +318,11 @@ export default function PlanTimeline() {
               THE PLAN IS SET.
             </span>
             <span className="font-code-md text-xs text-[#909099] tracking-widest uppercase hidden md:inline">
-              LIMITED OPERATIVE SLOTS
+              LIMITED PASSES AVAILABLE
             </span>
           </div>
           <a
-            className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#ff1e27] text-white hover:brightness-110 font-headline-sm text-lg uppercase tracking-[0.16em] transition-all shadow-[0_0_20px_rgba(255,30,39,0.35)] font-semibold"
+            className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#ff1e27] text-white hover:brightness-110 font-headline-sm text-lg uppercase tracking-[0.16em] transition-[filter,box-shadow] shadow-[0_0_20px_rgba(255,30,39,0.35)] font-semibold"
             href="#access"
           >
             <span>ACQUIRE MISSION ACCESS</span>

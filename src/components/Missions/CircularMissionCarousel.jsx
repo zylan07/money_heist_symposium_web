@@ -5,7 +5,7 @@ import { MOTION_EASING } from '../../utils/motion';
 import gfgLogo from '../../assets/geeksforgeeks.png';
 
 /**
- * TECHBYTES SUMMIT '26 — HIGH-PERFORMANCE 3D CIRCULAR MISSION CAROUSEL
+ * TECHBYTE SUMMIT '26 — HIGH-PERFORMANCE 3D CIRCULAR MISSION CAROUSEL
  * 
  * Performance & Smoothness:
  * - Direct DOM manipulation via RAF on card refs (NO React state re-render on every frame)
@@ -16,7 +16,7 @@ import gfgLogo from '../../assets/geeksforgeeks.png';
 
 export default function CircularMissionCarousel({
   missionIds = ['mission-01', 'mission-02', 'mission-03'],
-  dayTitle = 'DAY 01 // 09 OCTOBER 2026',
+  dayTitle = 'DAY 01 // 14 OCTOBER 2026',
   dayTag = '3 LIVE SYNDICATE STREAMS',
   initialAngle = 0,
   autoRotateSpeed = 0.46, // ~13s per 360° revolution at 60fps
@@ -51,6 +51,9 @@ export default function CircularMissionCarousel({
   const dragMovedRef = useRef(false);
   const dragStartYRef = useRef(0);
   const dragLockedDirectionRef = useRef(null);
+  // Inertia and velocity refs
+  const velocityRef = useRef(0);
+  const lastPointerXRef = useRef(0);
 
   // Active card index state (only updated when card index actually changes)
   const [activeCardIndex, setActiveCardIndex] = useState(0);
@@ -201,9 +204,17 @@ export default function CircularMissionCarousel({
     };
 
     const loop = () => {
+      // Damped inertia when not dragging
+      if (!isDraggingRef.current && Math.abs(velocityRef.current) > 0.005) {
+        velocityRef.current *= 0.92;
+        targetAngleRef.current += velocityRef.current;
+      } else if (!isDraggingRef.current) {
+        velocityRef.current = 0;
+      }
+
       const delta = targetAngleRef.current - currentAngleRef.current;
 
-      // Inertial damping
+      // Inertial damping towards targetAngle
       currentAngleRef.current += delta * 0.098;
 
       // Auto-rotation when idle (smooth blend)
@@ -212,6 +223,7 @@ export default function CircularMissionCarousel({
         !isDraggingRef.current &&
         idleTime > 1100 &&
         Math.abs(delta) < 0.25 &&
+        Math.abs(velocityRef.current) === 0 &&
         !prefersReduced
       ) {
         targetAngleRef.current += autoRotateSpeed;
@@ -241,8 +253,10 @@ export default function CircularMissionCarousel({
   // Pointer drag controls (mouse & touch)
   const handlePointerDown = (e) => {
     isDraggingRef.current = true;
+    velocityRef.current = 0;
     dragStartXRef.current = e.clientX;
     dragStartYRef.current = e.clientY;
+    lastPointerXRef.current = e.clientX;
     dragStartAngleRef.current = targetAngleRef.current;
     lastInteractionTimeRef.current = Date.now();
     dragMovedRef.current = false;
@@ -259,6 +273,7 @@ export default function CircularMissionCarousel({
       if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 8) {
         dragLockedDirectionRef.current = 'vertical';
         isDraggingRef.current = false;
+        velocityRef.current = 0;
         return;
       }
       if (Math.abs(deltaX) > 8) {
@@ -269,6 +284,12 @@ export default function CircularMissionCarousel({
     if (Math.abs(deltaX) > 4) {
       dragMovedRef.current = true;
     }
+
+    // Measure incremental step for damped inertia
+    const stepDx = e.clientX - lastPointerXRef.current;
+    velocityRef.current = stepDx * 0.04;
+    lastPointerXRef.current = e.clientX;
+
     const sensitivity = dimensionsRef.current.isMobile ? 0.30 : 0.24;
     targetAngleRef.current = dragStartAngleRef.current + deltaX * sensitivity;
     lastInteractionTimeRef.current = Date.now();
@@ -278,6 +299,10 @@ export default function CircularMissionCarousel({
     isDraggingRef.current = false;
     dragLockedDirectionRef.current = null;
     lastInteractionTimeRef.current = Date.now();
+    // Cap velocity to prevent wild spin
+    if (Math.abs(velocityRef.current) > 2.5) {
+      velocityRef.current = Math.sign(velocityRef.current) * 2.5;
+    }
   };
 
   // Rotate smoothly to center a specific card index (0, 1, or 2)
@@ -436,7 +461,12 @@ export default function CircularMissionCarousel({
                     <h4 className="font-headline-sm text-2xl sm:text-[26px] text-white uppercase tracking-[0.06em] leading-tight">
                       {m.title}
                     </h4>
-                    <p className="font-body-sm text-xs sm:text-sm text-[#b0aeb5] mt-3.5 sm:mt-4 leading-relaxed line-clamp-4 sm:line-clamp-none">
+                    {m.tagline && (
+                      <p className="font-code-md text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[#ff544b] font-medium mt-1 leading-snug break-words">
+                        {m.tagline}
+                      </p>
+                    )}
+                    <p className="font-body-sm text-xs sm:text-sm text-[#b0aeb5] mt-3 sm:mt-3.5 leading-relaxed line-clamp-3 sm:line-clamp-none">
                       {m.briefing}
                     </p>
 

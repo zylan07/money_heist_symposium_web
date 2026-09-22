@@ -1,6 +1,7 @@
 import React from 'react';
 import { useInViewAnimation } from '../../hooks/useInViewAnimation';
 import { MOTION_EASING } from '../../utils/motion';
+import RollingText from '../Hero/RollingText';
 
 export default function BaseLocation() {
   const [sectionRef, inView] = useInViewAnimation({ threshold: 0.15 });
@@ -16,7 +17,7 @@ export default function BaseLocation() {
       <div className="max-w-[1680px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 relative z-10 flex flex-col items-center">
         {/* Header */}
         <div
-          className="flex flex-col items-center text-center space-y-3 mb-12 transition-all duration-1000"
+          className="flex flex-col items-center text-center space-y-3 mb-12 transition-[opacity,transform] duration-700 will-change-[transform,opacity]"
           style={{
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(20px)',
@@ -30,7 +31,13 @@ export default function BaseLocation() {
             </span>
           </div>
           <h2 className="font-headline-lg text-3xl min-[360px]:text-4xl sm:text-6xl lg:text-7xl text-white uppercase tracking-[0.06em] leading-none drop-shadow-[0_8px_30px_rgba(0,0,0,0.8)]">
-            BASE LOCATION.
+            <RollingText
+              text="BASE LOCATION."
+              active={inView}
+              isComplete={inView}
+              duration={0.7}
+              stagger={0.025}
+            />
           </h2>
           <p className="font-code-md text-xs sm:text-sm tracking-[0.24em] text-[#ffdad6]/80 uppercase">
             KPR INSTITUTE OF ENGINEERING AND TECHNOLOGY // COIMBATORE, TAMIL NADU
@@ -278,14 +285,14 @@ export default function BaseLocation() {
               className="transition-opacity duration-700"
               style={{ opacity: inView ? 1 : 0, transitionDelay: '900ms' }}
             >
-              [ DEPT OF CSE &amp; D BLOCK // EVENT VENUES ]
+              [ DEPT OF CSE & D BLOCK // EVENT VENUES ]
             </text>
             <text
               x="505" y="247"
               fill="#909099" fontFamily="JetBrains Mono" fontSize="7.5" letterSpacing="1"
               textAnchor="middle"
             >
-              CENTRAL ADMIN &amp; LIBRARY
+              CENTRAL ADMIN & LIBRARY
             </text>
             <text
               x="505" y="312"
@@ -402,13 +409,13 @@ export default function BaseLocation() {
             </div>
 
             <div className="flex items-center justify-between gap-2 py-2 mt-2.5 border-t border-[#1c1b1e] font-code-md text-[10px] tracking-wider text-[#ffdad6]/80 uppercase">
-              <span>09 — 10 OCTOBER 2026</span>
+              <span>14 — 15 OCTOBER 2026</span>
               <span className="text-[#a09ca8]">OFFICIAL VENUE</span>
             </div>
 
             <div className="mt-2 pt-1">
               <a
-                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#ff1e27] text-white hover:brightness-110 font-code-md text-xs uppercase tracking-[0.16em] transition-all shadow-[0_0_15px_rgba(255,30,39,0.35)] w-full text-center font-semibold"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#ff1e27] text-white hover:brightness-110 font-code-md text-xs uppercase tracking-[0.16em] transition-[filter,box-shadow] shadow-[0_0_15px_rgba(255,30,39,0.35)] w-full text-center font-semibold"
                 href="https://maps.google.com/?q=KPR+Institute+of+Engineering+and+Technology+Coimbatore"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -422,7 +429,7 @@ export default function BaseLocation() {
 
         {/* Dedicated Campus Map Actions & Official PDF Access */}
         <div
-          className="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4 p-5 sm:p-6 bg-[#111016] border border-[#2d2d38] rounded-lg shadow-lg transition-all duration-800"
+          className="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4 p-5 sm:p-6 bg-[#111016] border border-[#2d2d38] rounded-lg shadow-lg transition-[opacity,transform] duration-700 will-change-[transform,opacity]"
           style={{
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(16px)',
@@ -449,7 +456,7 @@ export default function BaseLocation() {
               href="/campus-map.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#ff1e27] text-white hover:brightness-110 font-headline-sm text-base uppercase tracking-[0.14em] transition-all shadow-[0_0_20px_rgba(255,30,39,0.4)] w-full sm:w-auto text-center font-semibold"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#ff1e27] text-white hover:brightness-110 font-headline-sm text-base uppercase tracking-[0.14em] transition-[filter,box-shadow] shadow-[0_0_20px_rgba(255,30,39,0.4)] w-full sm:w-auto text-center font-semibold"
             >
               <span className="material-symbols-outlined text-[18px]">picture_as_pdf</span>
               <span>VIEW CAMPUS MAP</span>

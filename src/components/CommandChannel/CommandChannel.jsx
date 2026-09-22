@@ -2,6 +2,7 @@ import React from 'react';
 import { SYMPOSIUM_INFO } from '../../data/events';
 import { useInViewAnimation } from '../../hooks/useInViewAnimation';
 import { MOTION_EASING } from '../../utils/motion';
+import RollingText from '../Hero/RollingText';
 
 export default function CommandChannel() {
   const [sectionRef, inView] = useInViewAnimation({ threshold: 0.15 });
@@ -17,7 +18,7 @@ export default function CommandChannel() {
       <div className="max-w-[1680px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 relative z-10">
         {/* Section Header */}
         <div
-          className="flex flex-col items-center text-center space-y-3 mb-16 transition-all duration-1000"
+          className="flex flex-col items-center text-center space-y-3 mb-16 transition-[opacity,transform] duration-700 will-change-[transform,opacity]"
           style={{
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(20px)',
@@ -31,7 +32,13 @@ export default function CommandChannel() {
             </span>
           </div>
           <h2 className="font-headline-lg text-3xl min-[360px]:text-4xl sm:text-6xl lg:text-7xl text-white uppercase tracking-[0.06em] leading-none drop-shadow-[0_8px_30px_rgba(0,0,0,0.8)]">
-            COMMAND CHANNEL
+            <RollingText
+              text="COMMAND CHANNEL"
+              active={inView}
+              isComplete={inView}
+              duration={0.7}
+              stagger={0.025}
+            />
           </h2>
           <p className="font-code-md text-xs sm:text-sm tracking-[0.26em] text-[#ffdad6]/80 uppercase">
             THE CHANNEL IS OPEN.
@@ -42,7 +49,7 @@ export default function CommandChannel() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
           {/* Classified Transmission Sheet (~58% desktop / 7 cols) - Content-driven natural height */}
           <div
-            className="lg:col-span-7 flex flex-col relative group select-none transition-all duration-1000"
+            className="lg:col-span-7 flex flex-col relative group select-none transition-[opacity,transform] duration-700 will-change-[transform,opacity]"
             style={{
               opacity: inView ? 1 : 0,
               transform: inView ? 'translateY(0) rotate(0deg)' : 'translateY(28px) rotate(-0.9deg)',
@@ -52,7 +59,7 @@ export default function CommandChannel() {
           >
             <div
               id="dispatch-sheet"
-              className="relative bg-[#100f14]/95 border border-[#2d2d35] rounded-lg p-5 sm:p-6 lg:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.85)] hover:border-[#ff1e27]/40 transition-all duration-500 overflow-hidden flex flex-col"
+              className="relative bg-[#100f14]/95 border border-[#2d2d35] rounded-lg p-5 sm:p-6 lg:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.85)] hover:border-[#ff1e27]/40 transition-[border-color] duration-500 overflow-hidden flex flex-col"
             >
               {/* Specular Shimmer Sweep on Hover */}
               <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-tr from-transparent via-[#ff1e27]/10 to-transparent" />
@@ -67,10 +74,13 @@ export default function CommandChannel() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#212127] pb-3.5 mb-3.5">
                 <div className="flex flex-col">
                   <span className="font-code-md text-[10px] tracking-[0.28em] text-[#ff544b] uppercase font-bold">
-                    TECHBYTES SUMMIT '26 // CLASSIFIED DISPATCH
+                    TECHBYTE SUMMIT '26 // CLASSIFIED DISPATCH
                   </span>
                   <span className="font-headline-sm text-2xl sm:text-3xl text-white uppercase tracking-[0.08em] mt-0.5">
                     COMMAND CHANNEL — TRANSMISSION DOSSIER
+                  </span>
+                  <span className="font-code-md text-[10px] sm:text-[11px] text-[#ffdad6]/80 uppercase tracking-wider mt-1">
+                    Department of CSE in collaboration with Yi Yuva Club, KPRIET
                   </span>
                 </div>
                 <div
@@ -99,7 +109,13 @@ export default function CommandChannel() {
                     {SYMPOSIUM_INFO.overallCoordinators.faculty.map((fc, idx) => (
                       <div
                         key={idx}
-                        className="p-3 sm:p-3.5 bg-[#141419] border border-[#24242c] rounded flex items-center justify-between hover:border-[#ff1e27]/50 transition-all"
+                        style={{
+                          transitionDelay: inView ? `${idx * 80}ms` : '0ms',
+                          transitionTimingFunction: MOTION_EASING.cinematic,
+                        }}
+                        className={`p-3 sm:p-3.5 bg-[#141419] border border-[#24242c] rounded flex items-center justify-between hover:border-[#ff1e27]/50 transition-[opacity,transform,border-color] duration-500 will-change-[transform,opacity] ${
+                          inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+                        }`}
                       >
                         <div>
                           <span className="font-headline-sm text-base sm:text-lg text-white uppercase tracking-wider block leading-snug">
@@ -133,7 +149,13 @@ export default function CommandChannel() {
                     {SYMPOSIUM_INFO.overallCoordinators.students.map((sc, idx) => (
                       <div
                         key={idx}
-                        className="w-full sm:w-[calc(50%-0.375rem)] p-3 sm:p-3.5 bg-[#141419] border border-[#24242c] rounded flex items-center justify-between hover:border-[#ff1e27]/50 transition-all"
+                        style={{
+                          transitionDelay: inView ? `${(2 + idx) * 80}ms` : '0ms',
+                          transitionTimingFunction: MOTION_EASING.cinematic,
+                        }}
+                        className={`w-full sm:w-[calc(50%-0.375rem)] p-3 sm:p-3.5 bg-[#141419] border border-[#24242c] rounded flex items-center justify-between hover:border-[#ff1e27]/50 transition-[opacity,transform,border-color] duration-500 will-change-[transform,opacity] ${
+                          inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+                        }`}
                       >
                         <div>
                           <span className="font-headline-sm text-base sm:text-lg text-white uppercase tracking-wider block leading-snug">
@@ -169,7 +191,7 @@ export default function CommandChannel() {
 
           {/* FAQ Panel (~42% desktop / 5 cols) - Exact Same Outer Height via Grid Stretch */}
           <div
-            className="lg:col-span-5 flex flex-col h-full relative transition-all duration-1000"
+            className="lg:col-span-5 flex flex-col h-full relative transition-[opacity,transform] duration-700 will-change-[transform,opacity]"
             style={{
               opacity: inView ? 1 : 0,
               transform: inView ? 'translateY(0)' : 'translateY(24px)',
@@ -179,7 +201,7 @@ export default function CommandChannel() {
           >
             <div
               id="faq-panel"
-              className="relative bg-[#100f14]/95 border border-[#2d2d35] rounded-lg p-5 sm:p-6 lg:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.85)] hover:border-[#ff1e27]/40 transition-all duration-500 flex flex-col justify-between h-full overflow-hidden"
+              className="relative bg-[#100f14]/95 border border-[#2d2d35] rounded-lg p-5 sm:p-6 lg:p-7 shadow-[0_25px_60px_rgba(0,0,0,0.85)] hover:border-[#ff1e27]/40 transition-[border-color] duration-500 flex flex-col justify-between h-full overflow-hidden"
             >
               {/* Corner Register Marks */}
               <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-[#ff1e27]/40 pointer-events-none" />

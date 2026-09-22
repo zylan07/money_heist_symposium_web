@@ -1,15 +1,17 @@
 import React, { useRef } from 'react';
+import ticket9Logo from '../../assets/Ticket9Logo.png';
 import { useInViewAnimation } from '../../hooks/useInViewAnimation';
 import { MOTION_EASING } from '../../utils/motion';
-import ticket9Logo from '../../assets/Ticket9Logo.png';
+import RollingText from '../Hero/RollingText';
 
 export default function MissionAccess() {
   const [sectionRef, inView] = useInViewAnimation({ threshold: 0.15 });
-  const containerRef = useRef(null);
   const cardRef = useRef(null);
+  const containerRef = useRef(null);
   const reflectionRef = useRef(null);
   const isHoveredRef = useRef(false);
 
+  // Subtle physics-based 3D tilt interaction (Desktop only)
   const handleMouseMove = (e) => {
     // Disable or simplify on mobile/touch devices
     if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches)) {
@@ -59,7 +61,7 @@ export default function MissionAccess() {
       cardRef.current.style.boxShadow = '0 30px 90px rgba(0,0,0,0.95)';
     }
     if (reflectionRef.current) {
-      reflectionRef.current.style.background = '';
+      reflectionRef.current.style.background = 'transparent';
     }
   };
 
@@ -74,7 +76,7 @@ export default function MissionAccess() {
       <div className="max-w-[1680px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 relative z-10 flex flex-col items-center">
         {/* Header */}
         <div
-          className="flex flex-col items-center text-center space-y-3 mb-16 transition-all duration-1000"
+          className="flex flex-col items-center text-center space-y-3 mb-16 transition-[opacity,transform] duration-1000 will-change-[transform,opacity]"
           style={{
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(24px)',
@@ -88,7 +90,13 @@ export default function MissionAccess() {
             </span>
           </div>
           <h2 className="font-headline-lg text-4xl min-[360px]:text-5xl sm:text-7xl lg:text-8xl text-white uppercase tracking-[0.06em] leading-none drop-shadow-[0_8px_30px_rgba(0,0,0,0.8)]">
-            GET ACCESS.
+            <RollingText
+              text="GET ACCESS."
+              active={inView}
+              isComplete={inView}
+              duration={0.7}
+              stagger={0.03}
+            />
           </h2>
           <p className="font-code-md text-xs sm:text-sm tracking-[0.28em] text-[#ffdad6]/80 uppercase">
             ONE PASS. TWO DAYS. SIX MISSIONS.
@@ -99,7 +107,7 @@ export default function MissionAccess() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-5xl mb-10">
           {[
             { label: 'ALL 6 MISSIONS', sub: 'DAY 1 & DAY 2' },
-            { label: '2 DAYS ACCESS', sub: '09 & 10 OCT 2026' },
+            { label: '2 DAYS ACCESS', sub: '14 & 15 OCT 2026' },
             { label: 'LUNCH', sub: 'DAY 1 & DAY 2' },
             { label: 'REFRESHMENTS', sub: 'DAY 1 & DAY 2' },
           ].map((perk, idx) => (
@@ -160,7 +168,7 @@ export default function MissionAccess() {
               <div className="flex items-start justify-between gap-4 border-b border-[#212127] pb-4 mb-6">
                 <div className="flex flex-col">
                   <span className="font-headline-sm text-xl min-[380px]:text-2xl sm:text-3xl text-white uppercase tracking-[0.10em] sm:tracking-[0.12em]">
-                    TECHBYTES SUMMIT '26
+                    TECHBYTE SUMMIT '26
                   </span>
                   <span className="font-code-md text-[10px] tracking-[0.24em] text-[#ff544b] uppercase mt-0.5">
                     MISSION ACCESS CREDENTIAL
@@ -232,7 +240,7 @@ export default function MissionAccess() {
                   <div className="p-3 bg-[#17161b] border border-[#282832] rounded">
                     <span className="block font-headline-sm text-base text-white uppercase">2 DAYS</span>
                     <span className="block font-code-md text-[9px] text-[#909099] tracking-wider uppercase mt-0.5">
-                      OCT 09 — 10
+                      OCT 14 — 15
                     </span>
                   </div>
                   <div className="p-3 bg-[#17161b] border border-[#282832] rounded">
@@ -244,22 +252,22 @@ export default function MissionAccess() {
                   <div className="p-3 bg-[#17161b] border border-[#ff1e27]/40 rounded">
                     <span className="block font-headline-sm text-base text-[#ffdad6] uppercase">LUNCH</span>
                     <span className="block font-code-md text-[9px] text-[#ff544b] tracking-wider uppercase font-bold mt-0.5">
-                      DAY 1 &amp; DAY 2
+                      DAY 1 & DAY 2
                     </span>
                   </div>
                   <div className="p-3 bg-[#17161b] border border-[#ff1e27]/40 rounded">
                     <span className="block font-headline-sm text-base text-[#ffdad6] uppercase">REFRESHMENTS</span>
                     <span className="block font-code-md text-[9px] text-[#ff544b] tracking-wider uppercase font-bold mt-0.5">
-                      DAY 1 &amp; DAY 2
+                      DAY 1 & DAY 2
                     </span>
                   </div>
                 </div>
               </div>
 
               <div className="pt-6 border-t border-[#1f1e24] flex flex-wrap items-center justify-between gap-3 text-[#909099] font-code-md text-[10px] uppercase tracking-widest">
-                <span>09 — 10 OCTOBER 2026</span>
+                <span>14 — 15 OCTOBER 2026</span>
                 <span>•</span>
-                <span>KPR INSTITUTE OF ENGG &amp; TECH, COIMBATORE</span>
+                <span>KPR INSTITUTE OF ENGG & TECH, COIMBATORE</span>
               </div>
             </div>
 
@@ -315,7 +323,7 @@ export default function MissionAccess() {
                   DELEGATE PASS // 2026
                 </span>
                 <span className="font-code-md text-[8px] text-[#ff544b]/80 uppercase tracking-widest mt-0.5">
-                  DEPT OF COMPUTER SCIENCE &amp; ENGG
+                  DEPT OF COMPUTER SCIENCE & ENGG
                 </span>
               </div>
             </div>

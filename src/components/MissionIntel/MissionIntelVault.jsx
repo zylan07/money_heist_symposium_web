@@ -13,9 +13,15 @@ export default function MissionIntelVault({ missionId, onClose }) {
   const prefersReducedMotion = useReducedMotion();
 
   const [vaultState, setVaultState] = useState('OPENING_VAULT');
+  const [backdropActive, setBackdropActive] = useState(false);
   const vaultStateRef = useRef('OPENING_VAULT');
   const closingAnimRef = useRef({ active: false, startTime: 0, duration: 3400 });
   const handleCloseRef = useRef(null);
+
+  useEffect(() => {
+    const t = setTimeout(() => setBackdropActive(true), 20);
+    return () => clearTimeout(t);
+  }, []);
 
   const handleClose = () => {
     if (vaultStateRef.current !== 'BRIEFING_ROOM') return;
@@ -48,6 +54,12 @@ export default function MissionIntelVault({ missionId, onClose }) {
 
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Graceful WebGL context loss handling
+    const handleContextLost = (event) => {
+      event.preventDefault();
+    };
+    canvas.addEventListener('webglcontextlost', handleContextLost, false);
 
     // Reset state for new opening sequence
     vaultStateRef.current = 'OPENING_VAULT';
@@ -651,6 +663,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
     return () => {
       isMounted = false;
       if (animId) cancelAnimationFrame(animId);
+      canvas.removeEventListener('webglcontextlost', handleContextLost, false);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = prevOverflow;
@@ -674,7 +687,12 @@ export default function MissionIntelVault({ missionId, onClose }) {
   return (
     <div
       id="intel-modal-backdrop"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-700"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 transition-[opacity,backdrop-filter] duration-[600ms]"
+      style={{
+        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        backdropFilter: prefersReducedMotion ? 'none' : (backdropActive ? 'blur(8px)' : 'blur(0px)'),
+        WebkitBackdropFilter: prefersReducedMotion ? 'none' : (backdropActive ? 'blur(8px)' : 'blur(0px)'),
+      }}
     >
       {/* Volumetric Red Ambient Flare behind Vault */}
       <div
@@ -792,18 +810,18 @@ export default function MissionIntelVault({ missionId, onClose }) {
               <div className="flex items-center justify-between border-b border-[#a89d89] pb-2 mb-3">
                 <div className="flex items-center gap-2">
                   <span className="font-code-md text-xs tracking-[0.25em] text-[#931f1d] font-bold uppercase">
-                    // OPERATIONAL BRIEFING MEMO
+                    // EVENT SUMMARY
                   </span>
                   <span className="tape-strip text-[9px] font-code-md px-2 py-0.5 text-black">
-                    FIELD SPEC 44-B
+                    TECHBYTE '26
                   </span>
                 </div>
                 <span className="font-label-sm text-[11px] text-[#554b42] uppercase tracking-widest font-mono">
-                  FILE: CONFIDENTIAL
+                  OFFICIAL INFO
                 </span>
               </div>
               <p className="font-body-lg text-sm sm:text-base text-[#282420] leading-relaxed font-serif italic">
-                "{mission.briefing}"
+                "{mission.heistBrief || mission.briefing}"
               </p>
             </div>
 
@@ -835,7 +853,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 {/* Generalized ₹5,000 Prize Pool Display */}
                 <div className="p-4 sm:p-5 bg-[#12080a] border border-[#ff1e27]/50 rounded text-center flex flex-col items-center justify-center shadow-inner">
                   <span className="font-code-md text-xs sm:text-sm text-[#ff9995] uppercase tracking-widest font-bold mb-1">
-                    TOTAL EVENT BOUNTY
+                    PRIZE POOL
                   </span>
                   <span className="font-headline-lg text-3xl sm:text-4xl lg:text-5xl text-[#ff544b] font-bold tracking-tight">
                     {mission.prizePool}
@@ -843,22 +861,12 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 </div>
 
                 {/* Certificate Policy */}
-                {mission.certificatePolicy && (
-                  <div className="mt-4 pt-3 border-t border-[#3d191d] grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-                    <div className="p-2.5 bg-[#160c0e] border border-[#3d191d] rounded flex items-center gap-2.5">
-                      <span className="material-symbols-outlined text-[#ff544b] text-base shrink-0">verified</span>
-                      <span className="font-code-md text-[11px] sm:text-xs text-[#ffdad6] font-medium leading-tight">
-                        {mission.certificatePolicy.hardCopy}
-                      </span>
-                    </div>
-                    <div className="p-2.5 bg-[#160c0e] border border-[#3d191d] rounded flex items-center gap-2.5">
-                      <span className="material-symbols-outlined text-[#c8c5ca] text-base shrink-0">card_membership</span>
-                      <span className="font-code-md text-[11px] sm:text-xs text-[#c8c5ca] font-medium leading-tight">
-                        {mission.certificatePolicy.eCert}
-                      </span>
-                    </div>
-                  </div>
-                )}
+                <div className="mt-4 pt-3 border-t border-[#3d191d] flex items-center gap-2.5 p-3 bg-[#160c0e] border border-[#3d191d] rounded text-left">
+                  <span className="material-symbols-outlined text-[#ff544b] text-base shrink-0">verified</span>
+                  <span className="font-code-md text-xs sm:text-sm text-[#ffdad6] font-medium leading-tight">
+                    {mission.certificate || "Certificates will be provided to all participants."}
+                  </span>
+                </div>
               </div>
             )}
 
@@ -901,19 +909,11 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 </div>
 
                 {/* Certificate Policy */}
-                <div className="mt-4 pt-3 border-t border-[#1c3822] grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-                  <div className="p-2.5 bg-[#0e1c12] border border-[#23452b] rounded flex items-center gap-2.5">
-                    <span className="material-symbols-outlined text-[#48bb78] text-base shrink-0">verified</span>
-                    <span className="font-code-md text-[11px] sm:text-xs text-[#dcfce7] font-medium leading-tight">
-                      1st, 2nd &amp; 3rd Place Winners — Hard Copy Certificates
-                    </span>
-                  </div>
-                  <div className="p-2.5 bg-[#0e1c12] border border-[#23452b] rounded flex items-center gap-2.5">
-                    <span className="material-symbols-outlined text-[#68d391] text-base shrink-0">card_membership</span>
-                    <span className="font-code-md text-[11px] sm:text-xs text-[#dcfce7] font-medium leading-tight">
-                      All Other Participants — GeeksforGeeks-Powered E-Certificates
-                    </span>
-                  </div>
+                <div className="mt-4 pt-3 border-t border-[#1c3822] flex items-center gap-2.5 p-3 bg-[#0e1c12] border border-[#23452b] rounded text-left">
+                  <span className="material-symbols-outlined text-[#48bb78] text-base shrink-0">verified</span>
+                  <span className="font-code-md text-xs sm:text-sm text-[#dcfce7] font-medium leading-tight">
+                    Certificates will be provided to all participants.
+                  </span>
                 </div>
               </div>
             )}
@@ -924,11 +924,11 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 <div className="flex items-center gap-2 text-[#ffdad6] mb-2">
                   <span className="material-symbols-outlined text-[#ff544b] text-base">card_membership</span>
                   <span className="font-code-md text-xs uppercase tracking-wider font-bold">
-                    CERTIFICATE POLICY
+                    CERTIFICATES
                   </span>
                 </div>
                 <p className="font-body-sm text-xs sm:text-sm text-[#c8c5ca]">
-                  {mission.certificatePolicy?.eCert || "All registered participants receive official E-Certificates."}
+                  {mission.certificate || "Certificates will be provided to all participants."}
                 </p>
               </div>
             )}
@@ -941,7 +941,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 <div className="flex items-center gap-2 text-[#ff544b] border-b border-[#282936] pb-2 mb-3">
                   <span className="material-symbols-outlined text-[18px]">target</span>
                   <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold">
-                    MISSION BRIEFING
+                    ABOUT THE EVENT
                   </span>
                 </div>
                 <p className="font-body-md text-sm text-[#d4d1da] leading-relaxed font-light">
@@ -961,7 +961,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 <div className="flex items-center gap-2 text-[#64b5f6] border-b border-[#1b3457] pb-2 mb-3">
                   <span className="material-symbols-outlined text-[18px]">schema</span>
                   <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold text-[#90caf9]">
-                    THEME &amp; DOMAIN
+                    THEME & TOPIC
                   </span>
                 </div>
                 <p className="font-body-md text-sm text-[#b9d5f7] leading-relaxed font-light">
@@ -981,7 +981,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
               <div className="flex items-center gap-2 text-[#ff544b] mb-4">
                 <span className="material-symbols-outlined text-[18px]">groups</span>
                 <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold">
-                  MISSION SPECIFICATIONS
+                  EVENT DETAILS
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -1003,10 +1003,10 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 </div>
                 <div className="p-3.5 bg-[#201f28] border border-[#3c3a4a] rounded">
                   <span className="block font-label-sm text-[10px] text-[#a09ca8] uppercase tracking-widest">
-                    {mission.presentationTime ? 'PRESENTATION & Q&A' : 'ADDITIONAL INFO'}
+                    {mission.presentationTime ? 'PRESENTATION & Q&A' : 'CERTIFICATES'}
                   </span>
                   <span className="font-headline-sm text-sm sm:text-base text-white mt-1 block">
-                    {mission.presentationTime ? `${mission.presentationTime} | ${mission.qaTime}` : (mission.certificate || 'Will be shared shortly')}
+                    {mission.presentationTime ? `${mission.presentationTime} | ${mission.qaTime}` : (mission.certificate || 'Certificates will be provided to all participants.')}
                   </span>
                 </div>
               </div>
@@ -1017,7 +1017,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
               <div className="flex items-center gap-2 text-[#ff544b] mb-3">
                 <span className="material-symbols-outlined text-[18px]">verified_user</span>
                 <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold">
-                  RULES OF ENGAGEMENT
+                  RULES & GUIDELINES
                 </span>
               </div>
               <ul className="space-y-2.5 font-body-sm text-sm text-[#cac6d0] list-disc list-inside font-light">
@@ -1078,7 +1078,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
             <div className="flex items-center gap-2 text-neutral-400 font-code-md text-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
               <span className="tracking-widest uppercase">
-                REGISTRATION ACTIVE // LIMITED OPERATIVE SLOTS
+                REGISTRATION ACTIVE // LIMITED PASSES AVAILABLE
               </span>
             </div>
             <div className="flex items-center gap-3 w-full sm:w-auto">

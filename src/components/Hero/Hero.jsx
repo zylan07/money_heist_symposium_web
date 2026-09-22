@@ -196,7 +196,7 @@ export default function Hero() {
       // As preloader retracts outward, rolling reveals begin from center-out
       // All animations happen directly in their actual resting position!
       // -----------------------------------------------------------------
-      // 1250ms: TECHBYTES center-out letter roll begins
+      // 1250ms: TECHBYTE center-out letter roll begins
       if (elapsed >= 1250 && !flags.title1) {
         flags.title1 = true;
         setTitle1Active(true);
@@ -473,7 +473,7 @@ export default function Hero() {
             ref={baseImgRef}
             id="base-masked-img"
             src={MASKED_IMG_URL}
-            alt="TechBytes Summit Operatives Masked"
+            alt="TechByte Summit Operatives Masked"
             className="w-full h-full object-cover object-top filter brightness-[0.96] contrast-[1.06] pointer-events-none select-none"
             style={{ opacity: entranceComplete || prefersReducedMotion ? 1 : 0 }}
           />
@@ -526,9 +526,9 @@ export default function Hero() {
               ref={titleRef}
               className="font-display-lg flex flex-wrap md:flex-nowrap items-baseline justify-center md:whitespace-nowrap gap-x-3 sm:gap-x-4 md:gap-x-5 lg:gap-x-7 leading-[0.85] uppercase drop-shadow-[0_12px_45px_rgba(0,0,0,0.98)] tracking-[0.03em] will-change-transform"
             >
-              {/* Skiper27-Style Rolling Title: Group 1 (TECHBYTES) */}
+              {/* Skiper27-Style Rolling Title: Group 1 (TECHBYTE) */}
               <RollingText
-                text="TECHBYTES"
+                text="TECHBYTE"
                 className="text-[34px] min-[360px]:text-[40px] min-[400px]:text-[46px] sm:text-[68px] md:text-[84px] lg:text-[112px] xl:text-[134px] 2xl:text-[150px] tracking-[0.03em] text-[#f2edf0] font-bold scale-y-[1.06]"
                 active={title1Active}
                 isComplete={entranceComplete}
@@ -560,7 +560,7 @@ export default function Hero() {
               className="overflow-hidden py-0.5 -my-0.5 px-3 -mx-3 will-change-[clip-path,opacity]"
             >
               <RollingText
-                text="09 — 10 OCTOBER 2026"
+                text="14 — 15 OCTOBER 2026"
                 className="font-code-md text-xs min-[360px]:text-sm sm:text-base md:text-lg lg:text-[19px] tracking-[0.20em] sm:tracking-[0.28em] text-[#ffdad6] font-semibold uppercase drop-shadow text-center block"
                 active={dateActive}
                 isComplete={entranceComplete}
@@ -587,6 +587,19 @@ export default function Hero() {
                 centerOut={true}
               />
 
+              {/* Organizer & Collaboration Branding */}
+              <div className="mt-2 sm:mt-2.5 flex flex-col items-center justify-center text-center">
+                <span className="font-code-md text-[10px] sm:text-[11px] text-[#ff544b] tracking-[0.16em] sm:tracking-[0.2em] uppercase font-bold">
+                  Department of CSE
+                </span>
+                <span className="font-code-md text-[9px] sm:text-[10px] text-[#a09ca8] tracking-[0.14em] uppercase mt-0.5">
+                  in collaboration with
+                </span>
+                <span className="font-code-md text-[10px] sm:text-[11px] text-[#ffdad6] tracking-[0.16em] sm:tracking-[0.2em] uppercase font-semibold mt-0.5">
+                  Yi Yuva Club, KPRIET
+                </span>
+              </div>
+
               {/* Major Hero Highlight: Large Prominent Prize Pool & Perks — Compact Rolling Reveal */}
               <div
                 ref={prizeRef}
@@ -603,21 +616,13 @@ export default function Hero() {
                       }
                 }
               >
-                <div className="inline-flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3.5 md:gap-5 px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-3.5 bg-[#110e16]/80 border-2 border-[#ff1e27]/60 rounded-md sm:rounded-full shadow-[0_0_35px_rgba(255,30,39,0.3),inset_0_0_20px_rgba(255,30,39,0.12)] backdrop-blur-md">
-                  <div className="flex items-center gap-2.5 sm:gap-3">
-                    <span className="material-symbols-outlined text-2xl sm:text-3xl md:text-4xl text-[#ff544b] drop-shadow-[0_0_12px_rgba(255,30,39,0.7)]">
-                      workspace_premium
-                    </span>
-                    <span className="font-headline-sm text-2xl sm:text-3xl md:text-4xl text-white font-bold tracking-[0.10em] sm:tracking-[0.12em] uppercase leading-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-                      ₹15K PRIZE POOL
-                    </span>
-                  </div>
-                  <span className="hidden sm:inline text-[#ff1e27]/70 font-bold text-xl md:text-2xl select-none">•</span>
-                  <div className="flex items-center gap-2">
-                    <span className="font-code-md text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-[0.16em] sm:tracking-[0.20em] uppercase text-[#48bb78] drop-shadow-[0_0_15px_rgba(72,187,120,0.4)]">
-                      + GEEKSFORGEEKS COUPONS
-                    </span>
-                  </div>
+                <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3.5 px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-3.5 bg-[#110e16]/80 border-2 border-[#ff1e27]/60 rounded-md sm:rounded-full shadow-[0_0_35px_rgba(255,30,39,0.3),inset_0_0_20px_rgba(255,30,39,0.12)] backdrop-blur-md">
+                  <span className="material-symbols-outlined text-2xl sm:text-3xl md:text-4xl text-[#ff544b] drop-shadow-[0_0_12px_rgba(255,30,39,0.7)]">
+                    workspace_premium
+                  </span>
+                  <span className="font-headline-sm text-2xl sm:text-3xl md:text-4xl text-white font-bold tracking-[0.10em] sm:tracking-[0.12em] uppercase leading-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+                    ₹15K PRIZE POOL
+                  </span>
                 </div>
               </div>
             </div>

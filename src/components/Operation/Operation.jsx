@@ -3,6 +3,7 @@ import { SYMPOSIUM_INFO } from '../../data/events';
 import operationImg from '../../assets/operation.jpg';
 import OperationImageReveal from './OperationImageReveal';
 import { useInViewAnimation } from '../../hooks/useInViewAnimation';
+import RollingText from '../Hero/RollingText';
 
 export default function Operation() {
   const [sectionRef, inView] = useInViewAnimation({ threshold: 0.15 });
@@ -17,7 +18,7 @@ export default function Operation() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
           {/* 40-45% Dossier Column with Staggered Entrance */}
           <div
-            className={`lg:col-span-5 flex flex-col justify-center space-y-5 transition-all duration-1000 ${
+            className={`lg:col-span-5 flex flex-col justify-center space-y-5 transition-[opacity,transform] duration-700 will-change-[transform,opacity] ${
               inView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
             }`}
             style={{ transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)' }}
@@ -30,13 +31,30 @@ export default function Operation() {
               </span>
             </div>
 
-            <h3 className="font-headline-lg text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-[0.05em] leading-tight">
-              THE OPERATION.
-            </h3>
+            <h2 className="font-headline-lg text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-[0.05em] leading-tight">
+              <RollingText
+                text="THE OPERATION."
+                active={inView}
+                isComplete={inView}
+                duration={0.7}
+                stagger={0.025}
+              />
+            </h2>
+
+            {SYMPOSIUM_INFO.operationTagline && (
+              <p className="font-code-md text-xs sm:text-sm tracking-[0.2em] text-[#ff544b] uppercase font-medium">
+                {SYMPOSIUM_INFO.operationTagline}
+              </p>
+            )}
 
             <p className="font-body-md text-sm sm:text-base text-[#c8c5ca] leading-relaxed font-light">
-              TECHBYTES SUMMIT '26 is a two-day technical symposium organized by the Department of Computer Science and Engineering at {SYMPOSIUM_INFO.institution}, Coimbatore. The symposium brings together technical presentations, projects, posters, industry interaction, professional development, and coding across two days.
+              {SYMPOSIUM_INFO.missionBrief}
             </p>
+
+            <div className="py-2 px-3.5 bg-[#121215]/80 border-l-2 border-[#ff1e27] font-code-md text-xs tracking-wider text-[#ffdad6]">
+              <span className="text-[#ff544b] uppercase font-bold">CONDUCTED BY: </span>
+              <span>Department of CSE in collaboration with Yi Yuva Club, KPRIET</span>
+            </div>
 
             <div className="py-3 border-y border-[#262529] font-code-md text-xs tracking-[0.12em] text-neutral-400 bg-[#121215]/60 px-4 rounded-sm flex flex-wrap items-center gap-2 uppercase">
               <span className="text-[#ff544b] font-semibold">{SYMPOSIUM_INFO.dates}</span>
@@ -50,7 +68,7 @@ export default function Operation() {
 
             <div>
               <a
-                className="relative inline-flex items-center justify-center gap-3 px-6 py-3 bg-[#121215] text-white border border-[#ff1e27]/80 hover:bg-[#ff1e27]/20 font-code-md text-xs uppercase tracking-[0.2em] transition-all shadow-[0_0_15px_rgba(255,30,39,0.2)]"
+                className="relative inline-flex items-center justify-center gap-3 px-6 py-3 bg-[#121215] text-white border border-[#ff1e27]/80 hover:bg-[#ff1e27]/20 font-code-md text-xs uppercase tracking-[0.2em] transition-colors shadow-[0_0_15px_rgba(255,30,39,0.2)]"
                 href="#missions"
               >
                 <span>KNOW MORE</span>
@@ -61,7 +79,7 @@ export default function Operation() {
 
           {/* 55-60% Framed Visual Column — Edge-to-Center Photographic Reconstruction */}
           <div
-            className={`lg:col-span-7 relative w-full transition-all duration-1000 ${
+            className={`lg:col-span-7 relative w-full transition-[opacity,transform] duration-700 will-change-[transform,opacity] ${
               inView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
             }`}
             style={{ transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)' }}
