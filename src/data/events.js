@@ -29,7 +29,7 @@ export const SYMPOSIUM_INFO = {
   operationCodename: "TECHBYTE SUMMIT '26",
   operationTagline: "A TWO-DAY NATIONAL TECHNICAL SYMPOSIUM",
   missionBrief:
-    "A two-day national technical symposium conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events across research paper presentation, project demonstration, poster presentation, an executive development programme, an emerging tech conclave, and a competitive coding contest.",
+    "A two-day national technical symposium conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events across research paper presentation, project demonstration, poster creation & presentation, an executive development programme, an emerging tech conclave, and a competitive coding contest.",
   welcomeTransmission:
     "Welcome to TECHBYTE SUMMIT '26 on 14–15 October 2026 at KPR Institute of Engineering and Technology, Coimbatore. Conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events designed to test and showcase your technical, problem-solving, and presentation skills. Register today and participate across both days.",
   overallCoordinators: {
@@ -55,6 +55,8 @@ export const MISSIONS_DATA = {
     day: "DAY 01",
     date: "14 OCTOBER 2026",
     dayTrack: "DAY 01 // 14 OCTOBER 2026",
+    time: "10:00 AM onwards",
+    timing: "10:00 AM onwards",
     title: "PAPER PRESENTATION",
     fullTitle: "MISSION 01 // PAPER PRESENTATION",
     categoryBadge: "RESEARCH PAPER",
@@ -62,9 +64,9 @@ export const MISSIONS_DATA = {
 
     tagline: "PRESENT YOUR RESEARCH PAPER",
     heistBrief:
-      "Present your research paper on any engineering-related topic. You will have 5 minutes to present, followed by 3 minutes of Q&A.",
+      "Present your research paper on any engineering-related topic. 10:00 AM onwards on Day 01.",
     briefing:
-      "Present a research paper on any engineering-related topic.",
+      "Present a research paper on any engineering-related topic. 10:00 AM onwards on Day 01.",
 
     about:
       "Present your research paper on any engineering-related topic. You will have 5 minutes to present, followed by 3 minutes of Q&A with the jury.",
@@ -76,6 +78,7 @@ export const MISSIONS_DATA = {
     prizePool: "₹5,000 PRIZE POOL",
     certificate: "Certificates will be provided to all participants.",
     rules: [
+      "Event timing: 10:00 AM onwards.",
       "Be prepared with your presentation.",
       "Choose an engineering-related topic.",
       "Complete your presentation within 5 minutes.",
@@ -98,6 +101,8 @@ export const MISSIONS_DATA = {
     day: "DAY 01",
     date: "14 OCTOBER 2026",
     dayTrack: "DAY 01 // 14 OCTOBER 2026",
+    time: "10:00 AM onwards",
+    timing: "10:00 AM onwards",
     title: "PROJECT PRESENTATION",
     fullTitle: "MISSION 02 // PROJECT PRESENTATION",
     categoryBadge: "PROJECT DEMO",
@@ -105,9 +110,9 @@ export const MISSIONS_DATA = {
 
     tagline: "DEMONSTRATE YOUR PROTOTYPE",
     heistBrief:
-      "Present your hardware or software project and explain how it works. A working prototype is mandatory and must be demonstrated within the 5-minute presentation.",
+      "Present your hardware or software project and explain how it works. A working prototype is mandatory. 10:00 AM onwards on Day 01.",
     briefing:
-      "Present your hardware or software project and explain how it works.",
+      "Present your hardware or software project and explain how it works. 10:00 AM onwards on Day 01.",
 
     about:
       "Present your hardware or software project and explain how it works. A working prototype is mandatory. The prototype must be demonstrated within the 5-minute presentation. There is no separate prototype demonstration time.",
@@ -121,6 +126,7 @@ export const MISSIONS_DATA = {
     prizePool: "₹5,000 PRIZE POOL",
     certificate: "Certificates will be provided to all participants.",
     rules: [
+      "Event timing: 10:00 AM onwards.",
       "Be prepared with your project.",
       "A working prototype is mandatory.",
       "The prototype must be demonstrated during the presentation.",
@@ -136,7 +142,7 @@ export const MISSIONS_DATA = {
   },
 
   // ─────────────────────────────────────────────────────────────────────────
-  // MISSION 03 — POSTER PRESENTATION
+  // MISSION 03 — POSTER CREATION & PRESENTATION
   // ─────────────────────────────────────────────────────────────────────────
   "mission-03": {
     id: "mission-03",
@@ -144,33 +150,48 @@ export const MISSIONS_DATA = {
     day: "DAY 01",
     date: "14 OCTOBER 2026",
     dayTrack: "DAY 01 // 14 OCTOBER 2026",
-    title: "POSTER PRESENTATION",
-    fullTitle: "MISSION 03 // POSTER PRESENTATION",
-    categoryBadge: "POSTER DISPLAY",
+    time: "2:00 PM onwards",
+    timing: "2:00 PM onwards",
+    title: "POSTER CREATION & PRESENTATION",
+    fullTitle: "MISSION 03 // POSTER CREATION & PRESENTATION",
+    categoryBadge: "POSTER CREATION",
     icon: "photo_library",
 
-    tagline: "CREATE AND PRESENT YOUR POSTER",
+    tagline: "CREATE IN 1 HOUR • PRESENT TO JURY",
     heistBrief:
-      "Create and present a poster on any engineering-related topic. 5 minutes presentation followed by 3 minutes of Q&A. AI tools are allowed with proper disclosure.",
+      "Create a poster on a theme of your choice using your own laptop and present it to the jury. 2:00 PM onwards on Day 01.",
     briefing:
-      "Create and present a poster on any engineering-related topic.",
+      "Create a poster on a theme of your choice using your own laptop and present it to the jury. 2:00 PM onwards on Day 01.",
 
     about:
-      "Create and present a poster on any engineering-related topic. Participants will have 5 minutes to present their poster, followed by 3 minutes of Q&A. AI tools are allowed — participants must clearly disclose which parts or elements were generated or assisted using AI.",
-    theme: "Any engineering-related topic",
+      "Create a poster on a theme of your choice using your own laptop and present it to the jury after the creation time. Participants will have 1 hour to design their poster using any tools available on their laptop. After the 1-hour creation period, participants must present their completed poster to the jury.",
+    theme: "Theme of your choice (any engineering-related topic)",
     participation: "2–4 members per team",
-    duration: "5 minutes presentation + 3 minutes Q&A",
-    presentationTime: "5 minutes presentation",
-    qaTime: "3 minutes Q&A",
-    aiRule: "AI tools are allowed. Participants must mention which parts of the poster were created or assisted by AI.",
+    creationTime: "1 Hour",
+    duration: "1 Hour Creation + Presentation to Jury",
+    presentationTime: "1 Hour creation",
+    qaTime: "Presentation to jury",
+    laptopRequirement: "Participants must bring their own laptop.",
+    toolsRequirement: "Participants can use any tools available on their laptop to create the poster.",
+    presentationRequirement: "After the 1-hour creation time, participants must present their poster to the jury.",
+    presentationExplanation: [
+      "The theme they selected",
+      "Why they selected it",
+      "The concept and message of the poster",
+      "Tools used to create the poster",
+      "AI tools used, if any",
+      "Which parts or elements were generated or assisted by AI"
+    ],
+    aiRule: "AI tools are allowed. Participants must clearly disclose which parts or elements of the poster were generated or assisted using AI.",
     prizePool: "₹5,000 PRIZE POOL",
     certificate: "Certificates will be provided to all participants.",
     rules: [
-      "Be prepared with your poster.",
-      "Choose an engineering-related topic.",
-      "Complete your presentation within 5 minutes.",
-      "3 minutes will be given for Q&A.",
-      "AI tools are allowed with proper disclosure.",
+      "Event timing: 2:00 PM onwards.",
+      "Participants must bring their own laptop.",
+      "The poster must be created during the event (1 hour creation time).",
+      "Participants can use any tools available on their laptop.",
+      "After 1 hour, the completed poster must be presented to the jury.",
+      "Participants must explain: theme selected, why selected, concept/message, tools used, and any AI tools used / assisted elements.",
       "The jury's decision will be final.",
       "Certificates will be provided to all participants."
     ],
@@ -181,7 +202,7 @@ export const MISSIONS_DATA = {
   },
 
   // ─────────────────────────────────────────────────────────────────────────
-  // MISSION 04 — EXECUTIVE DEVELOPMENT PROGRAMME
+  // MISSION 04 — EXECUTIVE DEVELOPMENT PROGRAMME / WORKSHOP
   // ─────────────────────────────────────────────────────────────────────────
   "mission-04": {
     id: "mission-04",
@@ -189,28 +210,30 @@ export const MISSIONS_DATA = {
     day: "DAY 02",
     date: "15 OCTOBER 2026",
     dayTrack: "DAY 02 // 15 OCTOBER 2026",
-    title: "EXECUTIVE DEVELOPMENT PROGRAMME",
-    fullTitle: "MISSION 04 // EXECUTIVE DEVELOPMENT PROGRAMME",
+    time: "2:00 PM – 3:00 PM",
+    timing: "2:00 PM – 3:00 PM",
+    title: "EXECUTIVE DEVELOPMENT PROGRAMME / WORKSHOP",
+    fullTitle: "MISSION 04 // EXECUTIVE DEVELOPMENT PROGRAMME / WORKSHOP",
     categoryBadge: "WORKSHOP",
     icon: "military_tech",
 
     tagline: "PROFESSIONAL & TECHNICAL SKILLS",
     heistBrief:
-      "An interactive session designed to develop professional and technical skills.",
+      "An interactive session designed to develop professional and technical skills. 2:00 PM – 3:00 PM on Day 02.",
     briefing:
-      "An interactive session designed to develop professional and technical skills.",
+      "An interactive session designed to develop professional and technical skills. 2:00 PM – 3:00 PM on Day 02.",
 
     about:
-      "An interactive session designed to develop professional and technical skills.",
+      "An interactive session designed to develop professional and technical skills. 2:00 PM – 3:00 PM on Day 02.",
     topic: "Will be announced soon",
     resourcePerson: "Will be announced soon",
     participation: "Individual participation",
-    duration: "Will be announced soon",
+    duration: "1 Hour (2:00 PM – 3:00 PM)",
     certificate: "Certificates will be provided to all participants.",
     rules: [
       "Individual participation.",
+      "Session timing: 2:00 PM – 3:00 PM.",
       "Topic and resource person will be announced soon.",
-      "Session duration will be announced soon.",
       "Please arrive on time for the session.",
       "Certificates will be provided to all participants."
     ],
@@ -229,6 +252,8 @@ export const MISSIONS_DATA = {
     day: "DAY 02",
     date: "15 OCTOBER 2026",
     dayTrack: "DAY 02 // 15 OCTOBER 2026",
+    time: "9:30 AM – 10:30 AM",
+    timing: "9:30 AM – 10:30 AM",
     title: "CONCLAVE",
     fullTitle: "MISSION 05 // CONCLAVE",
     categoryBadge: "DISCUSSION",
@@ -236,22 +261,22 @@ export const MISSIONS_DATA = {
 
     tagline: "EMERGING TRENDS IN TECHNOLOGY",
     heistBrief:
-      "A discussion session on emerging trends in technology and engineering.",
+      "A discussion session on emerging trends in technology and engineering. 9:30 AM – 10:30 AM on Day 02.",
     briefing:
-      "A discussion session on emerging trends in technology and engineering.",
+      "A discussion session on emerging trends in technology and engineering. 9:30 AM – 10:30 AM on Day 02.",
 
     about:
-      "A discussion session on emerging trends in technology and engineering.",
+      "A discussion session on emerging trends in technology and engineering. 9:30 AM – 10:30 AM on Day 02.",
     participation: "Individual participation",
     theme: "Emerging Trends in Technology",
-    duration: "Will be announced",
+    duration: "1 Hour (9:30 AM – 10:30 AM)",
     additionalDetails: "More details will be announced soon.",
     certificate: "Certificates will be provided to all participants.",
     rules: [
       "Individual participation.",
+      "Session timing: 9:30 AM – 10:30 AM.",
       "Theme is Emerging Trends in Technology.",
       "Active participation and discussion are encouraged.",
-      "Full programme schedule will be announced soon.",
       "Certificates will be provided to all participants."
     ],
     coordinators: [
@@ -269,6 +294,8 @@ export const MISSIONS_DATA = {
     day: "DAY 02",
     date: "15 OCTOBER 2026",
     dayTrack: "DAY 02 // 15 OCTOBER 2026",
+    time: "10:30 AM – 12:30 PM",
+    timing: "10:30 AM – 12:30 PM",
     title: "CODING CONTEST",
     fullTitle: "MISSION 06 // CODING CONTEST",
     subtitle: "Powered by GeeksforGeeks",
@@ -278,15 +305,17 @@ export const MISSIONS_DATA = {
 
     tagline: "ALGORITHMS & PROBLEM SOLVING",
     heistBrief:
-      "A time-based coding contest focused on algorithms and problem solving. Powered by GeeksforGeeks.",
+      "A time-based coding contest focused on algorithms and problem solving. Powered by GeeksforGeeks. 10:30 AM – 12:30 PM on Day 02.",
     briefing:
-      "A time-based coding contest focused on algorithms and problem solving.",
+      "A time-based coding contest focused on algorithms and problem solving. 10:30 AM – 12:30 PM on Day 02.",
 
     about:
-      "A time-based coding contest focused on algorithms and problem solving. Powered by GeeksforGeeks.",
+      "A time-based coding contest focused on algorithms and problem solving. Powered by GeeksforGeeks. Participants must bring their own laptop for the contest.",
+    laptopRequirement: "Participants must bring their own laptop.",
     participation: "Individual participation",
     format: "Time-based coding contest",
     theme: "Algorithms & Competitive Programming",
+    duration: "2 Hours (10:30 AM – 12:30 PM)",
     additionalDetails: "Powered by GeeksforGeeks • Prizes: GeeksforGeeks Coupons",
     rewardTitle: "GEEKSFORGEEKS COUPONS",
     prize: "GeeksforGeeks Coupons",
@@ -294,9 +323,11 @@ export const MISSIONS_DATA = {
     rules: [
       "This contest is powered by GeeksforGeeks.",
       "Individual participation only.",
-      "The contest is a time-based competitive programming challenge.",
+      "Participants must bring their own laptop.",
+      "Contest timing: 10:30 AM – 12:30 PM.",
+      "Time-based competitive coding contest focused on Algorithms & Competitive Programming.",
       "Rankings are based on the number of problems solved and total time taken.",
-      "Top performers will receive GeeksforGeeks coupons.",
+      "Prizes: GeeksforGeeks Coupons.",
       "Certificates will be provided to all participants."
     ],
     coordinators: [
@@ -313,13 +344,14 @@ export const TIMELINE_POINTS = [
     title: "PAPER PRESENTATION",
     shortTitle: "PAPER PRESENTATION",
     day: "DAY 01",
-    timing: "5 + 3 MINS",
+    date: "14 OCTOBER 2026",
+    timing: "10:00 AM onwards",
     timelineTag: "DAY 01 // 14 OCTOBER 2026",
-    timelineBlurb: "Present your research paper on any engineering topic. 5 mins presentation + 3 mins Q&A.",
+    timelineBlurb: "Present your research paper.",
     schedule: [
+      { time: "10:00 AM", label: "Session Starts" },
       { time: "5 MINS", label: "Presentation" },
-      { time: "3 MINS", label: "Q&A Session" },
-      { time: "FINAL", label: "Jury Decision" }
+      { time: "3 MINS", label: "Q&A Session" }
     ]
   },
   {
@@ -328,43 +360,30 @@ export const TIMELINE_POINTS = [
     title: "PROJECT PRESENTATION",
     shortTitle: "PROJECT PRESENTATION",
     day: "DAY 01",
-    timing: "5 + 3 MINS",
+    date: "14 OCTOBER 2026",
+    timing: "10:00 AM onwards",
     timelineTag: "DAY 01 // 14 OCTOBER 2026",
-    timelineBlurb: "Demonstrate your working project. 5 mins presentation + 3 mins Q&A.",
+    timelineBlurb: "Present and demonstrate your project.",
     schedule: [
+      { time: "10:00 AM", label: "Session Starts" },
       { time: "5 MINS", label: "Presentation & Prototype Demo" },
-      { time: "3 MINS", label: "Q&A Session" },
-      { time: "FINAL", label: "Jury Decision" }
+      { time: "3 MINS", label: "Q&A Session" }
     ]
   },
   {
     num: "03",
     id: "mission-03",
-    title: "POSTER PRESENTATION",
-    shortTitle: "POSTER PRESENTATION",
+    title: "POSTER CREATION & PRESENTATION",
+    shortTitle: "POSTER CREATION & PRESENTATION",
     day: "DAY 01",
-    timing: "5 + 3 MINS",
+    date: "14 OCTOBER 2026",
+    timing: "2:00 PM onwards",
     timelineTag: "DAY 01 // 14 OCTOBER 2026",
-    timelineBlurb: "Present your engineering poster. AI tools allowed with proper disclosure.",
+    timelineBlurb: "Create a poster in 1 hour, then present it.",
     schedule: [
-      { time: "5 MINS", label: "Poster Presentation" },
-      { time: "3 MINS", label: "Q&A Session" },
-      { time: "AI TOOLS", label: "Allowed with disclosure" }
-    ]
-  },
-  {
-    num: "04",
-    id: "mission-04",
-    title: "EXECUTIVE DEVELOPMENT PROGRAMME",
-    shortTitle: "EDP WORKSHOP",
-    day: "DAY 02",
-    timing: "DAY 02",
-    timelineTag: "DAY 02 // 15 OCTOBER 2026",
-    timelineBlurb: "Interactive session to develop professional and technical skills.",
-    schedule: [
-      { time: "TOPIC", label: "Will be announced soon" },
-      { time: "SPEAKER", label: "Industry expert — TBA" },
-      { time: "AWARD", label: "Certificates for all participants" }
+      { time: "2:00 PM", label: "Poster Creation Starts (Bring Laptop)" },
+      { time: "1 HOUR", label: "On-Spot Design Period" },
+      { time: "POST 1 HR", label: "Presentation to Jury" }
     ]
   },
   {
@@ -373,13 +392,14 @@ export const TIMELINE_POINTS = [
     title: "CONCLAVE",
     shortTitle: "CONCLAVE",
     day: "DAY 02",
-    timing: "DAY 02",
+    date: "15 OCTOBER 2026",
+    timing: "9:30 AM – 10:30 AM",
     timelineTag: "DAY 02 // 15 OCTOBER 2026",
-    timelineBlurb: "Discussion session on emerging trends in technology and engineering.",
+    timelineBlurb: "Discuss emerging trends in technology.",
     schedule: [
-      { time: "THEME", label: "Emerging Trends in Technology" },
-      { time: "DURATION", label: "Will be announced" },
-      { time: "DETAILS", label: "More details announced soon" }
+      { time: "9:30 AM", label: "Conclave Commences" },
+      { time: "THEME", label: "Emerging Trends in Tech" },
+      { time: "10:30 AM", label: "Session Wrap" }
     ]
   },
   {
@@ -389,13 +409,30 @@ export const TIMELINE_POINTS = [
     shortTitle: "CODING CONTEST",
     subtitle: "Powered by GeeksforGeeks",
     day: "DAY 02",
-    timing: "TIME BASED",
+    date: "15 OCTOBER 2026",
+    timing: "10:30 AM – 12:30 PM",
     timelineTag: "DAY 02 // 15 OCTOBER 2026",
-    timelineBlurb: "Time-based coding contest focused on algorithms and problem solving.",
+    timelineBlurb: "Compete in a time-based coding challenge.",
     schedule: [
-      { time: "POWERED", label: "By GeeksforGeeks" },
-      { time: "FORMAT", label: "Individual • Time-Based Contest" },
-      { time: "PRIZES", label: "GeeksforGeeks Coupons" }
+      { time: "10:30 AM", label: "Contest Begins (Bring Laptop)" },
+      { time: "2 HOURS", label: "Competitive Programming" },
+      { time: "12:30 PM", label: "Contest Concludes & Leaderboard" }
+    ]
+  },
+  {
+    num: "04",
+    id: "mission-04",
+    title: "EXECUTIVE DEVELOPMENT PROGRAMME / WORKSHOP",
+    shortTitle: "EDP / WORKSHOP",
+    day: "DAY 02",
+    date: "15 OCTOBER 2026",
+    timing: "2:00 PM – 3:00 PM",
+    timelineTag: "DAY 02 // 15 OCTOBER 2026",
+    timelineBlurb: "Learn practical skills from an expert.",
+    schedule: [
+      { time: "2:00 PM", label: "Session Starts" },
+      { time: "1 HOUR", label: "Interactive Skill Programme" },
+      { time: "3:00 PM", label: "Session Wrap & Certificates" }
     ]
   }
 ];

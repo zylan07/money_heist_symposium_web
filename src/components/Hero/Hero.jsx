@@ -459,7 +459,7 @@ export default function Hero() {
     <section
       ref={stageRef}
       id="poster-stage"
-      className="relative w-full min-h-screen h-[100vh] flex flex-col justify-between overflow-hidden bg-transparent cursor-crosshair"
+      className="relative w-full min-h-screen h-[100vh] flex flex-col justify-center items-center overflow-hidden bg-transparent cursor-crosshair pt-20 sm:pt-24 md:pt-28 pb-4 sm:pb-6"
     >
       {/* Visual Lens Stage with 1:1 Perfectly Aligned Layers */}
       <div
@@ -513,23 +513,23 @@ export default function Hero() {
         />
       </div>
 
-      {/* Hero Typography — Exactly preserved layout, positioning, and text elements */}
+      {/* Hero Typography — Vertically centered composition with breathing space below navbar */}
       {/* pointer-events-none on wrapper ensures disclosure tracks continuously behind text */}
-      <div className="relative z-10 w-full mt-auto pb-4 sm:pb-6 md:pb-8 flex flex-col items-center text-center px-4 select-none pointer-events-none">
+      <div className="relative z-10 w-full my-auto flex flex-col items-center text-center px-4 select-none pointer-events-none">
         <div className="flex flex-col items-center w-full max-w-[1500px] mx-auto">
           {/* Main Symposium Title Mask Region */}
           <div
             ref={titleWrapRef}
-            className="overflow-hidden py-1 sm:py-2 -my-1 sm:-my-2 px-3 sm:px-6 -mx-3 sm:-mx-6 will-change-[clip-path,opacity]"
+            className="w-full flex justify-center overflow-visible sm:overflow-hidden py-1 sm:py-2 -my-1 sm:-my-2 px-2 sm:px-6 will-change-[clip-path,opacity] max-w-full"
           >
             <h1
               ref={titleRef}
-              className="font-display-lg flex flex-wrap md:flex-nowrap items-baseline justify-center md:whitespace-nowrap gap-x-3 sm:gap-x-4 md:gap-x-5 lg:gap-x-7 leading-[0.85] uppercase drop-shadow-[0_12px_45px_rgba(0,0,0,0.98)] tracking-[0.03em] will-change-transform"
+              className="font-display-lg flex flex-nowrap items-baseline justify-center whitespace-nowrap gap-x-2.5 sm:gap-x-4 md:gap-x-5 lg:gap-x-7 leading-[0.85] uppercase drop-shadow-[0_12px_45px_rgba(0,0,0,0.98)] tracking-[0.03em] will-change-transform max-w-full"
             >
               {/* Skiper27-Style Rolling Title: Group 1 (TECHBYTE) */}
               <RollingText
                 text="TECHBYTE"
-                className="text-[34px] min-[360px]:text-[40px] min-[400px]:text-[46px] sm:text-[68px] md:text-[84px] lg:text-[112px] xl:text-[134px] 2xl:text-[150px] tracking-[0.03em] text-[#f2edf0] font-bold scale-y-[1.06]"
+                className="shrink-0 whitespace-nowrap text-[34px] min-[360px]:text-[40px] min-[400px]:text-[46px] sm:text-[68px] md:text-[84px] lg:text-[112px] xl:text-[134px] 2xl:text-[150px] tracking-[0.03em] text-[#f2edf0] font-bold scale-y-[1.06]"
                 active={title1Active}
                 isComplete={entranceComplete}
                 reducedMotion={prefersReducedMotion}
@@ -541,7 +541,7 @@ export default function Hero() {
               {/* Skiper27-Style Rolling Title: Group 2 (SUMMIT '26) */}
               <RollingText
                 text="SUMMIT '26"
-                className="text-[34px] min-[360px]:text-[40px] min-[400px]:text-[46px] sm:text-[68px] md:text-[84px] lg:text-[112px] xl:text-[134px] 2xl:text-[150px] tracking-[0.03em] text-[#ff1e27] font-bold scale-y-[1.06] drop-shadow-[0_0_35px_rgba(255,30,39,0.55)]"
+                className="shrink-0 whitespace-nowrap text-[34px] min-[360px]:text-[40px] min-[400px]:text-[46px] sm:text-[68px] md:text-[84px] lg:text-[112px] xl:text-[134px] 2xl:text-[150px] tracking-[0.03em] text-[#ff1e27] font-bold scale-y-[1.06] drop-shadow-[0_0_35px_rgba(255,30,39,0.55)]"
                 active={title2Active}
                 isComplete={entranceComplete}
                 reducedMotion={prefersReducedMotion}
@@ -597,6 +597,14 @@ export default function Hero() {
                 </span>
                 <span className="font-code-md text-[10px] sm:text-[11px] text-[#ffdad6] tracking-[0.16em] sm:tracking-[0.2em] uppercase font-semibold mt-0.5">
                   Yi Yuva Club, KPRIET
+                </span>
+              </div>
+
+              {/* Eligibility */}
+              <div className="mt-2 sm:mt-2.5 flex items-center justify-center">
+                <span className="font-code-md text-[10px] sm:text-[11px] text-[#ffdad6] tracking-[0.14em] uppercase px-3 py-1 rounded-full bg-[#1e1c22]/80 border border-[#ff1e27]/40 shadow-[0_0_12px_rgba(255,30,39,0.15)] flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff1e27] animate-pulse shrink-0" />
+                  Open to all engineering discipline students
                 </span>
               </div>
 

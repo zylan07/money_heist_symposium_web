@@ -112,20 +112,18 @@ export default function PlanTimeline() {
                     </div>
                   )}
 
-                  {/* Timing & Title — Exactly 84px uniform vertical height for all 6 items */}
-                  <div className="flex flex-col items-center text-center mb-4 space-y-1 h-[84px] justify-end w-full">
-                    <span className="timeline-badge font-code-md text-[10px] tracking-[0.18em] text-[#c8c5ca]/70 bg-[#16161b] px-2 py-0.5 border border-[#282832] rounded transition-colors">
+                  {/* Timing & Title — Exactly 92px uniform vertical height for all 6 items */}
+                  <div className="flex flex-col items-center text-center mb-4 space-y-1.5 h-[92px] justify-end w-full">
+                    <span className="timeline-badge font-code-md text-[9px] xl:text-[10px] tracking-[0.10em] text-[#ffdad6] bg-[#16161b] px-2 py-0.5 border border-[#ff1e27]/50 rounded transition-colors whitespace-nowrap shadow-sm">
                       {point.timing}
                     </span>
                     <h3 className="timeline-title font-headline-sm text-xs xl:text-sm text-[#b5b2bb] group-hover:text-white uppercase tracking-[0.03em] transition-colors px-1 text-center w-full">
                       {point.num === '04' ? (
                         <span className="flex flex-col items-center leading-[1.12]">
-                          <span>04 EXECUTIVE</span>
-                          <span>DEVELOPMENT</span>
-                          <span>PROGRAMME</span>
+                          <span>04 EDP / WORKSHOP</span>
                         </span>
                       ) : (
-                        <span className="block leading-[1.15]">{point.num} {point.title}</span>
+                        <span className="block leading-[1.15]">{point.num} {point.shortTitle || point.title}</span>
                       )}
                     </h3>
                   </div>
@@ -140,12 +138,12 @@ export default function PlanTimeline() {
                   </div>
 
                   {/* Day / Category Tag Below Dot */}
-                  <div className="flex flex-col items-center text-center mt-2.5 space-y-0.5 max-w-[170px]">
+                  <div className="flex flex-col items-center text-center mt-2.5 space-y-0.5 max-w-[210px] w-full px-1">
                     <span className="font-code-md text-[10px] text-[#ff544b] tracking-wider uppercase font-semibold">
                       {point.timelineTag || point.day}
                     </span>
                     {point.timelineBlurb && (
-                      <p className="font-body-sm text-[11px] text-[#a09ca8] leading-tight line-clamp-2">
+                      <p className="font-body-sm text-[11px] text-[#a09ca8] leading-tight">
                         {point.timelineBlurb}
                       </p>
                     )}
@@ -157,9 +155,13 @@ export default function PlanTimeline() {
                       <span className="font-headline-sm text-xs text-white tracking-[0.08em] uppercase">
                         {point.num} // {point.title}
                       </span>
-                      <span className="font-code-md text-[9px] tracking-wider text-[#ff544b] uppercase">
+                      <span className="font-code-md text-[9px] tracking-wider text-[#ff544b] uppercase font-bold">
                         {point.day}
                       </span>
+                    </div>
+                    <div className="mb-2 pb-1.5 border-b border-[#24242c] flex items-center justify-between text-[10px] font-code-md">
+                      <span className="text-neutral-400 uppercase tracking-wider">SCHEDULE:</span>
+                      <span className="text-[#ffdad6] font-semibold">{point.timing}</span>
                     </div>
                     <div className="space-y-1.5 font-code-md text-[11px] text-[#d8d5df]">
                       {point.schedule.map((item, sIdx) => (
@@ -198,15 +200,15 @@ export default function PlanTimeline() {
                     {/* Glowing Node on the left line */}
                     <div className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-[#18181e] border-2 border-[#ff1e27] group-hover:bg-[#ff1e27] transition-colors" />
 
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <span className="font-code-md text-[10px] text-[#ff544b] tracking-wider bg-[#1c1b22] px-2 py-0.5 rounded border border-[#2c2b36]">
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <span className="font-code-md text-[10px] text-[#ffdad6] tracking-wider bg-[#1c1b22] px-2.5 py-0.5 rounded border border-[#ff1e27]/40 font-semibold">
                         {point.timing}
                       </span>
-                      <span className="font-code-md text-[10px] text-neutral-400">
+                      <span className="font-code-md text-[10px] text-[#ff544b] font-bold">
                         MISSION {point.num}
                       </span>
                       {point.timelineTag && (
-                        <span className="font-code-md text-[9px] text-[#ffdad6] tracking-wider bg-[#ff1e27]/20 px-1.5 py-0.5 rounded border border-[#ff1e27]/30">
+                        <span className="font-code-md text-[9px] text-[#c8c5ca] tracking-wider bg-[#141419] px-1.5 py-0.5 rounded border border-[#2c2b36]">
                           {point.timelineTag}
                         </span>
                       )}
@@ -270,15 +272,15 @@ export default function PlanTimeline() {
                     {/* Glowing Node on the left line */}
                     <div className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-[#18181e] border-2 border-[#ff1e27] group-hover:bg-[#ff1e27] transition-colors" />
 
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <span className="font-code-md text-[10px] text-[#ff544b] tracking-wider bg-[#1c1b22] px-2 py-0.5 rounded border border-[#2c2b36]">
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <span className="font-code-md text-[10px] text-[#ffdad6] tracking-wider bg-[#1c1b22] px-2.5 py-0.5 rounded border border-[#ff1e27]/40 font-semibold">
                         {point.timing}
                       </span>
-                      <span className="font-code-md text-[10px] text-neutral-400">
+                      <span className="font-code-md text-[10px] text-[#ff544b] font-bold">
                         MISSION {point.num}
                       </span>
                       {point.timelineTag && (
-                        <span className="font-code-md text-[9px] text-[#ffdad6] tracking-wider bg-[#ff1e27]/20 px-1.5 py-0.5 rounded border border-[#ff1e27]/30">
+                        <span className="font-code-md text-[9px] text-[#c8c5ca] tracking-wider bg-[#141419] px-1.5 py-0.5 rounded border border-[#2c2b36]">
                           {point.timelineTag}
                         </span>
                       )}

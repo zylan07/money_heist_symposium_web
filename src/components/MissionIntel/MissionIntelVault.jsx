@@ -773,9 +773,15 @@ export default function MissionIntelVault({ missionId, onClose }) {
             <div className="flex items-center gap-4">
               <div className="w-3 h-3 rounded-full bg-[#ff1e27] animate-pulse" />
               <div>
-                <span className="font-code-md text-xs tracking-[0.22em] text-[#ff544b] uppercase font-bold">
-                  {mission.dayTrack}
-                </span>
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <span className="font-code-md text-xs tracking-[0.22em] text-[#ff544b] uppercase font-bold">
+                    {mission.dayTrack}
+                  </span>
+                  <span className="text-[#605d68]">•</span>
+                  <span className="font-code-md text-xs tracking-[0.16em] text-[#ffdad6] bg-[#ff1e27]/20 border border-[#ff1e27]/40 px-2 py-0.5 rounded font-semibold">
+                    TIME: {mission.time}
+                  </span>
+                </div>
                 <h2 className="font-headline-sm text-2xl sm:text-3xl lg:text-4xl text-white uppercase tracking-[0.08em] leading-tight">
                   {mission.fullTitle}
                 </h2>
@@ -953,6 +959,13 @@ export default function MissionIntelVault({ missionId, onClose }) {
                     <span>{mission.projectType}</span>
                   </div>
                 )}
+                {mission.laptopRequirement && (
+                  <div className="mt-3 pt-2 border-t border-[#252530] text-xs font-code-md text-[#ffdad6] flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[15px] text-[#ff544b]">laptop_mac</span>
+                    <span className="text-[#ff544b] uppercase font-bold">LAPTOP: </span>
+                    <span>{mission.laptopRequirement}</span>
+                  </div>
+                )}
               </div>
 
               {/* Theme & Scope */}
@@ -967,6 +980,13 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 <p className="font-body-md text-sm text-[#b9d5f7] leading-relaxed font-light">
                   {mission.theme || mission.topic || 'Engineering Related Open Theme'}
                 </p>
+                {mission.creationTime && (
+                  <div className="mt-3 pt-2 border-t border-[#1b3457] text-xs font-code-md text-[#90caf9] flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[15px] text-[#64b5f6]">timer</span>
+                    <span className="uppercase font-bold">CREATION TIME: </span>
+                    <span>{mission.creationTime}</span>
+                  </div>
+                )}
                 {mission.additionalDetails && (
                   <div className="mt-3 pt-2 border-t border-[#1b3457] text-xs font-code-md text-[#90caf9]">
                     <span>{mission.additionalDetails}</span>
@@ -974,6 +994,31 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 )}
               </div>
             </div>
+
+            {/* Presentation Requirements: What Participants Must Explain */}
+            {mission.presentationExplanation && (
+              <div className="relative bg-[#16171c] border-2 border-[#ff1e27]/40 p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)]">
+                <div className="flex items-center gap-2 text-[#ff544b] border-b border-[#282936] pb-2 mb-3">
+                  <span className="material-symbols-outlined text-[18px]">record_voice_over</span>
+                  <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold">
+                    PRESENTATION TO JURY — WHAT PARTICIPANTS MUST EXPLAIN
+                  </span>
+                </div>
+                <p className="font-body-sm text-xs text-[#a09ca8] mb-3">
+                  After the 1-hour creation period, participants must present their completed poster to the jury and explain:
+                </p>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-body-sm text-xs sm:text-sm text-[#e5e1e4]">
+                  {mission.presentationExplanation.map((item, idx) => (
+                    <li key={idx} className="p-2.5 bg-[#201f28] border border-[#3c3a4a] rounded flex items-start gap-2">
+                      <span className="font-code-md text-[11px] text-[#ff544b] font-bold shrink-0 mt-0.5">
+                        0{idx + 1}.
+                      </span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Pinned Specifications: Participation, Duration, Presentation / QA */}
             <div className="relative bg-[#17161b] border border-[#353340] p-5 rounded shadow-[0_10px_28px_rgba(0,0,0,0.65)]">
@@ -984,20 +1029,28 @@ export default function MissionIntelVault({ missionId, onClose }) {
                   EVENT DETAILS
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                <div className="p-3.5 bg-[#201f28] border-2 border-[#ff1e27]/60 rounded shadow-[0_0_15px_rgba(255,30,39,0.15)]">
+                  <span className="block font-label-sm text-[10px] text-[#ff544b] uppercase tracking-widest font-bold">
+                    TIME
+                  </span>
+                  <span className="font-headline-sm text-base sm:text-lg text-white mt-1 block tracking-wider">
+                    {mission.time}
+                  </span>
+                </div>
                 <div className="p-3.5 bg-[#201f28] border border-[#3c3a4a] rounded">
                   <span className="block font-label-sm text-[10px] text-[#a09ca8] uppercase tracking-widest">
                     PARTICIPATION
                   </span>
-                  <span className="font-headline-sm text-lg sm:text-xl text-white mt-1 block">
+                  <span className="font-headline-sm text-base sm:text-lg text-white mt-1 block">
                     {mission.participation}
                   </span>
                 </div>
                 <div className="p-3.5 bg-[#201f28] border border-[#3c3a4a] rounded">
                   <span className="block font-label-sm text-[10px] text-[#a09ca8] uppercase tracking-widest">
-                    DURATION / TIMING
+                    DURATION
                   </span>
-                  <span className="font-headline-sm text-lg sm:text-xl text-white mt-1 block">
+                  <span className="font-headline-sm text-base sm:text-lg text-white mt-1 block">
                     {mission.duration || mission.format || 'Time Based'}
                   </span>
                 </div>
@@ -1005,7 +1058,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
                   <span className="block font-label-sm text-[10px] text-[#a09ca8] uppercase tracking-widest">
                     {mission.presentationTime ? 'PRESENTATION & Q&A' : 'CERTIFICATES'}
                   </span>
-                  <span className="font-headline-sm text-sm sm:text-base text-white mt-1 block">
+                  <span className="font-headline-sm text-xs sm:text-sm text-white mt-1 block leading-snug">
                     {mission.presentationTime ? `${mission.presentationTime} | ${mission.qaTime}` : (mission.certificate || 'Certificates will be provided to all participants.')}
                   </span>
                 </div>

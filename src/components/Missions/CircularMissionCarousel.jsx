@@ -461,14 +461,35 @@ export default function CircularMissionCarousel({
                     <h4 className="font-headline-sm text-2xl sm:text-[26px] text-white uppercase tracking-[0.06em] leading-tight">
                       {m.title}
                     </h4>
+
+                    {/* Schedule Block: DAY, DATE, TIME */}
+                    <div className="mt-2 flex flex-wrap items-center gap-1.5 font-code-md text-[10px] sm:text-[11px]">
+                      <span className="text-[#ff544b] font-bold tracking-wider">{m.day}</span>
+                      <span className="text-neutral-500">•</span>
+                      <span className="text-[#c8c5ca] tracking-wider">{m.date}</span>
+                      <span className="text-neutral-500">•</span>
+                      <span className="text-[#ffdad6] font-semibold tracking-wide bg-[#1c1b22] px-2 py-0.5 rounded border border-[#ff1e27]/30 inline-flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[12px] text-[#ff544b]">schedule</span>
+                        {m.time}
+                      </span>
+                    </div>
+
                     {m.tagline && (
                       <p className="font-code-md text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[#ff544b] font-medium mt-1 leading-snug break-words">
                         {m.tagline}
                       </p>
                     )}
-                    <p className="font-body-sm text-xs sm:text-sm text-[#b0aeb5] mt-3 sm:mt-3.5 leading-relaxed line-clamp-3 sm:line-clamp-none">
+                    <p className="font-body-sm text-xs sm:text-sm text-[#b0aeb5] mt-2.5 sm:mt-3 leading-relaxed line-clamp-2 sm:line-clamp-3">
                       {m.briefing}
                     </p>
+
+                    {/* Mandatory Laptop Requirement Tag if present */}
+                    {m.laptopRequirement && (
+                      <div className="mt-2 flex items-center gap-1.5 font-code-md text-[10px] text-[#ffdad6]/90">
+                        <span className="material-symbols-outlined text-[13px] text-[#ff544b]">laptop_mac</span>
+                        <span className="tracking-wide">Bring your own laptop</span>
+                      </div>
+                    )}
 
                     {/* Day 1 Generalized Prize Pool Badge */}
                     {m.prizePool && (
