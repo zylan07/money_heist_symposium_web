@@ -9,8 +9,10 @@ import gfgLogo from '../../assets/geeksforgeeks.png';
  * Placeholders for social and contact channels.
  * To be replaced with confirmed live URLs when provided.
  */
-export const INSTAGRAM_URL_PLACEHOLDER = '#instagram-placeholder'; // [Instagram link will be provided later]
-export const EMAIL_PLACEHOLDER = 'mailto:placeholder@kpriet.ac.in'; // [Email will be provided later]
+export const INSTAGRAM_URL = 'https://www.instagram.com/techbytesummit26?utm_source=qr&stkn=MTlzMm1tYWV2aHBoaw==';
+export const EMAIL_ADDRESS = 'mailto:techbytesummit26@kpriet.ac.in';
+export const INSTAGRAM_URL_PLACEHOLDER = INSTAGRAM_URL;
+export const EMAIL_PLACEHOLDER = EMAIL_ADDRESS;
 
 export default function Footer() {
   const [sectionRef, inView] = useInViewAnimation({ threshold: 0.15 });
@@ -219,10 +221,10 @@ export default function Footer() {
                 <div className="flex items-center gap-3">
                   {/* Instagram Icon Button (Explicitly White Icon and Border) */}
                   <a
-                    href={INSTAGRAM_URL_PLACEHOLDER}
+                    href="https://www.instagram.com/techbytesummit26?utm_source=qr&stkn=MTlzMm1tYWV2aHBoaw=="
                     target="_blank"
                     rel="noopener noreferrer"
-                    title="Instagram link will be provided later"
+                    title="Instagram: @techbytesummit26"
                     aria-label="Instagram"
                     className="w-10 h-10 rounded bg-[#16161c] border-2 border-white flex items-center justify-center text-white transition-all cursor-pointer group shadow-[0_0_15px_rgba(255,255,255,0.25)] hover:bg-white hover:text-black"
                   >
@@ -237,8 +239,8 @@ export default function Footer() {
 
                   {/* Mail Icon Button (Explicitly White Icon and Border) */}
                   <a
-                    href={EMAIL_PLACEHOLDER}
-                    title="Email will be provided later"
+                    href="mailto:techbytesummit26@kpriet.ac.in"
+                    title="Email: techbytesummit26@kpriet.ac.in"
                     aria-label="Email"
                     className="w-10 h-10 rounded bg-[#16161c] border-2 border-white flex items-center justify-center text-white transition-all cursor-pointer group shadow-[0_0_15px_rgba(255,255,255,0.25)] hover:bg-white hover:text-black"
                   >

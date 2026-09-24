@@ -831,7 +831,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
               </p>
             </div>
 
-            {/* DAY 1 EVENTS REWARD BLOCK: Generalized ₹5,000 PRIZE POOL */}
+            {/* DAY 1 EVENTS REWARD BLOCK: Generalized PRIZE POOL */}
             {mission.prizePool && (
               <div className="relative bg-[#1d1214] border-2 border-[#ff1e27] p-5 sm:p-6 rounded shadow-[0_8px_30px_rgba(255,30,39,0.3)] transform rotate-[0.2deg]">
                 <div className="red-pushpin -top-2.5 left-8" />
@@ -856,12 +856,12 @@ export default function MissionIntelVault({ missionId, onClose }) {
                   </div>
                 </div>
 
-                {/* Generalized ₹5,000 Prize Pool Display */}
+                {/* Generalized Prize Pool Display */}
                 <div className="p-4 sm:p-5 bg-[#12080a] border border-[#ff1e27]/50 rounded text-center flex flex-col items-center justify-center shadow-inner">
                   <span className="font-code-md text-xs sm:text-sm text-[#ff9995] uppercase tracking-widest font-bold mb-1">
                     PRIZE POOL
                   </span>
-                  <span className="font-headline-lg text-3xl sm:text-4xl lg:text-5xl text-[#ff544b] font-bold tracking-tight">
+                  <span className="font-headline-lg text-2xl sm:text-3xl lg:text-4xl text-[#ff544b] font-bold tracking-tight uppercase">
                     {mission.prizePool}
                   </span>
                 </div>

@@ -18,7 +18,7 @@ export const SYMPOSIUM_INFO = {
   collaborator: "Yi Yuva Club, KPRIET",
   conductedBy: "Department of CSE in collaboration with Yi Yuva Club, KPRIET",
   passPrice: "₹399",
-  overallPrizePool: "₹15K PRIZE POOL",
+  overallPrizePool: "EXCITING CASH PRIZES & GIFTS",
   ticketingPartner: "Ticket9",
   passPerks: [
     "ALL 6 MISSIONS",
@@ -81,7 +81,7 @@ export const MISSIONS_DATA = {
     duration: "5 minutes presentation + 3 minutes Q&A",
     presentationTime: "5 minutes presentation",
     qaTime: "3 minutes Q&A",
-    prizePool: "₹5,000 PRIZE POOL",
+    prizePool: "EXCITING CASH PRIZES & GIFTS",
     certificate: "Certificates will be provided to all participants.",
     rules: [
       "Event timing: 10:00 AM onwards.",
@@ -135,7 +135,7 @@ export const MISSIONS_DATA = {
     presentationTime: "5 minutes presentation",
     qaTime: "3 minutes Q&A",
     importantNote: "A working prototype is mandatory. The prototype must be demonstrated within the 5-minute presentation. There is no separate prototype demonstration time.",
-    prizePool: "₹5,000 PRIZE POOL",
+    prizePool: "EXCITING CASH PRIZES & GIFTS",
     certificate: "Certificates will be provided to all participants.",
     rules: [
       "Event timing: 10:00 AM onwards.",
@@ -201,7 +201,7 @@ export const MISSIONS_DATA = {
       "Which parts or elements were generated or assisted by AI"
     ],
     aiRule: "AI tools are allowed. Participants must clearly disclose which parts or elements of the poster were generated or assisted using AI.",
-    prizePool: "₹5,000 PRIZE POOL",
+    prizePool: "EXCITING CASH PRIZES & GIFTS",
     certificate: "Certificates will be provided to all participants.",
     rules: [
       "Event timing: 2:00 PM onwards.",

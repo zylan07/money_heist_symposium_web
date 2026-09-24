@@ -625,11 +625,11 @@ export default function Hero() {
                 }
               >
                 <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3.5 px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-3.5 bg-[#110e16]/80 border-2 border-[#ff1e27]/60 rounded-md sm:rounded-full shadow-[0_0_35px_rgba(255,30,39,0.3),inset_0_0_20px_rgba(255,30,39,0.12)] backdrop-blur-md">
-                  <span className="material-symbols-outlined text-2xl sm:text-3xl md:text-4xl text-[#ff544b] drop-shadow-[0_0_12px_rgba(255,30,39,0.7)]">
+                  <span className="material-symbols-outlined text-2xl sm:text-3xl md:text-4xl text-[#ff544b] drop-shadow-[0_0_12px_rgba(255,30,39,0.7)] shrink-0">
                     workspace_premium
                   </span>
-                  <span className="font-headline-sm text-2xl sm:text-3xl md:text-4xl text-white font-bold tracking-[0.10em] sm:tracking-[0.12em] uppercase leading-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-                    ₹15K PRIZE POOL
+                  <span className="font-headline-sm text-base min-[380px]:text-lg sm:text-2xl md:text-3xl text-white font-bold tracking-[0.06em] sm:tracking-[0.10em] uppercase leading-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] text-center">
+                    EXCITING CASH PRIZES & GIFTS
                   </span>
                 </div>
               </div>
