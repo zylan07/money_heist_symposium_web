@@ -1,16 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { useScrollProgress } from '../../hooks/useScrollProgress';
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const scrollProgress = useScrollProgress();
+  const progressBarRef = useRef(null);
 
   useEffect(() => {
+    let ticking = false;
+    let lastScrolled = false;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const isScrolled = scrollY > 40;
+          if (isScrolled !== lastScrolled) {
+            lastScrolled = isScrolled;
+            setScrolled(isScrolled);
+          }
+          if (progressBarRef.current) {
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = totalHeight > 0 ? Math.min(1, Math.max(0, scrollY / totalHeight)) : 0;
+            progressBarRef.current.style.transform = `scaleX(${progress})`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -24,8 +44,9 @@ export default function Navbar() {
     >
       {/* Subtle Scroll Progress Indicator */}
       <div 
-        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-[#ff1e27] via-[#ff544b] to-white pointer-events-none opacity-80 z-50 transition-[width] duration-75 ease-out"
-        style={{ width: `${scrollProgress * 100}%` }}
+        ref={progressBarRef}
+        className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#ff1e27] via-[#ff544b] to-white pointer-events-none opacity-80 z-50 origin-left will-change-transform"
+        style={{ transform: 'scaleX(0)' }}
         aria-hidden="true"
       />
       <div className="h-20 w-full px-3 sm:px-6 md:px-8 lg:px-12 flex items-center justify-between">

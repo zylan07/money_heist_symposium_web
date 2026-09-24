@@ -97,7 +97,7 @@ export default function CircularMissionCarousel({
         setDimensions({
           radius: 380,
           cardWidth: 350,
-          cardHeight: 460,
+          cardHeight: 440,
           perspective: 1600,
           isMobile: false,
           isTablet: false,
@@ -141,6 +141,8 @@ export default function CircularMissionCarousel({
   // High-performance continuous animation loop (Zero React re-renders)
   useEffect(() => {
     let animId = null;
+    const cardInners = [null, null, null];
+    const frontStates = [false, false, false];
 
     const updateCardTransforms = () => {
       const current = currentAngleRef.current;
@@ -150,6 +152,10 @@ export default function CircularMissionCarousel({
       missionIds.forEach((id, index) => {
         const el = cardElementsRef.current[index];
         if (!el) return;
+
+        if (!cardInners[index]) {
+          cardInners[index] = el.querySelector('.mission-card');
+        }
 
         const baseAngle = index * 120;
         const totalAngle = baseAngle + current;
@@ -181,9 +187,10 @@ export default function CircularMissionCarousel({
         el.style.zIndex = zIndex;
         el.style.cursor = isFront ? 'default' : 'pointer';
 
-        // Update front border highlighting
-        const cardInner = el.querySelector('.mission-card');
-        if (cardInner) {
+        // Update front border highlighting only when state changes
+        const cardInner = cardInners[index];
+        if (cardInner && frontStates[index] !== isFront) {
+          frontStates[index] = isFront;
           if (isFront) {
             cardInner.classList.add('border-[#ff1e27]', 'shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_30px_rgba(255,30,39,0.24)]');
             cardInner.classList.remove('border-[#2a2a30]');
@@ -204,6 +211,11 @@ export default function CircularMissionCarousel({
     };
 
     const loop = () => {
+      if (!inView || document.hidden) {
+        animId = null;
+        return;
+      }
+
       // Damped inertia when not dragging
       if (!isDraggingRef.current && Math.abs(velocityRef.current) > 0.005) {
         velocityRef.current *= 0.92;
@@ -234,11 +246,25 @@ export default function CircularMissionCarousel({
       animId = requestAnimationFrame(loop);
     };
 
-    animId = requestAnimationFrame(loop);
+    if (inView && !document.hidden) {
+      animId = requestAnimationFrame(loop);
+    }
+
+    const handleVisibility = () => {
+      if (!document.hidden && inView && !animId) {
+        animId = requestAnimationFrame(loop);
+      } else if (document.hidden && animId) {
+        cancelAnimationFrame(animId);
+        animId = null;
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
     return () => {
       if (animId) cancelAnimationFrame(animId);
+      document.removeEventListener('visibilitychange', handleVisibility);
     };
-  }, [autoRotateSpeed, missionIds, prefersReduced]);
+  }, [inView, autoRotateSpeed, missionIds, prefersReduced]);
 
   // Handle subtle scroll wheel rotation
   const handleWheel = useCallback((e) => {
@@ -419,7 +445,7 @@ export default function CircularMissionCarousel({
               }}
               style={{
                 width: `${dimensions.cardWidth}px`,
-                minHeight: `${dimensions.cardHeight}px`,
+                height: `${dimensions.cardHeight}px`,
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
@@ -431,115 +457,145 @@ export default function CircularMissionCarousel({
             >
               {/* Preserved Authentic Mission Card */}
               <div
-                className={`mission-card relative bg-[#121215] border flex flex-col justify-between h-full p-6 sm:p-7 rounded-sm select-none transition-shadow duration-300 ${
+                className={`mission-card relative bg-[#121215] border border-[#2a2a30] flex flex-col justify-between h-full p-4 min-[380px]:p-5 sm:p-5.5 rounded-sm select-none transition-shadow duration-300 ${
                   isVaultActive ? 'active-breach' : ''
                 }`}
                 data-mission-id={m.id}
               >
-                {/* Card Top: Number, Day Track & Category Badge */}
-                <div>
-                  <div className="flex justify-between items-start border-b border-[#212127] pb-3.5">
-                    <div className="flex items-baseline gap-2.5">
-                      <span className="font-headline-md text-3xl sm:text-4xl text-[#ff1e27] font-bold tracking-tight">
-                        {m.num}
-                      </span>
-                      <span className="font-code-md text-[10px] text-[#ff544b] tracking-wider uppercase font-semibold">
-                        {m.day}
-                      </span>
-                    </div>
-
-                    <span className="font-label-sm text-[10px] tracking-[0.2em] text-[#909099] uppercase bg-[#1a1a20] px-2.5 py-0.5 border border-[#2d2d35]">
-                      {m.categoryBadge}
+                {/* 1. Card Top: Number, Day Track & Category Badge */}
+                <div className="flex justify-between items-start border-b border-[#212127] pb-2 sm:pb-2.5 shrink-0">
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-headline-md text-2xl sm:text-3xl text-[#ff1e27] font-bold tracking-tight leading-none">
+                      {m.num}
+                    </span>
+                    <span className="font-code-md text-[10px] text-[#ff544b] tracking-wider uppercase font-semibold">
+                      {m.day}
                     </span>
                   </div>
 
-                  {/* Card Content: Icon, Title, Briefing */}
-                  <div className="mt-5">
-                    <span className="material-symbols-outlined text-[#ff544b] text-[24px] mb-2.5 block">
-                      {m.icon}
-                    </span>
-                    <h4 className="font-headline-sm text-2xl sm:text-[26px] text-white uppercase tracking-[0.06em] leading-tight">
-                      {m.title}
-                    </h4>
+                  <span className="font-label-sm text-[9px] sm:text-[10px] tracking-[0.18em] text-[#909099] uppercase bg-[#1a1a20] px-2 py-0.5 border border-[#2d2d35]">
+                    {m.categoryBadge}
+                  </span>
+                </div>
 
-                    {/* Schedule Block: DAY, DATE, TIME */}
-                    <div className="mt-2 flex flex-wrap items-center gap-1.5 font-code-md text-[10px] sm:text-[11px]">
-                      <span className="text-[#ff544b] font-bold tracking-wider">{m.day}</span>
-                      <span className="text-neutral-500">•</span>
-                      <span className="text-[#c8c5ca] tracking-wider">{m.date}</span>
-                      <span className="text-neutral-500">•</span>
-                      <span className="text-[#ffdad6] font-semibold tracking-wide bg-[#1c1b22] px-2 py-0.5 rounded border border-[#ff1e27]/30 inline-flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[12px] text-[#ff544b]">schedule</span>
-                        {m.time}
+                {/* 2. Middle Content: Flex-1 to naturally fill available vertical card height */}
+                <div className="flex-1 flex flex-col justify-between py-2.5 sm:py-3 min-h-0">
+                  {/* Event Title & Short Description */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="material-symbols-outlined text-[#ff544b] text-[19px] sm:text-[21px] shrink-0">
+                        {m.icon}
                       </span>
+                      <h4 className="font-headline-sm text-[16px] min-[380px]:text-[17.5px] sm:text-[19px] text-white uppercase tracking-[0.05em] leading-tight font-bold">
+                        {m.title}
+                      </h4>
                     </div>
-
-                    {m.tagline && (
-                      <p className="font-code-md text-[10px] sm:text-[11px] tracking-[0.14em] uppercase text-[#ff544b] font-medium mt-1 leading-snug break-words">
-                        {m.tagline}
-                      </p>
-                    )}
-                    <p className="font-body-sm text-xs sm:text-sm text-[#b0aeb5] mt-2.5 sm:mt-3 leading-relaxed line-clamp-2 sm:line-clamp-3">
-                      {m.briefing}
+                    <p className="font-body-sm text-[11px] sm:text-[11.5px] text-[#b0aeb5] leading-snug">
+                      {m.shortDesc || m.briefing}
                     </p>
+                  </div>
 
-                    {/* Mandatory Laptop Requirement Tag if present */}
-                    {m.laptopRequirement && (
-                      <div className="mt-2 flex items-center gap-1.5 font-code-md text-[10px] text-[#ffdad6]/90">
-                        <span className="material-symbols-outlined text-[13px] text-[#ff544b]">laptop_mac</span>
-                        <span className="tracking-wide">Bring your own laptop</span>
-                      </div>
-                    )}
+                  {/* Schedule Banner: Date & Time */}
+                  <div className="flex items-center justify-between px-2.5 py-1.5 bg-[#16161c] border border-[#23222a] rounded-sm font-code-md text-[9.5px] sm:text-[10px]">
+                    <div className="flex items-center gap-1.5 text-[#c8c5ca] font-medium tracking-wide">
+                      <span className="material-symbols-outlined text-[12px] sm:text-[13px] text-[#ff544b]">calendar_today</span>
+                      <span>{m.date}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-[#ffdad6] font-semibold tracking-wide bg-[#1c1b22] px-2 py-0.5 rounded border border-[#ff1e27]/30">
+                      <span className="material-symbols-outlined text-[11px] text-[#ff544b]">schedule</span>
+                      <span>{m.time}</span>
+                    </div>
+                  </div>
 
-                    {/* Day 1 Generalized Prize Pool Badge */}
-                    {m.prizePool && (
-                      <div className="mt-3.5 inline-flex items-center gap-2 px-2.5 py-1 bg-[#ff1e27]/15 border border-[#ff1e27]/40 rounded-sm">
-                        <span className="material-symbols-outlined text-xs text-[#ff544b]">workspace_premium</span>
-                        <span className="font-code-md text-[10px] sm:text-[11px] text-[#ffdad6] uppercase font-bold tracking-wider">
+                  {/* Event-Specific Key Highlights */}
+                  {m.cardSpecs && m.cardSpecs.length > 0 && (
+                    <div className="flex flex-col gap-1.5">
+                      {m.cardSpecs.map((spec, sIdx) => (
+                        <div
+                          key={sIdx}
+                          className="flex items-center justify-between px-2.5 py-1 sm:py-1.5 bg-[#141418] border border-[#202026] rounded-sm text-[9.5px] sm:text-[10px] font-code-md"
+                        >
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <span className="material-symbols-outlined text-[12px] text-[#ff544b]">
+                              {spec.icon}
+                            </span>
+                            <span className="text-[#8e8d95] tracking-wider uppercase text-[8.5px] sm:text-[9px] font-semibold">
+                              {spec.label}
+                            </span>
+                          </div>
+                          <span className="text-[#e2dfe5] font-medium tracking-wide truncate ml-2 text-right">
+                            {spec.value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* 3. Card Bottom: Prize/Reward Banner + Participation & VIEW INTEL */}
+                <div className="pt-2 sm:pt-2.5 border-t border-[#1f1e24] flex flex-col gap-2 shrink-0">
+                  {/* Reward / Prize / Certificate Banner */}
+                  {m.prizePool ? (
+                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-[#ff1e27]/10 border border-[#ff1e27]/30 rounded-sm">
+                      <div className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-[13px] sm:text-[14px] text-[#ff544b]">workspace_premium</span>
+                        <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#ffdad6] uppercase font-bold tracking-wider">
                           {m.prizePool}
                         </span>
                       </div>
-                    )}
-
-                    {/* Coding Contest GeeksforGeeks Powered Badge */}
-                    {m.poweredBy && (
-                      <div className="mt-3.5 flex items-center justify-between px-2.5 py-1.5 bg-[#0e1c12] border border-[#2f8d46]/50 rounded-sm">
-                        <div className="flex items-center gap-1.5">
-                          <img src={gfgLogo} alt="GeeksforGeeks" className="h-4 w-auto object-contain" />
-                          <span className="font-code-md text-[10px] sm:text-[11px] text-[#48bb78] uppercase font-bold tracking-wider">
-                            POWERED BY GEEKSFORGEEKS
-                          </span>
-                        </div>
-                        <span className="font-code-md text-[9px] text-[#9ae6b4] tracking-widest uppercase font-semibold">
-                          COUPONS
+                      <span className="font-code-md text-[8.5px] text-[#ff544b] uppercase tracking-widest font-semibold">
+                        PRIZE
+                      </span>
+                    </div>
+                  ) : m.poweredBy ? (
+                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-[#0e1c12] border border-[#2f8d46]/40 rounded-sm">
+                      <div className="flex items-center gap-1.5">
+                        <img src={gfgLogo} alt="GeeksforGeeks" className="h-3 w-auto object-contain" />
+                        <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#48bb78] uppercase font-bold tracking-wider">
+                          GEEKSFORGEEKS COUPONS
                         </span>
                       </div>
-                    )}
-                  </div>
-                </div>
+                      <span className="font-code-md text-[8.5px] text-[#48bb78] uppercase tracking-widest font-semibold">
+                        REWARDS
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-[#16161f] border border-[#2d2d38] rounded-sm">
+                      <div className="flex items-center gap-1.5">
+                        <span className="material-symbols-outlined text-[13px] sm:text-[14px] text-[#ff544b]">verified</span>
+                        <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#e2dfe5] uppercase font-semibold tracking-wider">
+                          PARTICIPATION CERTIFICATES
+                        </span>
+                      </div>
+                      <span className="font-code-md text-[8.5px] text-[#a0a0aa] uppercase tracking-widest font-semibold">
+                        ALL ATTENDEES
+                      </span>
+                    </div>
+                  )}
 
-                {/* Card Bottom: Participation & Working VIEW INTEL Trigger */}
-                <div className="pt-5 sm:pt-6 border-t border-[#1f1e24] flex items-center justify-between mt-6 sm:mt-8">
-                  <div className="flex flex-col">
-                    <span className="font-code-md text-[9px] text-[#909099] uppercase tracking-wider">
-                      PARTICIPATION
-                    </span>
-                    <span className="font-code-md text-[11px] sm:text-xs text-[#ffdad6] font-semibold mt-0.5">
-                      {m.participation}
-                    </span>
-                  </div>
+                  {/* Participation & VIEW INTEL Trigger */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 min-w-0 pr-2">
+                      <span className="font-code-md text-[8.5px] text-[#909099] uppercase tracking-wider shrink-0">
+                        PARTICIPATION:
+                      </span>
+                      <span className="font-code-md text-[10px] sm:text-[10.5px] text-[#ffdad6] font-semibold truncate">
+                        {m.participation === 'Individual participation' ? 'Individual' : m.participation}
+                      </span>
+                    </div>
 
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSelectMission(m.id);
-                    }}
-                    className="font-code-md text-xs tracking-[0.18em] uppercase font-bold flex items-center gap-1.5 px-4 py-2 rounded-sm transition-all bg-[#ff1e27] text-white hover:brightness-110 shadow-[0_0_15px_rgba(255,30,39,0.45)] cursor-pointer"
-                  >
-                    <span>VIEW INTEL</span>
-                    <span className="text-sm">→</span>
-                  </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelectMission(m.id);
+                      }}
+                      className="font-code-md text-[10.5px] sm:text-[11.5px] tracking-[0.16em] uppercase font-bold flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-sm transition-all bg-[#ff1e27] text-white hover:brightness-110 shadow-[0_0_12px_rgba(255,30,39,0.4)] cursor-pointer shrink-0"
+                    >
+                      <span>VIEW INTEL</span>
+                      <span className="text-xs">→</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

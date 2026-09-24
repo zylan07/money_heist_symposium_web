@@ -63,10 +63,16 @@ export const MISSIONS_DATA = {
     icon: "article",
 
     tagline: "PRESENT YOUR RESEARCH PAPER",
+    shortDesc: "Present your research paper.",
     heistBrief:
       "Present your research paper on any engineering-related topic. 10:00 AM onwards on Day 01.",
     briefing:
-      "Present a research paper on any engineering-related topic. 10:00 AM onwards on Day 01.",
+      "Present your research paper.",
+    cardSpecs: [
+      { label: "TOPIC", value: "Engineering-related topic", icon: "category" },
+      { label: "DURATION", value: "5 min presentation + 3 min Q&A", icon: "timer" },
+      { label: "FORMAT", value: "Research paper presentation", icon: "article" }
+    ],
 
     about:
       "Present your research paper on any engineering-related topic. You will have 5 minutes to present, followed by 3 minutes of Q&A with the jury.",
@@ -109,10 +115,16 @@ export const MISSIONS_DATA = {
     icon: "developer_mode",
 
     tagline: "DEMONSTRATE YOUR PROTOTYPE",
+    shortDesc: "Present and demonstrate your project.",
     heistBrief:
       "Present your hardware or software project and explain how it works. A working prototype is mandatory. 10:00 AM onwards on Day 01.",
     briefing:
-      "Present your hardware or software project and explain how it works. 10:00 AM onwards on Day 01.",
+      "Present and demonstrate your project.",
+    cardSpecs: [
+      { label: "PROJECT TYPE", value: "Hardware / Software", icon: "devices" },
+      { label: "KEY REQUIREMENT", value: "Working prototype required", icon: "verified" },
+      { label: "DURATION", value: "5 min presentation + 3 min Q&A", icon: "timer" }
+    ],
 
     about:
       "Present your hardware or software project and explain how it works. A working prototype is mandatory. The prototype must be demonstrated within the 5-minute presentation. There is no separate prototype demonstration time.",
@@ -158,10 +170,16 @@ export const MISSIONS_DATA = {
     icon: "photo_library",
 
     tagline: "CREATE IN 1 HOUR • PRESENT TO JURY",
+    shortDesc: "Create a poster in 1 hour, then present it.",
     heistBrief:
       "Create a poster on a theme of your choice using your own laptop and present it to the jury. 2:00 PM onwards on Day 01.",
     briefing:
-      "Create a poster on a theme of your choice using your own laptop and present it to the jury. 2:00 PM onwards on Day 01.",
+      "Create a poster in 1 hour, then present it.",
+    cardSpecs: [
+      { label: "CREATION TIME", value: "1 Hour", icon: "timer" },
+      { label: "LAPTOP", value: "Own laptop required", icon: "laptop_mac" },
+      { label: "TOOLS & AI", value: "Any tools • AI with disclosure", icon: "auto_fix_high" }
+    ],
 
     about:
       "Create a poster on a theme of your choice using your own laptop and present it to the jury after the creation time. Participants will have 1 hour to design their poster using any tools available on their laptop. After the 1-hour creation period, participants must present their completed poster to the jury.",
@@ -202,7 +220,7 @@ export const MISSIONS_DATA = {
   },
 
   // ─────────────────────────────────────────────────────────────────────────
-  // MISSION 04 — EXECUTIVE DEVELOPMENT PROGRAMME / WORKSHOP
+  // MISSION 04 — EXECUTIVE DEVELOPMENT PROGRAMME
   // ─────────────────────────────────────────────────────────────────────────
   "mission-04": {
     id: "mission-04",
@@ -212,22 +230,28 @@ export const MISSIONS_DATA = {
     dayTrack: "DAY 02 // 15 OCTOBER 2026",
     time: "2:00 PM – 3:00 PM",
     timing: "2:00 PM – 3:00 PM",
-    title: "EXECUTIVE DEVELOPMENT PROGRAMME / WORKSHOP",
-    fullTitle: "MISSION 04 // EXECUTIVE DEVELOPMENT PROGRAMME / WORKSHOP",
+    title: "EXECUTIVE DEVELOPMENT PROGRAMME",
+    fullTitle: "MISSION 04 // EXECUTIVE DEVELOPMENT PROGRAMME",
     categoryBadge: "WORKSHOP",
     icon: "military_tech",
 
     tagline: "PROFESSIONAL & TECHNICAL SKILLS",
+    shortDesc: "Learn practical skills from an expert.",
     heistBrief:
       "An interactive session designed to develop professional and technical skills. 2:00 PM – 3:00 PM on Day 02.",
     briefing:
-      "An interactive session designed to develop professional and technical skills. 2:00 PM – 3:00 PM on Day 02.",
+      "Learn practical skills from an expert.",
+    cardSpecs: [
+      { label: "TOPIC", value: "To be announced", icon: "school" },
+      { label: "RESOURCE PERSON", value: "To be announced", icon: "person" },
+      { label: "CERTIFICATE", value: "Certificates provided to all participants", icon: "verified" }
+    ],
 
     about:
       "An interactive session designed to develop professional and technical skills. 2:00 PM – 3:00 PM on Day 02.",
     topic: "Will be announced soon",
     resourcePerson: "Will be announced soon",
-    participation: "Individual participation",
+    participation: "Individual",
     duration: "1 Hour (2:00 PM – 3:00 PM)",
     certificate: "Certificates will be provided to all participants.",
     rules: [
@@ -260,14 +284,20 @@ export const MISSIONS_DATA = {
     icon: "groups",
 
     tagline: "EMERGING TRENDS IN TECHNOLOGY",
+    shortDesc: "Discuss emerging trends in technology.",
     heistBrief:
       "A discussion session on emerging trends in technology and engineering. 9:30 AM – 10:30 AM on Day 02.",
     briefing:
-      "A discussion session on emerging trends in technology and engineering. 9:30 AM – 10:30 AM on Day 02.",
+      "Discuss emerging trends in technology.",
+    cardSpecs: [
+      { label: "THEME", value: "Emerging Trends in Technology", icon: "trending_up" },
+      { label: "FORMAT", value: "Discussion session", icon: "forum" },
+      { label: "CERTIFICATE", value: "Certificates provided to all participants", icon: "verified" }
+    ],
 
     about:
       "A discussion session on emerging trends in technology and engineering. 9:30 AM – 10:30 AM on Day 02.",
-    participation: "Individual participation",
+    participation: "Individual",
     theme: "Emerging Trends in Technology",
     duration: "1 Hour (9:30 AM – 10:30 AM)",
     additionalDetails: "More details will be announced soon.",
@@ -304,15 +334,21 @@ export const MISSIONS_DATA = {
     icon: "terminal",
 
     tagline: "ALGORITHMS & PROBLEM SOLVING",
+    shortDesc: "Compete in a time-based coding challenge.",
     heistBrief:
       "A time-based coding contest focused on algorithms and problem solving. Powered by GeeksforGeeks. 10:30 AM – 12:30 PM on Day 02.",
     briefing:
-      "A time-based coding contest focused on algorithms and problem solving. 10:30 AM – 12:30 PM on Day 02.",
+      "Compete in a time-based coding challenge.",
+    cardSpecs: [
+      { label: "FOCUS", value: "Algorithms & Competitive Programming", icon: "terminal" },
+      { label: "EQUIPMENT", value: "Own laptop required", icon: "laptop_mac" },
+      { label: "PLATFORM", value: "Powered by GeeksforGeeks", icon: "code" }
+    ],
 
     about:
       "A time-based coding contest focused on algorithms and problem solving. Powered by GeeksforGeeks. Participants must bring their own laptop for the contest.",
     laptopRequirement: "Participants must bring their own laptop.",
-    participation: "Individual participation",
+    participation: "Individual",
     format: "Time-based coding contest",
     theme: "Algorithms & Competitive Programming",
     duration: "2 Hours (10:30 AM – 12:30 PM)",
