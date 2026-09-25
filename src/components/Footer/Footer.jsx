@@ -1,5 +1,5 @@
 import React from 'react';
-import { SYMPOSIUM_INFO } from '../../data/events';
+import { SYMPOSIUM_INFO, TICKET9_URL } from '../../data/events';
 import { useInViewAnimation } from '../../hooks/useInViewAnimation';
 import { MOTION_EASING } from '../../utils/motion';
 import ticket9Logo from '../../assets/Ticket9Logo.png';
@@ -110,7 +110,9 @@ export default function Footer() {
           <div className="flex flex-col items-center space-y-3">
             <a
               className="inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-[#ff1e27] text-white hover:brightness-110 font-headline-sm text-xl uppercase tracking-[0.16em] transition-all shadow-[0_0_30px_rgba(255,30,39,0.45)] hover:shadow-[0_0_45px_rgba(255,30,39,0.7)] font-semibold"
-              href="#access"
+              href={TICKET9_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <span>GET ACCESS</span>
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>

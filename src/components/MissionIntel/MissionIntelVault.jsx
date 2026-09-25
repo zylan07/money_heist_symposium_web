@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { MISSIONS_DATA } from '../../data/events';
+import { MISSIONS_DATA, TICKET9_URL } from '../../data/events';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import gfgLogo from '../../assets/geeksforgeeks.png';
 
@@ -966,6 +966,10 @@ export default function MissionIntelVault({ missionId, onClose }) {
                     <span>{mission.laptopRequirement}</span>
                   </div>
                 )}
+                <div className="mt-2.5 pt-2 border-t border-[#252530] text-xs font-code-md text-[#48bb78] flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[15px]">wifi</span>
+                  <span className="uppercase font-bold tracking-wider">WI-FI FACILITIES PROVIDED</span>
+                </div>
               </div>
 
               {/* Theme & Scope */}
@@ -1063,6 +1067,15 @@ export default function MissionIntelVault({ missionId, onClose }) {
                   </span>
                 </div>
               </div>
+
+              {/* Wi-Fi Facilities Information Line */}
+              <div className="mt-3.5 pt-3 border-t border-[#2a2935] flex items-center justify-between flex-wrap gap-2 text-xs font-code-md">
+                <div className="flex items-center gap-2 text-[#48bb78]">
+                  <span className="material-symbols-outlined text-[16px]">wifi</span>
+                  <span className="font-bold tracking-wider uppercase">WI-FI FACILITIES PROVIDED</span>
+                </div>
+                <span className="text-[#a09ca8] text-[11px]">High-speed network access provided across all events</span>
+              </div>
             </div>
 
             {/* Rules of Engagement */}
@@ -1088,7 +1101,9 @@ export default function MissionIntelVault({ missionId, onClose }) {
                   <div className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-[#ff544b]">contact_phone</span>
                     <span className="font-code-md text-xs sm:text-sm tracking-[0.2em] uppercase text-[#ffdad6] font-bold">
-                      {mission.num === '04' ? 'WORKSHOP COORDINATORS' : 'MISSION COORDINATORS'}
+                      {mission.id === 'special-hackathon'
+                        ? 'HACKATHON COORDINATORS'
+                        : (mission.num === '04' ? 'WORKSHOP COORDINATORS' : 'MISSION COORDINATORS')}
                     </span>
                   </div>
                   <span className="font-label-sm text-[10px] sm:text-[11px] text-[#ff544b] uppercase tracking-widest font-mono">
@@ -1144,21 +1159,16 @@ export default function MissionIntelVault({ missionId, onClose }) {
               >
                 EXIT VAULT
               </button>
-              <button
-                onClick={() => {
-                  handleClose();
-                  setTimeout(() => {
-                    const el = document.getElementById('access');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }, prefersReducedMotion ? 650 : 3500);
-                }}
-                disabled={vaultState !== 'BRIEFING_ROOM'}
+              <a
+                href={TICKET9_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`relative inline-flex items-center justify-center gap-2 px-8 py-2.5 bg-[#ff1e27] text-white hover:brightness-110 font-headline-sm text-lg uppercase tracking-[0.16em] transition-all shadow-[0_0_20px_rgba(255,30,39,0.4)] w-1/2 sm:w-auto text-center font-semibold cursor-pointer ${
                   vaultState !== 'BRIEFING_ROOM' ? 'opacity-50 pointer-events-none' : ''
                 }`}
               >
                 GET ACCESS
-              </button>
+              </a>
             </div>
           </div>
         </div>

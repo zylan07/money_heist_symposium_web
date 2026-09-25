@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TIMELINE_POINTS } from '../../data/events';
+import { TIMELINE_POINTS, TICKET9_URL } from '../../data/events';
 import { useInViewAnimation } from '../../hooks/useInViewAnimation';
 import RollingText from '../Hero/RollingText';
 
@@ -325,7 +325,9 @@ export default function PlanTimeline() {
           </div>
           <a
             className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#ff1e27] text-white hover:brightness-110 font-headline-sm text-lg uppercase tracking-[0.16em] transition-[filter,box-shadow] shadow-[0_0_20px_rgba(255,30,39,0.35)] font-semibold"
-            href="#access"
+            href={TICKET9_URL}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <span>ACQUIRE MISSION ACCESS</span>
             <span className="material-symbols-outlined text-[18px]">arrow_forward</span>

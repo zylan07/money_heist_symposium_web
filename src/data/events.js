@@ -5,6 +5,9 @@
  * and mission dossiers. Exact official content for TECHBYTE SUMMIT '26.
  */
 
+export const TICKET9_URL = "https://www.theticket9.com/event/techbyte-summit-26";
+export const TICKET9_REGISTRATION_URL = TICKET9_URL;
+
 export const SYMPOSIUM_INFO = {
   name: "TECHBYTE SUMMIT '26",
   subtitle: "A Two-Day Technical Symposium",
@@ -18,8 +21,10 @@ export const SYMPOSIUM_INFO = {
   collaborator: "Yi Yuva Club, KPRIET",
   conductedBy: "Department of CSE in collaboration with Yi Yuva Club, KPRIET",
   passPrice: "₹399",
+  hackathonPassPrice: "₹699",
   overallPrizePool: "EXCITING CASH PRIZES & GIFTS",
   ticketingPartner: "Ticket9",
+  registrationUrl: TICKET9_URL,
   passPerks: [
     "ALL 6 MISSIONS",
     "BOTH DAYS",
@@ -29,9 +34,9 @@ export const SYMPOSIUM_INFO = {
   operationCodename: "TECHBYTE SUMMIT '26",
   operationTagline: "A TWO-DAY NATIONAL TECHNICAL SYMPOSIUM",
   missionBrief:
-    "A two-day national technical symposium conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events across research paper presentation, project demonstration, poster creation & presentation, an executive development programme, an emerging tech conclave, and a competitive coding contest.",
+    "A two-day national technical symposium conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events across research paper presentation, project demonstration, poster creation & presentation, an executive development programme, an emerging tech conclave, and a competitive coding contest, alongside a premier 12-Hour Hackathon special event.",
   welcomeTransmission:
-    "Welcome to TECHBYTE SUMMIT '26 on 14–15 October 2026 at KPR Institute of Engineering and Technology, Coimbatore. Conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events designed to test and showcase your technical, problem-solving, and presentation skills. Register today and participate across both days.",
+    "Welcome to TECHBYTE SUMMIT '26 on 14–15 October 2026 at KPR Institute of Engineering and Technology, Coimbatore. Conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events designed to test and showcase your technical, problem-solving, and presentation skills, plus our flagship 12-Hour Hackathon. Register today and participate across both days.",
   overallCoordinators: {
     faculty: [
       { name: "Dr. V. Priya", phone: "9965418490" },
@@ -45,7 +50,51 @@ export const SYMPOSIUM_INFO = {
   }
 };
 
+export const SPECIAL_HACKATHON_DATA = {
+  id: "special-hackathon",
+  num: "SPECIAL",
+  day: "OVERNIGHT",
+  date: "14 OCTOBER → 15 OCTOBER 2026",
+  dayTrack: "SPECIAL EVENT // 14–15 OCT 2026",
+  time: "7:00 PM → 7:00 AM",
+  timing: "7:00 PM → 7:00 AM",
+  duration: "12 HOURS",
+  title: "12-HOUR HACKATHON",
+  fullTitle: "SPECIAL EVENT // 12-HOUR HACKATHON",
+  categoryBadge: "SPECIAL EVENT",
+  icon: "code_blocks",
+  poweredBy: "GeeksforGeeks",
+  shortDesc: "A 12-hour hands-on hackathon where teams work together to build, solve, and present their ideas.",
+  heistBrief:
+    "A 12-hour hands-on hackathon where teams work together to build, solve, and present their ideas.",
+  briefing:
+    "A 12-hour hands-on hackathon where teams work together to build, solve, and present their ideas.",
+  about:
+    "A 12-hour hands-on hackathon where teams work together to build, solve, and present their ideas.",
+  theme: "Overnight Hackathon Challenge • Open Innovation & Rapid Prototyping",
+  participation: "2–4 members",
+  teamSize: "2–4 members",
+  laptopRequirement: "Own laptop required",
+  wifiRequirement: "Wi-Fi facilities will be provided",
+  prizePool: "EXCITING CASH PRIZES & GIFTS",
+  certificate: "Certificates will be provided to all participants.",
+  rules: [
+    "A 12-hour hands-on hackathon where teams work together to build, solve, and present their ideas.",
+    "Team size: 2–4 members.",
+    "Own laptop required.",
+    "Wi-Fi facilities will be provided.",
+    "Powered by GeeksforGeeks.",
+    "Exciting cash prizes & gifts.",
+    "Certificates will be provided to all participants."
+  ],
+  coordinators: [
+    { name: "Sathya R V", phone: "7604903115", role: "HACKATHON COORDINATOR" },
+    { name: "Srivishnu J", phone: "6382906285", role: "HACKATHON COORDINATOR" }
+  ]
+};
+
 export const MISSIONS_DATA = {
+  "special-hackathon": SPECIAL_HACKATHON_DATA,
   // ─────────────────────────────────────────────────────────────────────────
   // MISSION 01 — PAPER PRESENTATION
   // ─────────────────────────────────────────────────────────────────────────
@@ -90,6 +139,7 @@ export const MISSIONS_DATA = {
       "Complete your presentation within 5 minutes.",
       "3 minutes will be given for Q&A.",
       "The jury's decision will be final.",
+      "Wi-Fi facilities will be provided.",
       "Certificates will be provided to all participants."
     ],
     coordinators: [
@@ -145,6 +195,7 @@ export const MISSIONS_DATA = {
       "Complete the presentation within 5 minutes.",
       "3 minutes will be given for Q&A.",
       "The jury's decision will be final.",
+      "Wi-Fi facilities will be provided.",
       "Certificates will be provided to all participants."
     ],
     coordinators: [
@@ -211,6 +262,7 @@ export const MISSIONS_DATA = {
       "After 1 hour, the completed poster must be presented to the jury.",
       "Participants must explain: theme selected, why selected, concept/message, tools used, and any AI tools used / assisted elements.",
       "The jury's decision will be final.",
+      "Wi-Fi facilities will be provided.",
       "Certificates will be provided to all participants."
     ],
     coordinators: [
@@ -259,6 +311,7 @@ export const MISSIONS_DATA = {
       "Session timing: 2:00 PM – 3:00 PM.",
       "Topic and resource person will be announced soon.",
       "Please arrive on time for the session.",
+      "Wi-Fi facilities will be provided.",
       "Certificates will be provided to all participants."
     ],
     coordinators: [
@@ -307,6 +360,7 @@ export const MISSIONS_DATA = {
       "Session timing: 9:30 AM – 10:30 AM.",
       "Theme is Emerging Trends in Technology.",
       "Active participation and discussion are encouraged.",
+      "Wi-Fi facilities will be provided.",
       "Certificates will be provided to all participants."
     ],
     coordinators: [
@@ -364,6 +418,7 @@ export const MISSIONS_DATA = {
       "Time-based competitive coding contest focused on Algorithms & Competitive Programming.",
       "Rankings are based on the number of problems solved and total time taken.",
       "Prizes: GeeksforGeeks Coupons.",
+      "Wi-Fi facilities will be provided.",
       "Certificates will be provided to all participants."
     ],
     coordinators: [
@@ -423,6 +478,22 @@ export const TIMELINE_POINTS = [
     ]
   },
   {
+    num: "04",
+    id: "mission-04",
+    title: "EXECUTIVE DEVELOPMENT PROGRAMME / WORKSHOP",
+    shortTitle: "EDP / WORKSHOP",
+    day: "DAY 02",
+    date: "15 OCTOBER 2026",
+    timing: "2:00 PM – 3:00 PM",
+    timelineTag: "DAY 02 // 15 OCTOBER 2026",
+    timelineBlurb: "Learn practical skills from an expert.",
+    schedule: [
+      { time: "2:00 PM", label: "Session Starts" },
+      { time: "1 HOUR", label: "Interactive Skill Programme" },
+      { time: "3:00 PM", label: "Session Wrap & Certificates" }
+    ]
+  },
+  {
     num: "05",
     id: "mission-05",
     title: "CONCLAVE",
@@ -453,22 +524,6 @@ export const TIMELINE_POINTS = [
       { time: "10:30 AM", label: "Contest Begins (Bring Laptop)" },
       { time: "2 HOURS", label: "Competitive Programming" },
       { time: "12:30 PM", label: "Contest Concludes & Leaderboard" }
-    ]
-  },
-  {
-    num: "04",
-    id: "mission-04",
-    title: "EXECUTIVE DEVELOPMENT PROGRAMME / WORKSHOP",
-    shortTitle: "EDP / WORKSHOP",
-    day: "DAY 02",
-    date: "15 OCTOBER 2026",
-    timing: "2:00 PM – 3:00 PM",
-    timelineTag: "DAY 02 // 15 OCTOBER 2026",
-    timelineBlurb: "Learn practical skills from an expert.",
-    schedule: [
-      { time: "2:00 PM", label: "Session Starts" },
-      { time: "1 HOUR", label: "Interactive Skill Programme" },
-      { time: "3:00 PM", label: "Session Wrap & Certificates" }
     ]
   }
 ];

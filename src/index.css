@@ -121,3 +121,25 @@
   transform: translateX(-50%) translateY(0) !important;
   pointer-events: auto !important;
 }
+
+@keyframes moneyBurst {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.2) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  15% {
+    opacity: 1;
+    transform: translate3d(calc(var(--dx) * 0.4), calc(var(--dy) * 0.45), 50px) scale(var(--scale)) rotateX(calc(var(--rx) * 0.35)) rotateY(calc(var(--ry) * 0.35)) rotateZ(calc(var(--rz) * 0.5));
+  }
+  65% {
+    opacity: 0.95;
+    transform: translate3d(var(--dx), var(--dy), 100px) scale(calc(var(--scale) * 1.05)) rotateX(calc(var(--rx) * 0.75)) rotateY(calc(var(--ry) * 0.75)) rotateZ(var(--rz));
+  }
+  85% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--dx) * 1.25), calc(var(--dy) - 50px), 150px) scale(calc(var(--scale) * 0.85)) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(calc(var(--rz) * 1.6));
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { TICKET9_URL } from '../../data/events';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -95,7 +96,9 @@ export default function Navbar() {
 
           <a
             className="inline-flex items-center justify-center px-2.5 sm:px-4 py-1.5 font-code-md text-[10px] sm:text-xs uppercase tracking-[0.12em] sm:tracking-[0.18em] text-white bg-black/60 border border-[#ff544b]/80 hover:bg-[#ff544b] hover:text-black transition-colors shadow-[0_0_15px_rgba(255,84,75,0.2)] shrink-0 whitespace-nowrap"
-            href="#access"
+            href={TICKET9_URL}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             GET ACCESS
           </a>

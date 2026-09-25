@@ -3,6 +3,7 @@ import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { easeCinematic, easeOutExpo } from '../../utils/motion';
 import HeroDoubleStairPreloader from './HeroDoubleStairPreloader';
 import RollingText from './RollingText';
+import { TICKET9_URL } from '../../data/events';
 
 // Local high-resolution assets provided by the user in public/hero/
 const MASKED_IMG_URL = "/hero/masked.png";
@@ -538,9 +539,9 @@ export default function Hero() {
                 centerOut={true}
               />
 
-              {/* Skiper27-Style Rolling Title: Group 2 (SUMMIT '26) */}
+              {/* Skiper27-Style Rolling Title: Group 2 (SUMMIT 26) */}
               <RollingText
-                text="SUMMIT '26"
+                text="SUMMIT 26"
                 className="shrink-0 whitespace-nowrap text-[34px] min-[360px]:text-[40px] min-[400px]:text-[46px] sm:text-[68px] md:text-[84px] lg:text-[112px] xl:text-[134px] 2xl:text-[150px] tracking-[0.03em] text-[#ff1e27] font-bold scale-y-[1.06] drop-shadow-[0_0_35px_rgba(255,30,39,0.55)]"
                 active={title2Active}
                 isComplete={entranceComplete}
@@ -552,8 +553,23 @@ export default function Hero() {
             </h1>
           </div>
 
+          {/* Featured Special Event Large Title: 12-HOUR HACKATHON */}
+          <div className="w-full flex justify-center overflow-hidden py-1 sm:py-1.5 -my-1 mt-2.5 sm:mt-3.5 md:mt-4 px-2">
+            <h2 className="font-headline-lg text-2xl min-[360px]:text-[28px] sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] text-white font-bold tracking-[0.06em] sm:tracking-[0.08em] uppercase text-center leading-none drop-shadow-[0_4px_24px_rgba(255,30,39,0.4)]">
+              <RollingText
+                text="12-HOUR HACKATHON"
+                active={title2Active}
+                isComplete={entranceComplete}
+                reducedMotion={prefersReducedMotion}
+                stagger={0.025}
+                duration={0.75}
+                centerOut={true}
+              />
+            </h2>
+          </div>
+
           {/* Breathing Space: Date and Institution Masked Regions */}
-          <div className="flex flex-col items-center mt-4 sm:mt-6 md:mt-7">
+          <div className="flex flex-col items-center mt-3 sm:mt-4 md:mt-4.5">
             {/* Date Mask Region — Moderate Rolling Effect */}
             <div
               ref={dateWrapRef}
@@ -561,7 +577,7 @@ export default function Hero() {
             >
               <RollingText
                 text="14 — 15 OCTOBER 2026"
-                className="font-code-md text-xs min-[360px]:text-sm sm:text-base md:text-lg lg:text-[19px] tracking-[0.20em] sm:tracking-[0.28em] text-[#ffdad6] font-semibold uppercase drop-shadow text-center block"
+                className="font-code-md text-xs min-[360px]:text-sm sm:text-base md:text-lg tracking-[0.20em] sm:tracking-[0.26em] text-[#ffdad6] font-semibold uppercase drop-shadow text-center block"
                 active={dateActive}
                 isComplete={entranceComplete}
                 reducedMotion={prefersReducedMotion}
@@ -574,11 +590,11 @@ export default function Hero() {
             {/* Institution Mask Region — Restrained Rolling Effect */}
             <div
               ref={instWrapRef}
-              className="overflow-hidden py-2 -my-2 px-4 -mx-4 mt-1.5 sm:mt-2.5 will-change-[clip-path,opacity]"
+              className="overflow-hidden py-1 -my-1 px-4 -mx-4 mt-1 sm:mt-1.5 will-change-[clip-path,opacity]"
             >
               <RollingText
                 text="KPR INSTITUTE OF ENGINEERING & TECHNOLOGY, COIMBATORE"
-                className="font-code-md text-[10px] sm:text-[11px] md:text-xs tracking-[0.15em] sm:tracking-[0.18em] text-[#c8c5ca]/80 uppercase text-center px-2 block"
+                className="font-code-md text-[10px] sm:text-[11px] md:text-xs tracking-[0.14em] sm:tracking-[0.18em] text-[#c8c5ca]/80 uppercase text-center px-2 block"
                 active={instActive}
                 isComplete={entranceComplete}
                 reducedMotion={prefersReducedMotion}
@@ -587,31 +603,25 @@ export default function Hero() {
                 centerOut={true}
               />
 
-              {/* Organizer & Collaboration Branding */}
-              <div className="mt-2 sm:mt-2.5 flex flex-col items-center justify-center text-center">
-                <span className="font-code-md text-[10px] sm:text-[11px] text-[#ff544b] tracking-[0.16em] sm:tracking-[0.2em] uppercase font-bold">
-                  Department of CSE
-                </span>
-                <span className="font-code-md text-[9px] sm:text-[10px] text-[#a09ca8] tracking-[0.14em] uppercase mt-0.5">
-                  in collaboration with
-                </span>
-                <span className="font-code-md text-[10px] sm:text-[11px] text-[#ffdad6] tracking-[0.16em] sm:tracking-[0.2em] uppercase font-semibold mt-0.5">
-                  Yi Yuva Club, KPRIET
+              {/* Organizer & Collaboration Branding — Single Line on Desktop */}
+              <div className="mt-1.5 sm:mt-2 flex items-center justify-center text-center px-2">
+                <span className="font-code-md text-[9.5px] sm:text-[10.5px] md:text-[11.5px] text-[#ffdad6] tracking-[0.14em] sm:tracking-[0.18em] uppercase font-semibold leading-relaxed">
+                  Department of Computer Science and Engineering <span className="text-[#ff544b] font-bold mx-1 sm:mx-1.5">•</span> In Collaboration with Yi Yuva Club, KPRIET
                 </span>
               </div>
 
               {/* Eligibility */}
-              <div className="mt-2 sm:mt-2.5 flex items-center justify-center">
-                <span className="font-code-md text-[10px] sm:text-[11px] text-[#ffdad6] tracking-[0.14em] uppercase px-3 py-1 rounded-full bg-[#1e1c22]/80 border border-[#ff1e27]/40 shadow-[0_0_12px_rgba(255,30,39,0.15)] flex items-center gap-1.5">
+              <div className="mt-1.5 sm:mt-2 flex items-center justify-center">
+                <span className="font-code-md text-[9px] sm:text-[10px] text-[#ffdad6] tracking-[0.12em] uppercase px-3 py-0.5 rounded-full bg-[#1e1c22]/80 border border-[#ff1e27]/40 shadow-[0_0_10px_rgba(255,30,39,0.12)] flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff1e27] animate-pulse shrink-0" />
                   Open to all engineering discipline students
                 </span>
               </div>
 
-              {/* Major Hero Highlight: Large Prominent Prize Pool & Perks — Compact Rolling Reveal */}
+              {/* Major Hero Highlight: EXCITING CASH PRIZES & GIFTS — Compact Title Element */}
               <div
                 ref={prizeRef}
-                className="mt-3.5 sm:mt-4 md:mt-5 flex items-center justify-center w-full px-2 will-change-transform"
+                className="mt-2 sm:mt-2.5 flex items-center justify-center w-full px-2 will-change-transform"
                 style={
                   entranceComplete || prefersReducedMotion
                     ? undefined
@@ -624,11 +634,11 @@ export default function Hero() {
                       }
                 }
               >
-                <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3.5 px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-3.5 bg-[#110e16]/80 border-2 border-[#ff1e27]/60 rounded-md sm:rounded-full shadow-[0_0_35px_rgba(255,30,39,0.3),inset_0_0_20px_rgba(255,30,39,0.12)] backdrop-blur-md">
-                  <span className="material-symbols-outlined text-2xl sm:text-3xl md:text-4xl text-[#ff544b] drop-shadow-[0_0_12px_rgba(255,30,39,0.7)] shrink-0">
+                <div className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-1 sm:py-1.5 bg-[#14121a]/85 border border-[#ff1e27]/40 rounded-full shadow-[0_0_16px_rgba(255,30,39,0.2)] backdrop-blur-md">
+                  <span className="material-symbols-outlined text-base sm:text-lg text-[#ff544b] drop-shadow-[0_0_6px_rgba(255,30,39,0.6)] shrink-0">
                     workspace_premium
                   </span>
-                  <span className="font-headline-sm text-base min-[380px]:text-lg sm:text-2xl md:text-3xl text-white font-bold tracking-[0.06em] sm:tracking-[0.10em] uppercase leading-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] text-center">
+                  <span className="font-headline-sm text-[11px] min-[380px]:text-xs sm:text-sm md:text-base text-white font-bold tracking-[0.08em] sm:tracking-[0.12em] uppercase leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] text-center">
                     EXCITING CASH PRIZES & GIFTS
                   </span>
                 </div>
@@ -657,7 +667,9 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full">
             <a
               className="w-full sm:w-auto min-w-[160px] sm:min-w-[190px] h-12 flex items-center justify-center font-headline-sm text-lg sm:text-xl tracking-[0.14em] uppercase bg-[#ff544b] text-[#5c0005] hover:brightness-110 shadow-[0_0_30px_rgba(255,84,75,0.45)] transition-all font-semibold cursor-pointer pointer-events-auto"
-              href="#access"
+              href={TICKET9_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               GET ACCESS
             </a>
