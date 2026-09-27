@@ -9,7 +9,7 @@ export const TICKET9_URL = "https://www.theticket9.com/event/techbyte-summit-26"
 export const TICKET9_REGISTRATION_URL = TICKET9_URL;
 
 export const SYMPOSIUM_INFO = {
-  name: "TECHBYTE SUMMIT '26",
+  name: "TECHBYTE SUMMIT 26",
   subtitle: "A Two-Day Technical Symposium",
   institution: "KPR Institute of Engineering and Technology",
   location: "Coimbatore, Tamil Nadu, India",
@@ -31,12 +31,12 @@ export const SYMPOSIUM_INFO = {
     "LUNCH INCLUDED",
     "REFRESHMENTS"
   ],
-  operationCodename: "TECHBYTE SUMMIT '26",
+  operationCodename: "TECHBYTE SUMMIT 26",
   operationTagline: "A TWO-DAY NATIONAL TECHNICAL SYMPOSIUM",
   missionBrief:
-    "A two-day national technical symposium conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events across research paper presentation, project demonstration, poster creation & presentation, an executive development programme, an emerging tech conclave, and a competitive coding contest, alongside a premier 12-Hour Hackathon special event.",
+    "A two-day national technical symposium conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events across research paper presentation, project demonstration, poster creation & presentation, an executive development programme, an emerging tech conclave, and a competitive coding contest, alongside our flagship CODE VAULT — SOFTWARE EDITION 12-Hour Hackathon special event.",
   welcomeTransmission:
-    "Welcome to TECHBYTE SUMMIT '26 on 14–15 October 2026 at KPR Institute of Engineering and Technology, Coimbatore. Conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events designed to test and showcase your technical, problem-solving, and presentation skills, plus our flagship 12-Hour Hackathon. Register today and participate across both days.",
+    "Welcome to TECHBYTE SUMMIT 26 on 14–15 October 2026 at KPR Institute of Engineering and Technology, Coimbatore. Conducted by the Department of CSE in collaboration with Yi Yuva Club, KPRIET. Featuring six events designed to test and showcase your technical, problem-solving, and presentation skills, plus our flagship CODE VAULT — SOFTWARE EDITION 12-Hour Hackathon. Register today and participate across both days.",
   overallCoordinators: {
     faculty: [
       { name: "Dr. V. Priya", phone: "9965418490" },
@@ -59,32 +59,42 @@ export const SPECIAL_HACKATHON_DATA = {
   time: "7:00 PM → 7:00 AM",
   timing: "7:00 PM → 7:00 AM",
   duration: "12 HOURS",
-  title: "12-HOUR HACKATHON",
-  fullTitle: "SPECIAL EVENT // 12-HOUR HACKATHON",
+  title: "CODE VAULT",
+  edition: "SOFTWARE EDITION",
+  subtitle: "SOFTWARE EDITION",
+  trackSubtitle: "12-HOUR HACKATHON",
+  fullTitle: "SPECIAL EVENT // CODE VAULT — SOFTWARE EDITION",
   categoryBadge: "SPECIAL EVENT",
   icon: "code_blocks",
   poweredBy: "GeeksforGeeks",
-  shortDesc: "A 12-hour hands-on hackathon where teams work together to build, solve, and present their ideas.",
+  shortDesc: "A 12-hour software hackathon where teams collaborate, build solutions, solve problems, and present their ideas.",
   heistBrief:
-    "A 12-hour hands-on hackathon where teams work together to build, solve, and present their ideas.",
+    "A 12-hour software hackathon where teams collaborate, build solutions, solve problems, and present their ideas.",
   briefing:
-    "A 12-hour hands-on hackathon where teams work together to build, solve, and present their ideas.",
+    "A 12-hour software hackathon where teams collaborate, build solutions, solve problems, and present their ideas.",
   about:
-    "A 12-hour hands-on hackathon where teams work together to build, solve, and present their ideas.",
-  theme: "Overnight Hackathon Challenge • Open Innovation & Rapid Prototyping",
+    "A 12-hour software hackathon where teams collaborate, build solutions, solve problems, and present their ideas.",
+  theme: "CODE VAULT — SOFTWARE EDITION • 12-Hour Overnight Software Hackathon Challenge",
   participation: "2–4 members",
   teamSize: "2–4 members",
   laptopRequirement: "Own laptop required",
   wifiRequirement: "Wi-Fi facilities will be provided",
-  prizePool: "EXCITING CASH PRIZES & GIFTS",
+  prizePool: "EXCITING CASH PRIZES & REWARDS",
+  internshipReward: "INTERNSHIP OPPORTUNITIES FOR HACKATHON PRIZE WINNERS",
   certificate: "Certificates will be provided to all participants.",
+  rewards: [
+    "Exciting Cash Prizes",
+    "Rewards",
+    "Internship Opportunities for Hackathon Prize Winners"
+  ],
   rules: [
-    "A 12-hour hands-on hackathon where teams work together to build, solve, and present their ideas.",
+    "A 12-hour software hackathon where teams collaborate, build solutions, solve problems, and present their ideas.",
     "Team size: 2–4 members.",
     "Own laptop required.",
     "Wi-Fi facilities will be provided.",
     "Powered by GeeksforGeeks.",
-    "Exciting cash prizes & gifts.",
+    "Exciting cash prizes & rewards.",
+    "Internship opportunities for Hackathon prize winners.",
     "Certificates will be provided to all participants."
   ],
   coordinators: [

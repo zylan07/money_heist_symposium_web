@@ -553,11 +553,11 @@ export default function Hero() {
             </h1>
           </div>
 
-          {/* Featured Special Event Large Title: 12-HOUR HACKATHON */}
-          <div className="w-full flex justify-center overflow-hidden py-1 sm:py-1.5 -my-1 mt-2.5 sm:mt-3.5 md:mt-4 px-2">
+          {/* Featured Special Event Large Title: CODE VAULT — SOFTWARE EDITION */}
+          <div className="w-full flex flex-col items-center justify-center overflow-hidden py-1 -my-1 mt-2 sm:mt-2.5 px-2">
             <h2 className="font-headline-lg text-2xl min-[360px]:text-[28px] sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[58px] text-white font-bold tracking-[0.06em] sm:tracking-[0.08em] uppercase text-center leading-none drop-shadow-[0_4px_24px_rgba(255,30,39,0.4)]">
               <RollingText
-                text="12-HOUR HACKATHON"
+                text="CODE VAULT"
                 active={title2Active}
                 isComplete={entranceComplete}
                 reducedMotion={prefersReducedMotion}
@@ -566,6 +566,15 @@ export default function Hero() {
                 centerOut={true}
               />
             </h2>
+            <div className="flex items-center justify-center gap-2 mt-1 sm:mt-1.5 flex-wrap">
+              <span className="font-headline-sm text-xs min-[360px]:text-sm sm:text-base md:text-lg text-[#ff544b] font-bold tracking-[0.20em] sm:tracking-[0.26em] uppercase">
+                SOFTWARE EDITION
+              </span>
+              <span className="text-[#605d66] text-xs">•</span>
+              <span className="font-code-md text-[10px] min-[360px]:text-xs sm:text-sm text-[#b0aeb8] tracking-[0.18em] uppercase font-semibold">
+                12-HOUR HACKATHON
+              </span>
+            </div>
           </div>
 
           {/* Breathing Space: Date and Institution Masked Regions */}

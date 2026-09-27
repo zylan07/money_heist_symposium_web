@@ -199,12 +199,21 @@ function PassCard({
 
             {/* Hackathon Bar Highlight (for Pass 02) */}
             {hackathonBar && (
-              <div className="p-3.5 bg-[#171217] border border-[#ff1e27]/40 rounded space-y-1.5">
+              <div className="p-3.5 bg-[#171217] border border-[#ff1e27]/40 rounded space-y-2">
                 <div className="flex items-center justify-between border-b border-[#301c22] pb-1.5 flex-wrap gap-2">
-                  <span className="font-code-md text-xs text-[#ff544b] font-bold uppercase tracking-wider flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[15px]">timer</span>
-                    12-HOUR HACKATHON
-                  </span>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-headline-sm text-sm text-white font-bold uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-[#ff1e27] text-[16px]">lock</span>
+                      CODE VAULT
+                    </span>
+                    <span className="font-headline-sm text-xs text-[#ff544b] font-semibold uppercase tracking-wider">
+                      SOFTWARE EDITION
+                    </span>
+                    <span className="text-[#656070] text-xs">•</span>
+                    <span className="font-code-md text-[10px] text-[#a09ca8] uppercase tracking-wider">
+                      12-HOUR HACKATHON
+                    </span>
+                  </div>
                   <span className="inline-flex items-center gap-1 font-code-md text-[9px] text-[#48bb78] bg-[#0e1c12] border border-[#2f8d46]/50 px-2 py-0.5 rounded font-bold uppercase">
                     <img src={gfgLogo} alt="GeeksforGeeks" className="h-3 w-auto object-contain" />
                     POWERED BY GEEKSFORGEEKS
@@ -217,7 +226,14 @@ function PassCard({
                   <span className="text-[#656070]">•</span>
                   <span className="text-[#9ae6b4] font-semibold">WI-FI FACILITIES PROVIDED</span>
                   <span className="text-[#656070]">•</span>
-                  <span className="text-[#ff9995] font-semibold uppercase">EXCITING CASH PRIZES & GIFTS</span>
+                  <span className="text-[#ff9995] font-semibold uppercase">EXCITING CASH PRIZES & REWARDS</span>
+                </div>
+                {/* Internship Reward Callout */}
+                <div className="pt-1.5 border-t border-[#261a20] flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#ff8c42] text-[15px] shrink-0">military_tech</span>
+                  <span className="font-code-md text-[10.5px] uppercase tracking-wider text-[#ffb07c] font-bold">
+                    INTERNSHIP OPPORTUNITIES FOR HACKATHON PRIZE WINNERS
+                  </span>
                 </div>
               </div>
             )}
@@ -347,7 +363,7 @@ export default function MissionAccess() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-5xl mb-10">
           {[
             { label: 'ALL 6 MISSIONS', sub: 'DAY 1 & DAY 2' },
-            { label: '12-H HACKATHON', sub: 'SPECIAL EVENT' },
+            { label: 'CODE VAULT', sub: 'SOFTWARE EDITION' },
             { label: 'MEALS & FOOD', sub: 'LUNCH & REFRESHMENTS' },
             { label: 'WI-FI & CERTIFICATES', sub: 'ALL PARTICIPANTS' },
           ].map((perk, idx) => (
@@ -385,7 +401,7 @@ export default function MissionAccess() {
             price="₹399"
             priceSubtitle="COMPLETE TWO-DAY ADMISSION"
             priceSublabel="ONE PASS GIVES ACCESS TO ALL 6 EVENTS"
-            description="One Event Pass can be used to access ALL 6 events across both days of TECHBYTE SUMMIT '26. Participants do not need to purchase separate passes for individual events. Includes lunch on Day 1, lunch on Day 2, and day refreshments."
+            description="One Event Pass can be used to access ALL 6 events across both days of TECHBYTE SUMMIT 26. Participants do not need to purchase separate passes for individual events. Includes lunch on Day 1, lunch on Day 2, and day refreshments."
             benefits={[
               { title: '2 DAYS', subtitle: 'OCT 14 — 15' },
               { title: 'ALL 6 MISSIONS', subtitle: 'FULL ACCESS' },
@@ -398,16 +414,16 @@ export default function MissionAccess() {
             delay={250}
           />
 
-          {/* CARD 2 — HACKATHON PASS */}
+          {/* CARD 2 — HACKATHON PASS (CODE VAULT) */}
           <PassCard
             passType="HACKATHON PASS CREDENTIAL"
-            badgeText="HACKATHON + ALL MISSIONS"
+            badgeText="CODE VAULT + ALL MISSIONS"
             price="₹699"
-            priceSubtitle="12-HOUR HACKATHON + ALL 6 MISSIONS"
+            priceSubtitle="CODE VAULT — SOFTWARE EDITION + ALL 6 MISSIONS"
             priceSublabel="FLAGSHIP ADMISSION PROTOCOL"
-            description="Complete access to the 12-Hour continuous overnight Hackathon plus admission to all 6 symposium events across both days. Includes 2 lunches, 1 dinner, 1 breakfast, day refreshments, and night refreshments during the Hackathon."
+            description="Complete access to CODE VAULT — 12-Hour Software Hackathon plus admission to all 6 symposium events across both days. Includes 2 lunches, 1 dinner, 1 breakfast, day refreshments, and night refreshments during the Hackathon."
             benefits={[
-              { title: 'HACKATHON', subtitle: '12-H OVERNIGHT' },
+              { title: 'CODE VAULT', subtitle: '12-H SOFTWARE HACK' },
               { title: 'ALL 6 MISSIONS', subtitle: 'BOTH DAYS' },
               { title: 'MEALS (4)', subtitle: '2 LUNCH, DINNER, BFAST', highlight: true },
               { title: 'REFRESHMENTS', subtitle: 'DAY & NIGHT', highlight: true },

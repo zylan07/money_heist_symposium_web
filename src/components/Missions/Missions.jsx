@@ -237,11 +237,11 @@ export default function Missions({ onSelectMission, activeMissionId }) {
             <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#ff1e27]" />
             <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#ff1e27]" />
 
-            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8">
-              {/* Left Column: Special Event Identity & Title */}
-              <div className="flex-1 space-y-4">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+              {/* Left Column (7 cols): Identity, Specs & Details */}
+              <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-between space-y-4">
                 {/* Header badges */}
-                <div className="flex flex-wrap items-center gap-2.5">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#ff1e27]/20 border border-[#ff1e27] text-[#ff544b] text-[11px] sm:text-xs font-code-md font-bold uppercase tracking-[0.22em] rounded">
                     <span className="w-2 h-2 rounded-full bg-[#ff1e27] animate-pulse" />
                     SPECIAL EVENT
@@ -257,87 +257,133 @@ export default function Missions({ onSelectMission, activeMissionId }) {
                   </span>
                 </div>
 
-                {/* Main Hackathon Title */}
+                {/* Main Code Vault Title & Subtitles */}
                 <div>
-                  <h3 className="font-headline-lg text-3xl min-[400px]:text-4xl sm:text-5xl lg:text-6xl text-white tracking-[0.05em] uppercase leading-none drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)] group-hover:text-[#ffdad6] transition-colors">
-                    12-HOUR HACKATHON
+                  <h3 className="font-headline-lg text-4xl min-[400px]:text-5xl sm:text-6xl lg:text-7xl text-white tracking-[0.05em] uppercase leading-none drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)] group-hover:text-[#ffdad6] transition-colors">
+                    CODE VAULT
                   </h3>
-                  <div className="flex items-center gap-2 mt-2.5 text-[#ff544b] font-code-md text-xs sm:text-sm md:text-base tracking-[0.16em] uppercase font-bold">
-                    <span className="material-symbols-outlined text-[18px]">event_available</span>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 sm:mt-2.5">
+                    <span className="font-headline-sm text-base min-[400px]:text-lg sm:text-2xl text-[#ff544b] font-bold tracking-[0.20em] uppercase">
+                      SOFTWARE EDITION
+                    </span>
+                    <span className="text-[#605d66] text-sm hidden min-[400px]:inline">•</span>
+                    <span className="font-code-md text-xs sm:text-sm text-[#b0aeb8] tracking-[0.16em] uppercase font-semibold">
+                      12-HOUR HACKATHON
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 mt-2 text-[#ff9995] font-code-md text-xs sm:text-sm tracking-[0.14em] uppercase font-bold">
+                    <span className="material-symbols-outlined text-[16px]">event_available</span>
                     <span>14 OCTOBER 2026 • 7:00 PM — 15 OCTOBER 2026 • 7:00 AM</span>
                   </div>
                 </div>
 
                 {/* Briefing Text */}
-                <p className="font-body-md text-xs sm:text-sm text-[#cac5d0] leading-relaxed max-w-3xl">
-                  Build, solve, and innovate with your team through a 12-hour hands-on hackathon. Work together, develop your solution, and present your ideas within the challenge window.
+                <p className="font-body-md text-xs sm:text-sm text-[#cac5d0] leading-relaxed max-w-2xl">
+                  A 12-hour software hackathon where teams collaborate, build solutions, solve problems, and present their ideas.
                 </p>
 
-                {/* Key Badges Row */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-                  <div className="p-2.5 bg-[#17141d] border border-[#2e2938] rounded flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#ff544b] text-[18px]">groups</span>
-                    <div className="flex flex-col">
-                      <span className="font-code-md text-[9px] text-[#9a94a2] uppercase tracking-wider">TEAM SIZE</span>
-                      <span className="font-code-md text-xs text-white font-bold uppercase">2–4 MEMBERS</span>
+                {/* Key Specifications Row (3 uncrowded, responsive boxes) */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 w-full">
+                  <div className="p-3 bg-[#17141d] border border-[#2e2938] rounded flex items-center gap-3 min-w-0">
+                    <span className="material-symbols-outlined text-[#ff544b] text-[20px] shrink-0">groups</span>
+                    <div className="flex flex-col min-w-0">
+                      <span className="font-code-md text-[9.5px] text-[#9a94a2] uppercase tracking-wider block">TEAM SIZE</span>
+                      <span className="font-code-md text-xs sm:text-[13px] text-white font-bold uppercase block leading-tight">2–4 MEMBERS</span>
                     </div>
                   </div>
 
-                  <div className="p-2.5 bg-[#17141d] border border-[#2e2938] rounded flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#ff544b] text-[18px]">laptop_mac</span>
-                    <div className="flex flex-col">
-                      <span className="font-code-md text-[9px] text-[#9a94a2] uppercase tracking-wider">EQUIPMENT</span>
-                      <span className="font-code-md text-xs text-white font-bold uppercase">OWN LAPTOP REQUIRED</span>
+                  <div className="p-3 bg-[#17141d] border border-[#2e2938] rounded flex items-center gap-3 min-w-0">
+                    <span className="material-symbols-outlined text-[#ff544b] text-[20px] shrink-0">laptop_mac</span>
+                    <div className="flex flex-col min-w-0">
+                      <span className="font-code-md text-[9.5px] text-[#9a94a2] uppercase tracking-wider block">EQUIPMENT</span>
+                      <span className="font-code-md text-xs sm:text-[13px] text-white font-bold uppercase block leading-tight">OWN LAPTOP REQUIRED</span>
                     </div>
                   </div>
 
-                  <div className="p-2.5 bg-[#17141d] border border-[#2f8d46]/50 rounded flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#48bb78] text-[18px]">wifi</span>
-                    <div className="flex flex-col">
-                      <span className="font-code-md text-[9px] text-[#9ae6b4] uppercase tracking-wider">CONNECTIVITY</span>
-                      <span className="font-code-md text-xs text-[#dcfce7] font-bold uppercase">WI-FI FACILITIES PROVIDED</span>
+                  <div className="p-3 bg-[#17141d] border border-[#2f8d46]/50 rounded flex items-center gap-3 min-w-0">
+                    <span className="material-symbols-outlined text-[#48bb78] text-[20px] shrink-0">wifi</span>
+                    <div className="flex flex-col min-w-0">
+                      <span className="font-code-md text-[9.5px] text-[#9ae6b4] uppercase tracking-wider block">CONNECTIVITY</span>
+                      <span className="font-code-md text-xs sm:text-[13px] text-[#dcfce7] font-bold uppercase block leading-tight">WI-FI FACILITIES PROVIDED</span>
                     </div>
                   </div>
+                </div>
 
-                  <div className="p-2.5 bg-[#1f1214] border border-[#ff1e27]/50 rounded flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#ff544b] text-[18px]">workspace_premium</span>
-                    <div className="flex flex-col">
-                      <span className="font-code-md text-[9px] text-[#ff9995] uppercase tracking-wider">AWARDS</span>
-                      <span className="font-code-md text-[11px] text-white font-bold uppercase truncate">CASH PRIZES & GIFTS</span>
-                    </div>
+                {/* Coordinators / Supporting Info */}
+                <div className="pt-2 border-t border-[#232029] flex flex-wrap items-center justify-between gap-2 text-[#9a94a2] font-code-md text-[10.5px] sm:text-xs uppercase tracking-wider">
+                  <div className="flex items-center gap-1.5 text-[#ffdad6]">
+                    <span className="material-symbols-outlined text-[#ff544b] text-[15px]">contact_phone</span>
+                    <span>COORDINATORS: SATHYA R V (7604903115) • SRIVISHNU J (6382906285)</span>
                   </div>
+                  <span className="text-[#ff544b] font-semibold">OPEN TO ALL ENGG DISCIPLINES</span>
                 </div>
               </div>
 
-              {/* Right Column: Prize Element & Interactive Vault CTA */}
-              <div className="flex flex-col items-center lg:items-end justify-center gap-4 lg:min-w-[280px] shrink-0 border-t lg:border-t-0 lg:border-l border-[#2e2938] pt-5 lg:pt-0 lg:pl-8">
-                {/* Exciting Cash Prizes Highlight */}
-                <div className="w-full text-center lg:text-right p-3.5 bg-[#1b1216] border border-[#ff1e27]/40 rounded">
-                  <span className="block font-code-md text-[10px] text-[#ff9995] uppercase tracking-widest font-bold">
-                    PRIZE POOL
-                  </span>
-                  <span className="font-headline-sm text-lg sm:text-xl text-white font-bold uppercase tracking-wider block mt-0.5">
-                    EXCITING CASH PRIZES & GIFTS
+              {/* Right Column (5 cols): Dedicated Rewards, High-Prominence Internship Panel & CTA */}
+              <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-[#2e2938] pt-6 lg:pt-0 lg:pl-7 gap-4">
+                {/* Prize Pool & Rewards Panel */}
+                <div className="p-3.5 sm:p-4 bg-[#170e12] border border-[#ff1e27]/40 rounded shadow-inner">
+                  <div className="flex items-center justify-between border-b border-[#30161a] pb-1.5 mb-2">
+                    <span className="font-code-md text-[10px] sm:text-[11px] text-[#ff9995] uppercase tracking-widest font-bold flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-[15px]">workspace_premium</span>
+                      AWARDS & PRIZE POOL
+                    </span>
+                    <span className="bg-[#ff1e27]/25 text-[#ff544b] font-code-md text-[9px] px-2 py-0.5 rounded uppercase font-semibold">
+                      OFFICIAL
+                    </span>
+                  </div>
+                  <span className="font-headline-sm text-lg sm:text-xl lg:text-2xl text-white font-bold uppercase tracking-wider block leading-tight">
+                    EXCITING CASH PRIZES & REWARDS
                   </span>
                 </div>
 
-                {/* Vault Trigger Button */}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (onSelectMission) onSelectMission('special-hackathon');
-                  }}
-                  className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#ff1e27] hover:bg-[#ff333c] text-white font-headline-sm text-base sm:text-lg uppercase tracking-[0.14em] rounded shadow-[0_0_25px_rgba(255,30,39,0.4)] group-hover:shadow-[0_0_35px_rgba(255,30,39,0.6)] transition-all font-semibold cursor-pointer"
-                >
-                  <span className="material-symbols-outlined text-[20px]">lock_open</span>
-                  <span>VIEW DETAILS</span>
-                  <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                </button>
+                {/* High-Prominence Career Opportunity & Internship Panel */}
+                <div className="relative p-4 sm:p-5 bg-gradient-to-br from-[#24130b] via-[#1a0e0c] to-[#12080a] border-2 border-[#ff8c42] rounded-lg shadow-[0_0_30px_rgba(255,140,66,0.25)] overflow-hidden">
+                  {/* Ambient accent corner glow */}
+                  <div className="absolute top-0 right-0 w-28 h-28 bg-[#ff8c42]/12 rounded-full blur-2xl pointer-events-none" />
 
-                <span className="font-code-md text-[10px] text-[#a09ca8] uppercase tracking-widest">
-                  ACCESS SECURE VAULT DOSSIER
-                </span>
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-7 h-7 rounded-full bg-[#ff8c42]/20 border border-[#ff8c42] flex items-center justify-center text-[#ff8c42] shrink-0">
+                        <span className="material-symbols-outlined text-[17px]">military_tech</span>
+                      </div>
+                      <span className="font-code-md text-[10.5px] sm:text-xs text-[#ffb07c] uppercase tracking-[0.22em] font-bold">
+                        CAREER OPPORTUNITY
+                      </span>
+                    </div>
+
+                    <h4 className="font-headline-sm text-lg sm:text-xl lg:text-[22px] text-white font-bold uppercase tracking-wide leading-tight drop-shadow">
+                      INTERNSHIP OPPORTUNITIES
+                      <span className="block text-[#ff9e59] text-base sm:text-lg lg:text-xl mt-0.5">
+                        FOR HACKATHON PRIZE WINNERS
+                      </span>
+                    </h4>
+
+                    <p className="font-code-md text-[10px] sm:text-[11px] text-[#e0dad5]/80 uppercase tracking-wider mt-2 font-medium">
+                      Exclusive career pathway & industry exposure for prize winners
+                    </p>
+                  </div>
+                </div>
+
+                {/* Vault Trigger Button & Access Hint */}
+                <div className="w-full pt-1 flex flex-col items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onSelectMission) onSelectMission('special-hackathon');
+                    }}
+                    className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#ff1e27] hover:bg-[#ff333c] text-white font-headline-sm text-base sm:text-lg uppercase tracking-[0.14em] rounded shadow-[0_0_25px_rgba(255,30,39,0.4)] group-hover:shadow-[0_0_35px_rgba(255,30,39,0.6)] transition-all font-semibold cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[20px]">lock_open</span>
+                    <span>VIEW DETAILS</span>
+                    <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                  </button>
+
+                  <span className="font-code-md text-[10px] text-[#a09ca8] uppercase tracking-widest text-center">
+                    ACCESS SECURE VAULT DOSSIER
+                  </span>
+                </div>
               </div>
             </div>
           </div>

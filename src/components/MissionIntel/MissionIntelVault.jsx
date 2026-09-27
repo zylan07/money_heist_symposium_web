@@ -782,9 +782,26 @@ export default function MissionIntelVault({ missionId, onClose }) {
                     TIME: {mission.time}
                   </span>
                 </div>
-                <h2 className="font-headline-sm text-2xl sm:text-3xl lg:text-4xl text-white uppercase tracking-[0.08em] leading-tight">
-                  {mission.fullTitle}
-                </h2>
+                {mission.id === 'special-hackathon' ? (
+                  <div>
+                    <h2 className="font-headline-sm text-2xl sm:text-3xl lg:text-4xl text-white uppercase tracking-[0.08em] leading-tight font-bold">
+                      CODE VAULT
+                    </h2>
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                      <span className="font-headline-sm text-sm sm:text-base text-[#ff544b] uppercase tracking-wider font-semibold">
+                        SOFTWARE EDITION
+                      </span>
+                      <span className="text-[#605d68] text-xs">•</span>
+                      <span className="font-code-md text-xs text-[#a09ca8] uppercase tracking-wider">
+                        12-HOUR HACKATHON
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <h2 className="font-headline-sm text-2xl sm:text-3xl lg:text-4xl text-white uppercase tracking-[0.08em] leading-tight">
+                    {mission.fullTitle}
+                  </h2>
+                )}
                 {mission.poweredBy && (
                   <div className="inline-flex items-center gap-2 bg-[#0e1c12] border border-[#2f8d46]/70 px-2.5 py-1 rounded mt-1.5 shadow-sm">
                     <img src={gfgLogo} alt="GeeksforGeeks" className="h-4 w-auto object-contain" />
@@ -859,12 +876,22 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 {/* Generalized Prize Pool Display */}
                 <div className="p-4 sm:p-5 bg-[#12080a] border border-[#ff1e27]/50 rounded text-center flex flex-col items-center justify-center shadow-inner">
                   <span className="font-code-md text-xs sm:text-sm text-[#ff9995] uppercase tracking-widest font-bold mb-1">
-                    PRIZE POOL
+                    {mission.id === 'special-hackathon' ? 'PRIZE POOL & REWARDS' : 'PRIZE POOL'}
                   </span>
                   <span className="font-headline-lg text-2xl sm:text-3xl lg:text-4xl text-[#ff544b] font-bold tracking-tight uppercase">
                     {mission.prizePool}
                   </span>
                 </div>
+
+                {/* Internship Rewards Callout for CODE VAULT */}
+                {mission.id === 'special-hackathon' && (
+                  <div className="mt-3 p-3.5 bg-[#1e1510] border border-[#ff8c42]/60 rounded flex items-center justify-center gap-2.5 text-center shadow-sm">
+                    <span className="material-symbols-outlined text-[#ff8c42] text-[22px] shrink-0">military_tech</span>
+                    <span className="font-headline-sm text-xs sm:text-sm text-[#ffdad6] uppercase font-bold tracking-wider">
+                      INTERNSHIP OPPORTUNITIES FOR HACKATHON PRIZE WINNERS
+                    </span>
+                  </div>
+                )}
 
                 {/* Certificate Policy */}
                 <div className="mt-4 pt-3 border-t border-[#3d191d] flex items-center gap-2.5 p-3 bg-[#160c0e] border border-[#3d191d] rounded text-left">
