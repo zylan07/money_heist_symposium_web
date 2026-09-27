@@ -623,7 +623,7 @@ export default function Hero() {
               <div className="mt-1.5 sm:mt-2 flex items-center justify-center">
                 <span className="font-code-md text-[9px] sm:text-[10px] text-[#ffdad6] tracking-[0.12em] uppercase px-3 py-0.5 rounded-full bg-[#1e1c22]/80 border border-[#ff1e27]/40 shadow-[0_0_10px_rgba(255,30,39,0.12)] flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff1e27] animate-pulse shrink-0" />
-                  Open to all engineering discipline students
+                  OPEN TO STUDENTS FROM ALL DISCIPLINES
                 </span>
               </div>
 

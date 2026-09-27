@@ -315,7 +315,7 @@ export default function Missions({ onSelectMission, activeMissionId }) {
                     <span className="material-symbols-outlined text-[#ff544b] text-[15px]">contact_phone</span>
                     <span>COORDINATORS: SATHYA R V (7604903115) • SRIVISHNU J (6382906285)</span>
                   </div>
-                  <span className="text-[#ff544b] font-semibold">OPEN TO ALL ENGG DISCIPLINES</span>
+                  <span className="text-[#ff544b] font-semibold">OPEN TO STUDENTS FROM ALL DISCIPLINES</span>
                 </div>
               </div>
 

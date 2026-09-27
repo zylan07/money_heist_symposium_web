@@ -233,7 +233,7 @@ export default function CommandChannel() {
                   {
                     num: "01",
                     q: "Who can participate?",
-                    a: "Open to engineering students from all accredited institutions across eligible mission streams."
+                    a: "Open to students from all disciplines and accredited institutions across eligible mission streams."
                   },
                   {
                     num: "02",
