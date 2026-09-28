@@ -10,8 +10,10 @@ function PassCard({
   passType,
   badgeText,
   price,
+  priceUnit = '/ PERSON',
   priceSubtitle,
   priceSublabel,
+  noticeBanner,
   description,
   benefits,
   hackathonBar,
@@ -111,7 +113,7 @@ function PassCard({
           <div className="flex items-start justify-between gap-4 border-b border-[#212127] pb-4 mb-6">
             <div className="flex flex-col">
               <span className="font-headline-sm text-xl min-[380px]:text-2xl sm:text-3xl text-white uppercase tracking-[0.10em] sm:tracking-[0.12em]">
-                TECHBYTE SUMMIT '26
+                TECHBYTE SUMMIT 26
               </span>
               <span className="font-code-md text-[10px] tracking-[0.24em] text-[#ff544b] uppercase mt-0.5">
                 {passType}
@@ -141,7 +143,7 @@ function PassCard({
                   {price}
                 </span>
                 <span className="font-headline-sm text-2xl sm:text-3xl lg:text-4xl text-[#ff544b] font-bold tracking-wider uppercase">
-                  ONLY
+                  {priceUnit}
                 </span>
               </div>
               <div className="flex flex-col ml-1">
@@ -154,17 +156,42 @@ function PassCard({
               </div>
             </div>
 
-            {/* Description */}
-            <p
-              className="font-body-md text-xs sm:text-sm text-[#d4d1da] leading-relaxed max-w-xl transition-all duration-700"
-              style={{
-                opacity: inView ? 1 : 0,
-                transitionDelay: `${delay + 250}ms`,
-                transitionTimingFunction: MOTION_EASING.cinematic,
-              }}
-            >
-              {description}
-            </p>
+            {/* Prominent Notice Banner */}
+            {noticeBanner && (
+              <div
+                className="p-3 sm:p-3.5 bg-[#171217] border border-[#ff1e27]/40 rounded flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-inner transition-all duration-700"
+                style={{
+                  opacity: inView ? 1 : 0,
+                  transform: inView ? 'translateY(0)' : 'translateY(12px)',
+                  transitionDelay: `${delay + 200}ms`,
+                  transitionTimingFunction: MOTION_EASING.cinematic,
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#ff1e27] text-[18px] shrink-0">verified</span>
+                  <span className="font-headline-sm text-xs sm:text-sm text-white font-bold tracking-wider uppercase">
+                    {noticeBanner.title}
+                  </span>
+                </div>
+                <span className="font-code-md text-[10px] text-[#ff9995] uppercase tracking-wider font-semibold">
+                  {noticeBanner.subtitle}
+                </span>
+              </div>
+            )}
+
+            {/* Description (optional short supporting line) */}
+            {description && (
+              <p
+                className="font-body-md text-xs sm:text-sm text-[#d4d1da] leading-relaxed max-w-xl transition-all duration-700"
+                style={{
+                  opacity: inView ? 1 : 0,
+                  transitionDelay: `${delay + 250}ms`,
+                  transitionTimingFunction: MOTION_EASING.cinematic,
+                }}
+              >
+                {description}
+              </p>
+            )}
 
             {/* Explicit Benefits */}
             <div
@@ -219,8 +246,10 @@ function PassCard({
                     POWERED BY GEEKSFORGEEKS
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-code-md text-[#dcd8e4]">
-                  <span>2–4 MEMBERS</span>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-code-md text-[#dcd8e4]">
+                  <span className="text-white font-semibold">TEAM SIZE: 2–4 MEMBERS</span>
+                  <span className="text-[#656070]">•</span>
+                  <span className="text-[#ffdad6] font-semibold">INDIVIDUAL PASS (EACH MEMBER REQUIRES OWN PASS)</span>
                   <span className="text-[#656070]">•</span>
                   <span>OWN LAPTOP REQUIRED</span>
                   <span className="text-[#656070]">•</span>
@@ -306,7 +335,7 @@ function PassCard({
           {/* Bottom Verification Label */}
           <div className="w-full pt-3 border-t border-[#1a1922] flex flex-col items-center">
             <span className="font-code-md text-[9px] text-[#a09ca8] uppercase tracking-[0.2em]">
-              {passType} // 2026
+              INDIVIDUAL PASS // 2026
             </span>
             <span className="font-code-md text-[8px] text-[#ff544b]/80 uppercase tracking-widest mt-0.5">
               DEPT OF COMPUTER SCIENCE & ENGG
@@ -355,14 +384,14 @@ export default function MissionAccess() {
             />
           </h2>
           <p className="font-code-md text-xs sm:text-sm tracking-[0.28em] text-[#ffdad6]/80 uppercase">
-            CHOOSE YOUR PASS CREDENTIAL • TWO DAYS • FULL ADMISSION
+            INDIVIDUAL PASSES • ONE PASS GIVES ACCESS TO ALL 6 EVENTS • TWO DAYS
           </p>
         </div>
 
         {/* 4 Feature Badges */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-5xl mb-10">
           {[
-            { label: 'ALL 6 MISSIONS', sub: 'DAY 1 & DAY 2' },
+            { label: 'ALL 6 EVENTS', sub: 'ONE PASS ACCESS' },
             { label: 'CODE VAULT', sub: 'SOFTWARE EDITION' },
             { label: 'MEALS & FOOD', sub: 'LUNCH & REFRESHMENTS' },
             { label: 'WI-FI & CERTIFICATES', sub: 'ALL PARTICIPANTS' },
@@ -396,17 +425,21 @@ export default function MissionAccess() {
         <div className="flex flex-col items-center gap-8 sm:gap-10 w-full">
           {/* CARD 1 — EVENT PASS */}
           <PassCard
-            passType="EVENT PASS CREDENTIAL"
-            badgeText="ALL-ACCESS PASS"
+            passType="EVENT PASS — INDIVIDUAL PASS"
+            badgeText="INDIVIDUAL PASS — ₹399"
             price="₹399"
-            priceSubtitle="COMPLETE TWO-DAY ADMISSION"
-            priceSublabel="ONE PASS GIVES ACCESS TO ALL 6 EVENTS"
-            description="One Event Pass can be used to access ALL 6 events across both days of TECHBYTE SUMMIT 26. Participants do not need to purchase separate passes for individual events. Includes lunch on Day 1, lunch on Day 2, and day refreshments."
+            priceUnit="/ PERSON"
+            priceSubtitle="ACCESS TO ALL 6 EVENTS"
+            priceSublabel="ONE PASS • ALL 6 EVENTS"
+            noticeBanner={{
+              title: 'ONE PASS GIVES ONE PARTICIPANT ACCESS TO ALL 6 EVENTS',
+              subtitle: 'NO SEPARATE PASS REQUIRED FOR EACH EVENT',
+            }}
             benefits={[
+              { title: 'ALL 6 EVENTS', subtitle: 'ONE PASS ACCESS' },
               { title: '2 DAYS', subtitle: 'OCT 14 — 15' },
-              { title: 'ALL 6 MISSIONS', subtitle: 'FULL ACCESS' },
-              { title: 'LUNCH', subtitle: 'DAY 1 & DAY 2', highlight: true },
-              { title: 'REFRESHMENTS', subtitle: 'DAY 1 & DAY 2', highlight: true },
+              { title: 'LUNCH (2 DAYS)', subtitle: 'DAY 1 & DAY 2', highlight: true },
+              { title: 'REFRESHMENTS', subtitle: 'DAY REFRESHMENTS', highlight: true },
             ]}
             ctaText="GET EVENT PASS"
             isFeatured={false}
@@ -416,15 +449,19 @@ export default function MissionAccess() {
 
           {/* CARD 2 — HACKATHON PASS (CODE VAULT) */}
           <PassCard
-            passType="HACKATHON PASS CREDENTIAL"
-            badgeText="CODE VAULT + ALL MISSIONS"
+            passType="HACKATHON PASS — INDIVIDUAL PASS"
+            badgeText="INDIVIDUAL PASS — ₹699"
             price="₹699"
-            priceSubtitle="CODE VAULT — SOFTWARE EDITION + ALL 6 MISSIONS"
-            priceSublabel="FLAGSHIP ADMISSION PROTOCOL"
-            description="Complete access to CODE VAULT — 12-Hour Software Hackathon plus admission to all 6 symposium events across both days. Includes 2 lunches, 1 dinner, 1 breakfast, day refreshments, and night refreshments during the Hackathon."
+            priceUnit="/ PERSON"
+            priceSubtitle="ACCESS TO ALL 6 EVENTS + CODE VAULT"
+            priceSublabel="ONE PASS • ALL 6 EVENTS + HACKATHON"
+            noticeBanner={{
+              title: 'ONE PASS GIVES ONE PARTICIPANT ACCESS TO ALL 6 EVENTS + CODE VAULT',
+              subtitle: 'NO SEPARATE PASS REQUIRED FOR EACH EVENT',
+            }}
             benefits={[
               { title: 'CODE VAULT', subtitle: '12-H SOFTWARE HACK' },
-              { title: 'ALL 6 MISSIONS', subtitle: 'BOTH DAYS' },
+              { title: 'ALL 6 EVENTS', subtitle: 'ACCESS TO ALL 6' },
               { title: 'MEALS (4)', subtitle: '2 LUNCH, DINNER, BFAST', highlight: true },
               { title: 'REFRESHMENTS', subtitle: 'DAY & NIGHT', highlight: true },
             ]}
@@ -456,7 +493,7 @@ export default function MissionAccess() {
             <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
           </a>
           <span className="font-code-md text-xs text-[#c8c5ca]/70 tracking-[0.22em] uppercase mt-3 text-center">
-            EVENT PASS: ₹399 • HACKATHON PASS: ₹699 • VIA TICKET9
+            INDIVIDUAL PASSES: EVENT PASS ₹399/PERSON • HACKATHON PASS ₹699/PERSON • VIA TICKET9
           </span>
         </div>
       </div>
