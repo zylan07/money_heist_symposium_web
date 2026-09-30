@@ -63,7 +63,7 @@ const CELEBRATION_NOTES = [
 ];
 
 export default function Missions({ onSelectMission, activeMissionId }) {
-  const [sectionRef, inView] = useInViewAnimation({ threshold: 0.1 });
+  const [sectionRef, inView] = useInViewAnimation({ threshold: 0, rootMargin: '0px 0px -20px 0px' });
   const cardRef = useRef(null);
   const glareRef = useRef(null);
 
@@ -134,11 +134,15 @@ export default function Missions({ onSelectMission, activeMissionId }) {
     <section
       ref={sectionRef}
       id="missions"
-      className={`w-full bg-[#08080a]/25 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 relative border-t border-[#1c1b1e]/60 py-16 sm:py-24 transition-[opacity,transform] duration-700 will-change-[transform,opacity] ${
+      className={`w-full bg-[#08080a]/25 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 relative py-16 sm:py-24 transition-[opacity,transform] duration-700 will-change-[transform,opacity] overflow-x-clip ${
         inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
       style={{ transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)' }}
     >
+      {/* Cinematic Soft Atmospheric Gradient Transitions (Top & Bottom fades) */}
+      <div className="absolute top-0 inset-x-0 h-32 pointer-events-none bg-gradient-to-b from-[#08080a] via-[#08080a]/40 to-transparent z-0" />
+      <div className="absolute bottom-0 inset-x-0 h-32 pointer-events-none bg-gradient-to-t from-[#08080a] via-[#08080a]/40 to-transparent z-0" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(255,30,39,0.04)_0%,transparent_70%)]" />
       <div className="w-full max-w-[1680px] mx-auto relative z-10">
         {/* Section Header */}
         <div
@@ -179,7 +183,7 @@ export default function Missions({ onSelectMission, activeMissionId }) {
         {/* SPECIAL EVENT — 12-HOUR HACKATHON SPOTLIGHT CARD */}
         {/* ========================================================================= */}
         <div
-          className="w-full my-10 sm:my-14 relative perspective-[1200px]"
+          className="w-full my-10 sm:my-14 relative [perspective:1200px]"
           style={{
             opacity: inView ? 1 : 0,
             transform: inView ? 'translateY(0)' : 'translateY(24px)',
@@ -190,7 +194,7 @@ export default function Missions({ onSelectMission, activeMissionId }) {
           {showMoney && (
             <div
               aria-hidden="true"
-              className="absolute -top-4 left-1/2 -translate-x-1/2 w-0 h-0 pointer-events-none z-30 perspective-[1000px] overflow-visible"
+              className="absolute -top-4 left-1/2 -translate-x-1/2 w-0 h-0 pointer-events-none z-30 [perspective:1000px] overflow-visible"
             >
               {CELEBRATION_NOTES.map((note, idx) => (
                 <div
@@ -279,8 +283,24 @@ export default function Missions({ onSelectMission, activeMissionId }) {
 
                 {/* Briefing Text */}
                 <p className="font-body-md text-xs sm:text-sm text-[#cac5d0] leading-relaxed max-w-2xl">
-                  A 12-hour software hackathon where teams collaborate, build solutions, solve problems, and present their ideas.
+                  A 12-hour software hackathon where teams work on an SDG-aligned real-world problem and build a working software solution during the official development window.
                 </p>
+
+                {/* Core Focus Badges */}
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-0.5">
+                  <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#ffdad6] bg-[#22161b] border border-[#ff1e27]/40 px-2.5 py-0.5 rounded uppercase font-semibold">
+                    SOFTWARE-ONLY
+                  </span>
+                  <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#90caf9] bg-[#0d1624] border border-[#1e324d] px-2.5 py-0.5 rounded uppercase font-semibold">
+                    SDG-ALIGNED THEME
+                  </span>
+                  <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#ffd166] bg-[#1c180d] border border-[#4a3f18] px-2.5 py-0.5 rounded uppercase font-semibold">
+                    RANDOM PROBLEM ALLOCATION
+                  </span>
+                  <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#a0aec0] bg-[#141419] border border-[#2d2d38] px-2.5 py-0.5 rounded uppercase font-semibold">
+                    NO PRE-BUILT PROJECTS
+                  </span>
+                </div>
 
                 {/* Key Specifications Row (3 uncrowded, responsive boxes) */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 w-full">
@@ -360,7 +380,7 @@ export default function Missions({ onSelectMission, activeMissionId }) {
                     </h4>
 
                     <p className="font-code-md text-[10px] sm:text-[11px] text-[#e0dad5]/80 uppercase tracking-wider mt-2 font-medium">
-                      Exclusive career pathway & industry exposure for prize winners
+                      Subject to partner selection process • Exciting cash prizes & rewards
                     </p>
                   </div>
                 </div>
@@ -376,7 +396,7 @@ export default function Missions({ onSelectMission, activeMissionId }) {
                     className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#ff1e27] hover:bg-[#ff333c] text-white font-headline-sm text-base sm:text-lg uppercase tracking-[0.14em] rounded shadow-[0_0_25px_rgba(255,30,39,0.4)] group-hover:shadow-[0_0_35px_rgba(255,30,39,0.6)] transition-all font-semibold cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[20px]">lock_open</span>
-                    <span>VIEW DETAILS</span>
+                    <span>ENTER THE VAULT</span>
                     <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
                   </button>
 

@@ -32,14 +32,37 @@ export default function CircularMissionCarousel({
   const [dimensions, setDimensions] = useState({
     radius: 380,
     cardWidth: 350,
-    cardHeight: 440,
+    cardHeight: 460,
     perspective: 1600,
     isMobile: false,
     isTablet: false,
   });
 
-  const dimensionsRef = useRef(dimensions);
-  dimensionsRef.current = dimensions;
+  // Dynamic content-driven card height per mission card across all viewports
+  const getInitialCardHeights = (ids, isMobile = false) => {
+    // Day 1 missions: Mission 01 (~390px/415px), Mission 02 with prototype warning (~440px/490px), Mission 03 with 5 specs + AI policy (~480px/530px)
+    if (ids.includes('mission-03')) {
+      return isMobile ? [415, 490, 530] : [390, 440, 480];
+    }
+    // Day 2 missions: Mission 04 (~400px/435px), Mission 05 (~405px/445px), Mission 06 with 5 specs + GFG coupons (~475px/525px)
+    return isMobile ? [435, 445, 525] : [400, 405, 475];
+  };
+
+  const isInitialMobile = typeof window !== 'undefined' ? window.innerWidth < 640 : false;
+  const [cardHeights, setCardHeights] = useState(() => getInitialCardHeights(missionIds, isInitialMobile));
+  const cardHeightsRef = useRef(getInitialCardHeights(missionIds, isInitialMobile));
+
+  // The card height accommodates the actual content with a sensible minimum
+  const minBaseHeight = dimensions.isMobile ? 380 : 390;
+  const maxCardHeight = Math.max(...cardHeights, minBaseHeight);
+  const stageHeight = maxCardHeight + (dimensions.isMobile ? 36 : 48);
+
+  const dimensionsRef = useRef({ ...dimensions, cardHeight: maxCardHeight });
+  dimensionsRef.current = { ...dimensions, cardHeight: maxCardHeight };
+
+  // Viewport intersection ref for pausing RAF loop when off-screen
+  const isCarouselVisibleRef = useRef(true);
+  const startLoopRef = useRef(null);
 
   // Rotation angles
   const targetAngleRef = useRef(initialAngle);
@@ -62,15 +85,37 @@ export default function CircularMissionCarousel({
   // Assembly animation progress
   const assemblyProgressRef = useRef(prefersReduced ? 1 : 0);
 
+  // Viewport IntersectionObserver to pause carousel RAF when scrolled off-screen
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      isCarouselVisibleRef.current = true;
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isCarouselVisibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting && startLoopRef.current) {
+          startLoopRef.current();
+        }
+      },
+      { threshold: 0, rootMargin: '100px 0px 100px 0px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   // Update responsive dimensions
   useEffect(() => {
     const updateDimensions = () => {
       const w = window.innerWidth;
-      if (w < 400) {
+      if (w < 380) {
         setDimensions({
           radius: 170,
-          cardWidth: Math.min(270, w - 36),
-          cardHeight: 410,
+          cardWidth: Math.min(270, w - 28),
+          cardHeight: 335,
           perspective: 850,
           isMobile: true,
           isTablet: false,
@@ -78,18 +123,18 @@ export default function CircularMissionCarousel({
       } else if (w < 640) {
         setDimensions({
           radius: 210,
-          cardWidth: 285,
-          cardHeight: 430,
+          cardWidth: 295,
+          cardHeight: 340,
           perspective: 1000,
           isMobile: true,
           isTablet: false,
         });
       } else if (w < 1024) {
         setDimensions({
-          radius: 310,
-          cardWidth: 315,
-          cardHeight: 440,
-          perspective: 1300,
+          radius: 295,
+          cardWidth: 320,
+          cardHeight: 450,
+          perspective: 1250,
           isMobile: false,
           isTablet: true,
         });
@@ -97,7 +142,7 @@ export default function CircularMissionCarousel({
         setDimensions({
           radius: 380,
           cardWidth: 350,
-          cardHeight: 440,
+          cardHeight: 460,
           perspective: 1600,
           isMobile: false,
           isTablet: false,
@@ -109,6 +154,84 @@ export default function CircularMissionCarousel({
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
+
+  // Synchronize initial heights when missionIds or mobile layout changes
+  useEffect(() => {
+    const initial = getInitialCardHeights(missionIds, dimensions.isMobile);
+    cardHeightsRef.current = initial;
+    setCardHeights(initial);
+  }, [missionIds, dimensions.isMobile]);
+
+  // Dynamic content-driven card height measurement across all viewports
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const measureCardHeights = () => {
+      const newHeights = [...cardHeightsRef.current];
+      let changed = false;
+
+      cardElementsRef.current.forEach((el, idx) => {
+        if (!el) return;
+        const inner = el.querySelector('.mission-card');
+        if (!inner) return;
+
+        const innerStyle = window.getComputedStyle(inner);
+        const padBottom = parseFloat(innerStyle.paddingBottom) || 16;
+
+        let contentH = 0;
+        const children = inner.children;
+        if (children.length > 0) {
+          const lastChild = children[children.length - 1];
+          // Untransformed layout coordinates relative to inner (offsetParent)
+          // invariant to CSS 3D scale and rotate transforms
+          contentH = Math.ceil(lastChild.offsetTop + lastChild.offsetHeight + padBottom);
+        }
+
+        const measuredH = Math.max(
+          contentH,
+          Math.ceil(inner.offsetHeight || 0),
+          Math.ceil(inner.scrollHeight || 0)
+        );
+
+        if (measuredH > 250 && Math.abs(measuredH - (newHeights[idx] || 0)) > 2) {
+          newHeights[idx] = measuredH;
+          changed = true;
+        }
+      });
+
+      if (changed) {
+        cardHeightsRef.current = newHeights;
+        setCardHeights(newHeights);
+      }
+    };
+
+    measureCardHeights();
+    const rafId = requestAnimationFrame(measureCardHeights);
+    const timer = setTimeout(measureCardHeights, 80);
+
+    const observers = [];
+    if (typeof ResizeObserver !== 'undefined') {
+      cardElementsRef.current.forEach((el) => {
+        if (!el) return;
+        const inner = el.querySelector('.mission-card');
+        if (inner) {
+          const ro = new ResizeObserver(() => {
+            measureCardHeights();
+          });
+          ro.observe(inner);
+          observers.push(ro);
+        }
+      });
+    }
+
+    window.addEventListener('resize', measureCardHeights);
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timer);
+      window.removeEventListener('resize', measureCardHeights);
+      observers.forEach((ro) => ro.disconnect());
+    };
+  }, [missionIds, dimensions.cardWidth, dimensions.isMobile]);
 
   // Assembly entrance animation
   useEffect(() => {
@@ -211,7 +334,7 @@ export default function CircularMissionCarousel({
     };
 
     const loop = () => {
-      if (!inView || document.hidden) {
+      if (!inView || !isCarouselVisibleRef.current || document.hidden) {
         animId = null;
         return;
       }
@@ -246,12 +369,18 @@ export default function CircularMissionCarousel({
       animId = requestAnimationFrame(loop);
     };
 
-    if (inView && !document.hidden) {
+    startLoopRef.current = () => {
+      if (inView && isCarouselVisibleRef.current && !document.hidden && !animId) {
+        animId = requestAnimationFrame(loop);
+      }
+    };
+
+    if (inView && isCarouselVisibleRef.current && !document.hidden) {
       animId = requestAnimationFrame(loop);
     }
 
     const handleVisibility = () => {
-      if (!document.hidden && inView && !animId) {
+      if (!document.hidden && inView && isCarouselVisibleRef.current && !animId) {
         animId = requestAnimationFrame(loop);
       } else if (document.hidden && animId) {
         cancelAnimationFrame(animId);
@@ -263,6 +392,7 @@ export default function CircularMissionCarousel({
     return () => {
       if (animId) cancelAnimationFrame(animId);
       document.removeEventListener('visibilitychange', handleVisibility);
+      startLoopRef.current = null;
     };
   }, [inView, autoRotateSpeed, missionIds, prefersReduced]);
 
@@ -350,12 +480,28 @@ export default function CircularMissionCarousel({
     targetAngleRef.current += direction * 120;
   };
 
+  // Keyboard navigation for carousel
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      stepCard(-1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      stepCard(1);
+    }
+  };
+
   const activeMission = MISSIONS_DATA[missionIds[activeCardIndex]];
 
   return (
     <div
       ref={containerRef}
-      className="w-full flex flex-col items-center select-none relative my-6"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={`${dayTitle} Missions Carousel`}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      className="w-full flex flex-col items-center select-none relative my-6 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#ff1e27]"
       onWheel={handleWheel}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -363,52 +509,129 @@ export default function CircularMissionCarousel({
       onPointerLeave={handlePointerUp}
       style={{ touchAction: 'pan-y' }}
     >
-      {/* Day Banner & Active Mission Telemetry */}
-      <div className="w-full flex items-center justify-between bg-[#121216]/90 border border-[#26252d] px-4 sm:px-6 py-3 rounded-sm mb-6 z-20 backdrop-blur-sm shadow-md">
-        <div className="flex items-center gap-3">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#ff1e27] shadow-[0_0_10px_#ff1e27] animate-pulse" />
-          <h3 className="font-headline-sm text-lg sm:text-xl tracking-[0.16em] uppercase text-white font-bold">
-            {dayTitle}
-          </h3>
-          <span className="hidden md:inline-block text-[#ff544b] font-code-md text-xs tracking-wider uppercase font-semibold pl-2 border-l border-[#2d2d35]">
-            ACTIVE: [ {activeMission?.num} // {activeMission?.title} ]
-          </span>
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          1. DETERMINISTIC THREE-ZONE DAY HEADER / ACTIVE EVENT BAR
+          Strict proportions: LEFT (~30%) | CENTER (~40%) | RIGHT (~30%)
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <div className="w-full bg-[#121216]/95 border border-[#26252d] rounded-sm mb-6 z-20 backdrop-blur-md shadow-lg overflow-hidden">
+        {/* DESKTOP BAR (md:grid with 3 strictly bounded columns: 30% / 40% / 30%, fixed height h-[72px]) */}
+        <div className="hidden md:grid md:grid-cols-[30%_40%_30%] items-center h-[72px] px-5 lg:px-7 gap-2 lg:gap-3">
+          {/* ZONE 1: LEFT (Day / Date) - 30% */}
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff1e27] shadow-[0_0_10px_#ff1e27] animate-pulse shrink-0" />
+            <h3 className="font-headline-sm text-sm lg:text-base xl:text-lg tracking-[0.14em] uppercase text-white font-bold whitespace-nowrap">
+              {dayTitle}
+            </h3>
+          </div>
+
+          {/* ZONE 2: CENTER (Active Mission Indicator) - 40%, fixed height, strictly centered, overflow-safe */}
+          <div className="flex flex-col items-center justify-center text-center px-1 min-w-0 h-[52px] overflow-hidden">
+            <span className="font-code-md text-[9px] lg:text-[10px] tracking-[0.25em] text-[#ff544b] uppercase font-bold leading-none mb-1 shrink-0">
+              ACTIVE MISSION
+            </span>
+            <div className="font-headline-sm text-[clamp(11.5px,1.05vw,15.5px)] text-white tracking-[0.04em] uppercase font-bold leading-snug line-clamp-2 break-words text-center max-w-full">
+              <span className="text-[#ff544b] font-code-md mr-1.5">{activeMission?.num} //</span>
+              <span>{activeMission?.title}</span>
+            </div>
+          </div>
+
+          {/* ZONE 3: RIGHT (Stream Tag & Event Selectors) - 30%, aligned right, gap-3 */}
+          <div className="flex items-center justify-end gap-2.5 lg:gap-3 min-w-0">
+            <span className="font-code-md text-[9.5px] lg:text-[10.5px] tracking-[0.14em] text-[#c8c5ca]/80 uppercase hidden md:inline-block text-right leading-tight max-w-[140px] lg:max-w-[180px] break-words">
+              {dayTag}
+            </span>
+            {/* Quick 3-Mission Switcher Buttons */}
+            <div className="flex items-center gap-1.5 shrink-0 bg-[#0c0c0f] p-1 border border-[#23232b] rounded-sm">
+              {missionIds.map((id, idx) => {
+                const isSelected = activeCardIndex === idx;
+                const m = MISSIONS_DATA[id];
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => rotateToCardIndex(idx)}
+                    aria-pressed={isSelected}
+                    aria-label={`Select Mission ${m?.num || idx + 1}: ${m?.title || ''}`}
+                    className={`font-code-md text-xs px-2.5 py-1 rounded-sm border transition-all cursor-pointer font-bold ${
+                      isSelected
+                        ? 'border-[#ff1e27] text-white bg-[#ff1e27] shadow-[0_0_10px_rgba(255,30,39,0.5)]'
+                        : 'border-[#26262e] text-[#909099] hover:text-white hover:border-[#3a3a46] bg-[#141418]'
+                    }`}
+                  >
+                    {m?.num || `0${idx + 1}`}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <span className="font-code-md text-[10px] sm:text-xs tracking-[0.2em] text-[#ff544b] uppercase hidden sm:inline-block">
-            {dayTag}
-          </span>
-          {/* Quick Direct 3-Card Indicators */}
-          <div className="flex items-center gap-1.5">
-            {missionIds.map((id, idx) => {
-              const isSelected = activeCardIndex === idx;
-              const m = MISSIONS_DATA[id];
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => rotateToCardIndex(idx)}
-                  aria-label={`Select Mission ${m?.num}`}
-                  className={`font-code-md text-[10px] px-2 py-0.5 rounded-sm border transition-all ${
-                    isSelected
-                      ? 'border-[#ff1e27] text-white bg-[#ff1e27] font-bold shadow-[0_0_8px_rgba(255,30,39,0.5)]'
-                      : 'border-[#26262e] text-[#909099] hover:text-white bg-[#141418]'
-                  }`}
-                >
-                  {m?.num || `0${idx + 1}`}
-                </button>
-              );
-            })}
+        {/* MOBILE REFLOW BAR (< md: deliberate stacked composition) */}
+        <div className="md:hidden flex flex-col p-3 gap-2.5 bg-[#121216]/95">
+          {/* Top Row: Day/Date (Left) + 3 Live Streams Tag (Right) */}
+          <div className="flex items-center justify-between border-b border-[#212128]/80 pb-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="w-2 h-2 rounded-full bg-[#ff1e27] shadow-[0_0_8px_#ff1e27] animate-pulse shrink-0" />
+              <h3 className="font-headline-sm text-sm tracking-[0.12em] uppercase text-white font-bold">
+                {dayTitle}
+              </h3>
+            </div>
+            <span className="font-code-md text-[9px] tracking-wider text-[#909099] uppercase shrink-0">
+              3 LIVE STREAMS
+            </span>
+          </div>
+
+          {/* Second: Active Mission Block (Centered, Stacked, Never Truncated) */}
+          <div className="flex flex-col items-center justify-center text-center bg-[#17171e]/70 border border-[#262530] px-3 py-2 rounded-sm">
+            <span className="font-code-md text-[9px] tracking-[0.24em] text-[#ff544b] uppercase font-bold leading-none mb-1">
+              ACTIVE MISSION
+            </span>
+            <h4 className="font-headline-sm text-sm min-[380px]:text-[15px] text-white tracking-[0.04em] uppercase font-bold leading-tight">
+              <span className="text-[#ff544b] font-code-md mr-1.5">{activeMission?.num} //</span>
+              <span>{activeMission?.title}</span>
+            </h4>
+          </div>
+
+          {/* Bottom: Event Selector Buttons [01] [02] [03] */}
+          <div className="flex items-center justify-center gap-2 pt-0.5">
+            <span className="font-code-md text-[9.5px] tracking-widest text-[#a09ca8] uppercase mr-1">
+              SELECT:
+            </span>
+            <div className="flex items-center gap-1.5 bg-[#0c0c0f] p-1 border border-[#23232b] rounded-sm">
+              {missionIds.map((id, idx) => {
+                const isSelected = activeCardIndex === idx;
+                const m = MISSIONS_DATA[id];
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => rotateToCardIndex(idx)}
+                    aria-pressed={isSelected}
+                    aria-label={`Select Mission ${m?.num || idx + 1}: ${m?.title || ''}`}
+                    className={`font-code-md text-xs px-3.5 py-1.5 rounded-sm border transition-all cursor-pointer font-bold ${
+                      isSelected
+                        ? 'border-[#ff1e27] text-white bg-[#ff1e27] shadow-[0_0_8px_rgba(255,30,39,0.5)]'
+                        : 'border-[#26262e] text-[#909099] hover:text-white bg-[#141418]'
+                    }`}
+                  >
+                    {m?.num || `0${idx + 1}`}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* 3D Circular Stage Viewport */}
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          2. UNIFIED 3D CIRCULAR MISSION CAROUSEL (RESPONSIVE ACROSS ALL SCREENS)
+          Preserved 3D depth, fluid 60fps RAF rotation, active-card emphasis,
+          smooth touch/mouse swiping with inertia, and synchronized selectors
+          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div
-        className="w-full relative flex items-center justify-center overflow-hidden sm:overflow-visible"
+        className="w-full relative flex items-center justify-center overflow-visible"
         style={{
-          height: `${dimensions.cardHeight + 40}px`,
+          height: `${stageHeight}px`,
           perspective: `${dimensions.perspective}px`,
           perspectiveOrigin: '50% 50%',
         }}
@@ -420,7 +643,7 @@ export default function CircularMissionCarousel({
             width: `${dimensions.radius * 1.5}px`,
             height: `${dimensions.radius * 0.55}px`,
             background: 'radial-gradient(ellipse at center, rgba(255, 30, 39, 0.3) 0%, rgba(120, 15, 20, 0.06) 55%, transparent 70%)',
-            transform: 'translateY(160px) rotateX(75deg)',
+            transform: `translateY(${dimensions.isMobile ? Math.round(maxCardHeight * 0.38) : 160}px) rotateX(75deg)`,
           }}
         />
 
@@ -430,14 +653,26 @@ export default function CircularMissionCarousel({
           if (!m) return null;
 
           const isVaultActive = activeMissionId === m.id;
+          const isFront = activeCardIndex === index;
+          const thisCardHeight = cardHeights[index] || (dimensions.isMobile ? 440 : 420);
 
           return (
             <div
               key={m.id}
               ref={(el) => (cardElementsRef.current[index] = el)}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`Mission ${m.num}: ${m.title}`}
+              aria-hidden={!isFront}
+              tabIndex={isFront ? 0 : -1}
+              onKeyDown={(e) => {
+                if (!isFront && (e.key === 'Enter' || e.key === ' ')) {
+                  e.preventDefault();
+                  rotateToCardIndex(index);
+                }
+              }}
               onClick={(e) => {
                 if (dragMovedRef.current) return;
-                const isFront = activeCardIndexRef.current === index;
                 if (!isFront) {
                   e.stopPropagation();
                   rotateToCardIndex(index);
@@ -445,24 +680,24 @@ export default function CircularMissionCarousel({
               }}
               style={{
                 width: `${dimensions.cardWidth}px`,
-                height: `${dimensions.cardHeight}px`,
+                height: `${thisCardHeight}px`,
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
-                marginTop: `-${dimensions.cardHeight / 2}px`,
+                marginTop: `-${thisCardHeight / 2}px`,
                 marginLeft: `-${dimensions.cardWidth / 2}px`,
                 willChange: 'transform, opacity',
               }}
               className="group/card"
             >
-              {/* Preserved Authentic Mission Card */}
+              {/* Authentic Mission Card (Content-driven natural flow, zero truncation, zero collision) */}
               <div
-                className={`mission-card relative bg-[#121215] border border-[#2a2a30] flex flex-col justify-between h-full p-4 min-[380px]:p-5 sm:p-5.5 rounded-sm select-none transition-shadow duration-300 ${
+                className={`mission-card relative bg-[#121215] border border-[#2a2a30] flex flex-col justify-start min-h-full h-auto p-3.5 sm:p-5 rounded-sm select-none transition-shadow duration-300 gap-2.5 sm:gap-3 ${
                   isVaultActive ? 'active-breach' : ''
                 }`}
                 data-mission-id={m.id}
               >
-                {/* 1. Card Top: Number, Day Track & Category Badge */}
+                {/* 1. Header: Number, Day Track & Category Badge */}
                 <div className="flex justify-between items-start border-b border-[#212127] pb-2 sm:pb-2.5 shrink-0">
                   <div className="flex items-baseline gap-2">
                     <span className="font-headline-md text-2xl sm:text-3xl text-[#ff1e27] font-bold tracking-tight leading-none">
@@ -473,30 +708,40 @@ export default function CircularMissionCarousel({
                     </span>
                   </div>
 
-                  <span className="font-label-sm text-[9px] sm:text-[10px] tracking-[0.18em] text-[#909099] uppercase bg-[#1a1a20] px-2 py-0.5 border border-[#2d2d35]">
+                  <span className="font-label-sm text-[9px] sm:text-[10px] tracking-[0.18em] text-[#909099] uppercase bg-[#1a1a20] px-2 py-0.5 border border-[#2d2d35] shrink-0">
                     {m.categoryBadge}
                   </span>
                 </div>
 
-                {/* 2. Middle Content: Flex-1 to naturally fill available vertical card height */}
-                <div className="flex-1 flex flex-col justify-between py-2.5 sm:py-3 min-h-0">
+                {/* 2. Middle Content: Normal Flow Vertical Stacking */}
+                <div className="flex flex-col justify-start gap-2 min-[380px]:gap-2.5 py-0.5 sm:py-1">
                   {/* Event Title & Short Description */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="material-symbols-outlined text-[#ff544b] text-[19px] sm:text-[21px] shrink-0">
+                  <div className="shrink-0">
+                    <div className="flex items-center gap-2 mb-0.5 sm:mb-1">
+                      <span className="material-symbols-outlined text-[#ff544b] text-[18px] sm:text-[21px] shrink-0">
                         {m.icon}
                       </span>
-                      <h4 className="font-headline-sm text-[16px] min-[380px]:text-[17.5px] sm:text-[19px] text-white uppercase tracking-[0.05em] leading-tight font-bold">
+                      <h4 className="font-headline-sm text-[15px] sm:text-[18px] text-white uppercase tracking-[0.05em] leading-tight font-bold">
                         {m.title}
                       </h4>
                     </div>
-                    <p className="font-body-sm text-[11px] sm:text-[11.5px] text-[#b0aeb5] leading-snug">
+                    <p className="font-body-sm text-[10.5px] sm:text-[11.5px] text-[#b0aeb5] leading-snug">
                       {m.shortDesc || m.briefing}
                     </p>
                   </div>
 
-                  {/* Schedule Banner: Date & Time */}
-                  <div className="flex items-center justify-between px-2.5 py-1.5 bg-[#16161c] border border-[#23222a] rounded-sm font-code-md text-[9.5px] sm:text-[10px]">
+                  {/* Mission 02 Prominent Working Prototype Banner (Independent Block) */}
+                  {m.id === 'mission-02' && (
+                    <div className="px-2.5 py-1.5 bg-[#241315] border border-[#ff1e27]/60 rounded-sm flex items-center gap-2 shrink-0">
+                      <span className="material-symbols-outlined text-[13px] text-[#ff1e27] shrink-0">warning</span>
+                      <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#ffdad6] font-bold uppercase tracking-wider">
+                        WORKING PROTOTYPE MANDATORY
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Schedule Banner: Date & Time (Independent Block) */}
+                  <div className="flex items-center justify-between px-2.5 py-1.5 bg-[#16161c] border border-[#23222a] rounded-sm font-code-md text-[9.5px] sm:text-[10px] shrink-0">
                     <div className="flex items-center gap-1.5 text-[#c8c5ca] font-medium tracking-wide">
                       <span className="material-symbols-outlined text-[12px] sm:text-[13px] text-[#ff544b]">calendar_today</span>
                       <span>{m.date}</span>
@@ -507,80 +752,88 @@ export default function CircularMissionCarousel({
                     </div>
                   </div>
 
-                  {/* Event-Specific Key Highlights */}
-                  {m.cardSpecs && m.cardSpecs.length > 0 && (
-                    <div className="flex flex-col gap-1.5">
-                      {m.cardSpecs.map((spec, sIdx) => (
-                        <div
-                          key={sIdx}
-                          className="flex items-center justify-between px-2.5 py-1 sm:py-1.5 bg-[#141418] border border-[#202026] rounded-sm text-[9.5px] sm:text-[10px] font-code-md"
-                        >
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <span className="material-symbols-outlined text-[12px] text-[#ff544b]">
-                              {spec.icon}
-                            </span>
-                            <span className="text-[#8e8d95] tracking-wider uppercase text-[8.5px] sm:text-[9px] font-semibold">
-                              {spec.label}
+                  {/* Event-Specific Key Highlights / Metadata (Responsive, Never Colliding, Never Truncated) */}
+                  {(() => {
+                    const rawSpecs = m.cardSpecs || [];
+                    const specs = m.id === 'mission-02'
+                      ? rawSpecs.filter((s) => s.label !== 'CRITICAL REQ')
+                      : rawSpecs;
+                    if (!specs.length) return null;
+
+                    return (
+                      <div className="flex flex-col gap-1.5 shrink-0">
+                        {specs.map((spec, sIdx) => (
+                          <div
+                            key={sIdx}
+                            className="flex items-start justify-between gap-2.5 px-2.5 py-1 sm:py-1.5 bg-[#141418] border border-[#202026] rounded-sm text-[9px] sm:text-[10px] font-code-md"
+                          >
+                            <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
+                              <span className="material-symbols-outlined text-[11px] sm:text-[12px] text-[#ff544b]">
+                                {spec.icon}
+                              </span>
+                              <span className="text-[#8e8d95] tracking-wider uppercase text-[8px] sm:text-[9px] font-semibold whitespace-nowrap">
+                                {spec.label}
+                              </span>
+                            </div>
+                            <span className="flex-1 min-w-0 text-right text-[#e2dfe5] font-medium tracking-wide break-words whitespace-normal leading-tight">
+                              {spec.value}
                             </span>
                           </div>
-                          <span className="text-[#e2dfe5] font-medium tracking-wide truncate ml-2 text-right">
-                            {spec.value}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                        ))}
+                      </div>
+                    );
+                  })()}
                 </div>
 
-                {/* 3. Card Bottom: Prize/Reward Banner + Participation & VIEW INTEL */}
-                <div className="pt-2 sm:pt-2.5 border-t border-[#1f1e24] flex flex-col gap-2 shrink-0">
+                {/* 3. Card Bottom: Reward/Certificate Banner + VIEW INTEL (Independent Blocks, Clear Separation) */}
+                <div className="pt-2 sm:pt-2.5 border-t border-[#1f1e24] flex flex-col gap-2 shrink-0 mt-auto">
                   {/* Reward / Prize / Certificate Banner */}
                   {m.prizePool ? (
-                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-[#ff1e27]/10 border border-[#ff1e27]/30 rounded-sm">
-                      <div className="flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-[13px] sm:text-[14px] text-[#ff544b]">workspace_premium</span>
-                        <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#ffdad6] uppercase font-bold tracking-wider">
+                    <div className="flex items-center justify-between gap-2 px-2.5 py-1.5 bg-[#ff1e27]/10 border border-[#ff1e27]/30 rounded-sm shrink-0">
+                      <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                        <span className="material-symbols-outlined text-[12px] sm:text-[14px] text-[#ff544b] shrink-0">workspace_premium</span>
+                        <span className="font-code-md text-[9px] sm:text-[10px] text-[#ffdad6] uppercase font-bold tracking-wider break-words whitespace-normal leading-tight">
                           {m.prizePool}
                         </span>
                       </div>
-                      <span className="font-code-md text-[8.5px] text-[#ff544b] uppercase tracking-widest font-semibold">
+                      <span className="font-code-md text-[8.5px] text-[#ff544b] uppercase tracking-widest font-semibold shrink-0 whitespace-nowrap">
                         PRIZE
                       </span>
                     </div>
                   ) : m.poweredBy ? (
-                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-[#0e1c12] border border-[#2f8d46]/40 rounded-sm">
-                      <div className="flex items-center gap-1.5">
-                        <img src={gfgLogo} alt="GeeksforGeeks" className="h-3 w-auto object-contain" />
-                        <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#48bb78] uppercase font-bold tracking-wider">
+                    <div className="flex items-center justify-between gap-2 px-2.5 py-1.5 bg-[#0e1c12] border border-[#2f8d46]/40 rounded-sm shrink-0">
+                      <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                        <img src={gfgLogo} alt="GeeksforGeeks" className="h-3 w-auto object-contain shrink-0" />
+                        <span className="font-code-md text-[9px] sm:text-[10px] text-[#48bb78] uppercase font-bold tracking-wider break-words whitespace-normal leading-tight">
                           GEEKSFORGEEKS COUPONS
                         </span>
                       </div>
-                      <span className="font-code-md text-[8.5px] text-[#48bb78] uppercase tracking-widest font-semibold">
+                      <span className="font-code-md text-[8.5px] text-[#48bb78] uppercase tracking-widest font-semibold shrink-0 whitespace-nowrap">
                         REWARDS
                       </span>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-[#16161f] border border-[#2d2d38] rounded-sm">
-                      <div className="flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-[13px] sm:text-[14px] text-[#ff544b]">verified</span>
-                        <span className="font-code-md text-[9.5px] sm:text-[10px] text-[#e2dfe5] uppercase font-semibold tracking-wider">
+                    <div className="flex items-center justify-between gap-2 px-2.5 py-1.5 bg-[#16161f] border border-[#2d2d38] rounded-sm shrink-0">
+                      <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                        <span className="material-symbols-outlined text-[12px] sm:text-[14px] text-[#ff544b] shrink-0">verified</span>
+                        <span className="font-code-md text-[9px] sm:text-[10px] text-[#e2dfe5] uppercase font-semibold tracking-wider break-words whitespace-normal leading-tight">
                           PARTICIPATION CERTIFICATES
                         </span>
                       </div>
-                      <span className="font-code-md text-[8.5px] text-[#a0a0aa] uppercase tracking-widest font-semibold">
+                      <span className="font-code-md text-[8.5px] text-[#a0a0aa] uppercase tracking-widest font-semibold shrink-0 whitespace-nowrap">
                         ALL ATTENDEES
                       </span>
                     </div>
                   )}
 
-                  {/* Participation & VIEW INTEL Trigger */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 min-w-0 pr-2">
-                      <span className="font-code-md text-[8.5px] text-[#909099] uppercase tracking-wider shrink-0">
+                  {/* Participation & VIEW INTEL Trigger (Full Text, Never Truncated) */}
+                  <div className="flex items-center justify-between gap-2 pt-0.5">
+                    <div className="flex items-center gap-1.5 min-w-0 flex-1 pr-1.5">
+                      <span className="font-code-md text-[8px] min-[380px]:text-[8.5px] sm:text-[9px] text-[#909099] uppercase tracking-wider shrink-0 whitespace-nowrap">
                         PARTICIPATION:
                       </span>
-                      <span className="font-code-md text-[10px] sm:text-[10.5px] text-[#ffdad6] font-semibold truncate">
-                        {m.participation === 'Individual participation' ? 'Individual' : m.participation}
+                      <span className="font-code-md text-[9.5px] sm:text-[10.5px] text-[#ffdad6] font-semibold whitespace-normal break-words leading-tight">
+                        {m.participation}
                       </span>
                     </div>
 
@@ -590,7 +843,7 @@ export default function CircularMissionCarousel({
                         e.stopPropagation();
                         onSelectMission(m.id);
                       }}
-                      className="font-code-md text-[10.5px] sm:text-[11.5px] tracking-[0.16em] uppercase font-bold flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-sm transition-all bg-[#ff1e27] text-white hover:brightness-110 shadow-[0_0_12px_rgba(255,30,39,0.4)] cursor-pointer shrink-0"
+                      className="font-code-md text-[10.5px] sm:text-[11.5px] tracking-[0.16em] uppercase font-bold flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-sm transition-all bg-[#ff1e27] text-white hover:brightness-110 shadow-[0_0_12px_rgba(255,30,39,0.4)] cursor-pointer shrink-0 ml-auto"
                     >
                       <span>VIEW INTEL</span>
                       <span className="text-xs">→</span>
@@ -603,13 +856,13 @@ export default function CircularMissionCarousel({
         })}
       </div>
 
-      {/* Manual Step Controls (Under Carousel) */}
-      <div className="flex items-center gap-4 mt-6 z-20">
+      {/* Manual Step Controls (Under Carousel - Desktop & Tablet) */}
+      <div className="flex items-center gap-4 mt-3 sm:mt-4 md:mt-6 z-20">
         <button
           type="button"
           onClick={() => stepCard(-1)}
           aria-label="Rotate previous mission"
-          className="flex items-center gap-2 px-3 sm:px-4 py-1.5 bg-[#121216] border border-[#2a2a32] hover:border-[#ff1e27] text-[#c8c5ca] hover:text-white font-code-md text-xs uppercase tracking-wider transition-colors rounded-sm"
+          className="flex items-center gap-2 px-3 sm:px-4 py-1.5 bg-[#121216] border border-[#2a2a32] hover:border-[#ff1e27] text-[#c8c5ca] hover:text-white font-code-md text-xs uppercase tracking-wider transition-colors rounded-sm cursor-pointer"
         >
           <span>← PREV</span>
         </button>
@@ -624,7 +877,7 @@ export default function CircularMissionCarousel({
           type="button"
           onClick={() => stepCard(1)}
           aria-label="Rotate next mission"
-          className="flex items-center gap-2 px-3 sm:px-4 py-1.5 bg-[#121216] border border-[#2a2a32] hover:border-[#ff1e27] text-[#c8c5ca] hover:text-white font-code-md text-xs uppercase tracking-wider transition-colors rounded-sm"
+          className="flex items-center gap-2 px-3 sm:px-4 py-1.5 bg-[#121216] border border-[#2a2a32] hover:border-[#ff1e27] text-[#c8c5ca] hover:text-white font-code-md text-xs uppercase tracking-wider transition-colors rounded-sm cursor-pointer"
         >
           <span>NEXT →</span>
         </button>

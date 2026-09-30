@@ -10,8 +10,11 @@ export default function BaseLocation() {
     <section
       ref={sectionRef}
       id="base-location"
-      className="w-full relative bg-[#08080a]/25 text-[#e5e1e4] border-t border-[#1c1b1e]/60 py-14 sm:py-20 overflow-hidden"
+      className="w-full relative bg-[#08080a]/25 text-[#e5e1e4] py-14 sm:py-20 overflow-hidden"
     >
+      {/* Cinematic Soft Atmospheric Gradient Transitions (Top & Bottom fades) */}
+      <div className="absolute top-0 inset-x-0 h-28 pointer-events-none bg-gradient-to-b from-[#08080a] via-[#08080a]/40 to-transparent z-0" />
+      <div className="absolute bottom-0 inset-x-0 h-28 pointer-events-none bg-gradient-to-t from-[#08080a] via-[#08080a]/40 to-transparent z-0" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_45%,rgba(255,30,39,0.06)_0%,transparent_70%)]" />
 
       <div className="max-w-[1680px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 relative z-10 flex flex-col items-center">
@@ -358,7 +361,7 @@ export default function BaseLocation() {
 
           {/* Floating Campus Intel Card */}
           <div
-            className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6 max-w-[calc(100%-1rem)] sm:max-w-md w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] bg-[#100f14]/95 border border-[#2d2d35] rounded p-3.5 sm:p-5 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-20 transition-all duration-800"
+            className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6 max-w-[calc(100%-1rem)] sm:max-w-md w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] bg-[#100f14]/95 border border-[#2d2d35] rounded p-3.5 sm:p-5 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-20 transition-all duration-[800ms]"
             style={{
               opacity: inView ? 1 : 0,
               transform: inView ? 'translateY(0)' : 'translateY(16px)',

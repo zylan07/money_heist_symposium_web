@@ -887,9 +887,14 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 {mission.id === 'special-hackathon' && (
                   <div className="mt-3 p-3.5 bg-[#1e1510] border border-[#ff8c42]/60 rounded flex items-center justify-center gap-2.5 text-center shadow-sm">
                     <span className="material-symbols-outlined text-[#ff8c42] text-[22px] shrink-0">military_tech</span>
-                    <span className="font-headline-sm text-xs sm:text-sm text-[#ffdad6] uppercase font-bold tracking-wider">
-                      INTERNSHIP OPPORTUNITIES FOR HACKATHON PRIZE WINNERS
-                    </span>
+                    <div className="flex flex-col">
+                      <span className="font-headline-sm text-xs sm:text-sm text-[#ffdad6] uppercase font-bold tracking-wider">
+                        INTERNSHIP OPPORTUNITIES FOR HACKATHON PRIZE WINNERS
+                      </span>
+                      <span className="font-code-md text-[10px] text-[#ffb07c] uppercase tracking-wider mt-0.5">
+                        Subject to partner selection process • Career exposure & commendations
+                      </span>
+                    </div>
                   </div>
                 )}
 
@@ -967,9 +972,218 @@ export default function MissionIntelVault({ missionId, onClose }) {
             )}
 
             {/* Pinned Objective & Scope */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Pinned Objective & Scope / Hackathon Intel Dossier */}
+            {mission.id === 'special-hackathon' ? (
+              <div className="space-y-6">
+                {/* 1. Software-Only Scope & SDG Theme Banner */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Software-Only Requirement */}
+                  <div className="relative bg-[#16171c] border-2 border-[#ff1e27]/60 p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)]">
+                    <div className="red-pushpin -top-2.5 left-8" />
+                    <div className="flex items-center gap-2 text-[#ff544b] border-b border-[#282936] pb-2 mb-3">
+                      <span className="material-symbols-outlined text-[18px]">terminal</span>
+                      <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold">
+                        SOFTWARE-ONLY HACKATHON
+                      </span>
+                    </div>
+                    <p className="font-body-md text-sm text-[#d4d1da] leading-relaxed font-light">
+                      Hardware projects, hardware prototypes, hardware-dependent projects, and physical hardware solutions are <strong className="text-white font-semibold">NOT eligible</strong>.
+                    </p>
+                    <div className="mt-3 pt-3 border-t border-[#282936]">
+                      <span className="font-code-md text-[10.5px] text-[#ff9995] uppercase tracking-wider font-bold block mb-1.5">
+                        ELIGIBLE SOFTWARE SOLUTIONS INCLUDE:
+                      </span>
+                      <div className="flex flex-wrap gap-1.5 text-[11px] font-code-md text-[#dcd8e4]">
+                        {['Web Applications', 'Mobile Apps', 'APIs & Microservices', 'AI / ML Applications', 'Cloud-Based Systems', 'Software Platforms'].map((type, i) => (
+                          <span key={i} className="bg-[#201d24] border border-[#3b3544] px-2 py-0.5 rounded">
+                            {type}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SDG Theme & Real-World Problem Solving */}
+                  <div className="relative bg-[#0d1624] border-2 border-[#1e324d] p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)]">
+                    <div className="red-pushpin -top-2.5 right-8" />
+                    <div className="flex items-center gap-2 text-[#64b5f6] border-b border-[#1b3457] pb-2 mb-3">
+                      <span className="material-symbols-outlined text-[18px]">public</span>
+                      <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold text-[#90caf9]">
+                        SDG-ALIGNED REAL-WORLD THEME
+                      </span>
+                    </div>
+                    <p className="font-body-md text-sm text-[#b9d5f7] leading-relaxed font-light">
+                      Teams will work on real-world problems aligned with the <strong className="text-white font-semibold">United Nations Sustainable Development Goals</strong>, focusing on practical solutions, innovation, technology, feasibility, and sustainable development.
+                    </p>
+                    <div className="mt-3 pt-3 border-t border-[#1b3457] text-xs font-code-md text-[#90caf9]">
+                      <span className="font-bold text-[#64b5f6]">THEME: </span>
+                      <span>SDG-Aligned Real-World Problem Solving Challenge</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Eligibility & Team Rules */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Eligibility */}
+                  <div className="relative bg-[#16171c] border border-[#363742] p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)]">
+                    <div className="flex items-center gap-2 text-[#ffdad6] border-b border-[#282936] pb-2 mb-3">
+                      <span className="material-symbols-outlined text-[#ff544b] text-[18px]">school</span>
+                      <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold">
+                        ELIGIBILITY
+                      </span>
+                    </div>
+                    <ul className="space-y-2 text-xs font-code-md text-[#cac5d0]">
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#48bb78] font-bold">✓</span>
+                        <span>Students from colleges across India.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#48bb78] font-bold">✓</span>
+                        <span>1st to 4th year undergraduate / graduate students.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#48bb78] font-bold">✓</span>
+                        <span className="text-[#ffdad6] font-semibold">Open to students from ALL academic disciplines (technical & non-technical).</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#48bb78] font-bold">✓</span>
+                        <span>Valid college ID card required at check-in.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Team Rules */}
+                  <div className="relative bg-[#16171c] border border-[#363742] p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)]">
+                    <div className="flex items-center gap-2 text-[#ffdad6] border-b border-[#282936] pb-2 mb-3">
+                      <span className="material-symbols-outlined text-[#ff544b] text-[18px]">groups</span>
+                      <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold">
+                        TEAM STRUCTURE & RULES
+                      </span>
+                    </div>
+                    <ul className="space-y-2 text-xs font-code-md text-[#cac5d0]">
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#ff544b] font-bold">●</span>
+                        <span className="text-white font-bold">Team Size: 2–4 members per team.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#ff544b] font-bold">●</span>
+                        <span>All members must belong to the same college/institution.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#ff544b] font-bold">●</span>
+                        <span>Students from different departments/branches within that college may form a team.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-[#ff544b] font-bold">✕</span>
+                        <span className="text-[#ff9995]">Inter-college teams are not permitted. Solo participation is not allowed.</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* 3. Build Your Solution & Originality */}
+                <div className="relative bg-[#17141d] border-2 border-[#ff1e27]/40 p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)]">
+                  <div className="flex items-center justify-between border-b border-[#301f28] pb-2.5 mb-3.5 flex-wrap gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#ff544b] text-[18px]">build</span>
+                      <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold text-white">
+                        BUILD YOUR SOLUTION // THE PROTOCOL
+                      </span>
+                    </div>
+                    <span className="font-code-md text-[10px] text-[#ffd166] bg-[#241c0e] border border-[#524119] px-2 py-0.5 rounded font-bold uppercase">
+                      12-HOUR DEVELOPMENT WINDOW
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-code-md text-[#cac5d0]">
+                    <div className="p-3 bg-[#110e14] border border-[#27212f] rounded space-y-1.5">
+                      <span className="text-white font-bold uppercase block">
+                        BUILD DURING THE OPERATION
+                      </span>
+                      <p className="leading-relaxed text-[#b5b1bd]">
+                        Teams must develop a working software solution addressing their assigned problem during the official 12-hour development window (14 Oct 7:00 PM to 15 Oct 7:00 AM).
+                      </p>
+                    </div>
+
+                    <div className="p-3 bg-[#110e14] border border-[#27212f] rounded space-y-1.5">
+                      <span className="text-[#ff9995] font-bold uppercase block">
+                        ORIGINALITY & INTEGRITY
+                      </span>
+                      <p className="leading-relaxed text-[#b5b1bd]">
+                        Solutions must be created on-site during the hackathon. Pre-built, previously developed, or copied solutions presented as new work are strictly prohibited.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-3.5 pt-3 border-t border-[#291e25] text-xs font-code-md text-[#cac5d0] leading-relaxed">
+                    <span className="text-[#ffdad6] font-bold uppercase">PERMITTED TOOLS & STACKS: </span>
+                    <span>Any programming language, modern web/mobile frameworks, libraries, APIs, and AI/GenAI tools are permitted (with required disclosure of AI-assisted elements).</span>
+                  </div>
+                </div>
+
+                {/* 4. Classified Challenge Teaser & Access Required */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Classified Challenge Teaser */}
+                  <div className="relative bg-[#161219] border border-[#ff1e27]/50 p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)] flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center gap-2 text-[#ff544b] border-b border-[#2d1b24] pb-2 mb-3">
+                        <span className="material-symbols-outlined text-[18px]">lock</span>
+                        <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold">
+                          CLASSIFIED CHALLENGE TEASER
+                        </span>
+                      </div>
+                      <p className="text-xs font-code-md text-[#cac5d0] leading-relaxed">
+                        Specific challenge problem statements and domain briefs remain classified inside the Vault. Full challenge briefs and guidelines will be officially unveiled during the <strong className="text-white">CODE VAULT Inauguration</strong> on 14 October 2026 at 7:00 PM.
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-2.5 border-t border-[#2d1b24] text-[11px] font-code-md text-[#ffdad6]">
+                      <span>UNVEILING: 14 OCT 2026 • 7:00 PM • CSE DEPARTMENT</span>
+                    </div>
+                  </div>
+
+                  {/* Access Required */}
+                  <div className="relative bg-[#141419] border border-[#363742] p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)] flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center gap-2 text-[#48bb78] border-b border-[#202e23] pb-2 mb-3">
+                        <span className="material-symbols-outlined text-[18px]">vpn_key</span>
+                        <span className="font-code-md text-xs uppercase tracking-[0.2em] font-bold">
+                          ACCESS REQUIRED
+                        </span>
+                      </div>
+                      <p className="text-xs font-code-md text-[#cac5d0] leading-relaxed">
+                        Participation in CODE VAULT requires an individual <strong className="text-white">Hackathon Pass (₹699 / Person)</strong>. Each team member must possess their own valid pass. Provides access to CODE VAULT + ALL 6 regular events, 4 meals, and refreshments.
+                      </p>
+                    </div>
+                    <div className="mt-3 pt-2.5 border-t border-[#252530] flex items-center justify-between">
+                      <span className="text-[11px] font-code-md text-[#ffdad6] font-bold">₹699 / PERSON</span>
+                      <a
+                        href={TICKET9_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1 bg-[#ff1e27] hover:bg-[#ff333c] text-white text-[11px] font-code-md font-bold uppercase rounded"
+                      >
+                        REGISTER VIA TICKET9 →
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 5. Timing, Powering Partner & Equipment */}
+                <div className="p-4 bg-[#121017] border border-[#2b2736] rounded-lg flex flex-wrap items-center justify-between gap-3 text-xs font-code-md">
+                  <div className="flex items-center gap-2 text-[#ff9995]">
+                    <span className="material-symbols-outlined text-[18px] text-[#ff544b]">schedule</span>
+                    <span>14 OCT 7:00 PM — 15 OCT 7:00 AM (12-HR OVERNIGHT HACKATHON)</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[#48bb78]">
+                    <span className="material-symbols-outlined text-[18px]">wifi</span>
+                    <span className="font-bold">HIGH-SPEED WI-FI PROVIDED • OWN LAPTOP REQUIRED</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
               {/* Objective */}
-              <div className="relative bg-[#16171c] border-2 border-[#363742] p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)] transform rotate-[0.4deg]">
+              <div className="relative bg-[#16171c] border-2 border-[#363742] p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)] transform rotate-[0.4deg] self-start h-auto">
                 <div className="red-pushpin -top-2.5 left-8" />
                 <div className="flex items-center gap-2 text-[#ff544b] border-b border-[#282936] pb-2 mb-3">
                   <span className="material-symbols-outlined text-[18px]">target</span>
@@ -1000,7 +1214,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
               </div>
 
               {/* Theme & Scope */}
-              <div className="relative bg-[#0d1624] border-2 border-[#1e324d] p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)] transform -rotate-[0.5deg]">
+              <div className="relative bg-[#0d1624] border-2 border-[#1e324d] p-5 rounded shadow-[0_8px_24px_rgba(0,0,0,0.7)] transform -rotate-[0.5deg] self-start h-auto">
                 <div className="red-pushpin -top-2.5 right-8" />
                 <div className="flex items-center gap-2 text-[#64b5f6] border-b border-[#1b3457] pb-2 mb-3">
                   <span className="material-symbols-outlined text-[18px]">schema</span>
@@ -1011,6 +1225,13 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 <p className="font-body-md text-sm text-[#b9d5f7] leading-relaxed font-light">
                   {mission.theme || mission.topic || 'Engineering Related Open Theme'}
                 </p>
+                {mission.resourcePerson && (
+                  <div className="mt-3 pt-2 border-t border-[#1b3457] text-xs font-code-md text-[#90caf9] flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[15px] text-[#64b5f6]">badge</span>
+                    <span className="uppercase font-bold">RESOURCE PERSON: </span>
+                    <span>{mission.resourcePerson}</span>
+                  </div>
+                )}
                 {mission.creationTime && (
                   <div className="mt-3 pt-2 border-t border-[#1b3457] text-xs font-code-md text-[#90caf9] flex items-center gap-1.5">
                     <span className="material-symbols-outlined text-[15px] text-[#64b5f6]">timer</span>
@@ -1025,6 +1246,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
                 )}
               </div>
             </div>
+            )}
 
             {/* Presentation Requirements: What Participants Must Explain */}
             {mission.presentationExplanation && (

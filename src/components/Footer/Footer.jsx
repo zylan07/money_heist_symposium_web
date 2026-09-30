@@ -25,8 +25,10 @@ export default function Footer() {
       <section
         ref={sectionRef}
         id="closing-frame"
-        className="relative w-full bg-[#08080a]/25 text-[#e5e1e4] border-t border-[#1c1b1e]/60 pt-16 sm:pt-20 pb-16 transition-colors duration-1000"
+        className="relative w-full bg-[#08080a]/25 text-[#e5e1e4] pt-16 sm:pt-20 pb-16 transition-colors duration-1000 overflow-hidden"
       >
+        {/* Cinematic Soft Atmospheric Gradient Transitions (Top & Bottom fades) */}
+        <div className="absolute top-0 inset-x-0 h-28 pointer-events-none bg-gradient-to-b from-[#08080a] via-[#08080a]/40 to-transparent z-0" />
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-[#060608]/80 to-black" />
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[1px] bg-gradient-to-r from-transparent via-[#ff1e27]/50 to-transparent transition-all duration-1000"
@@ -40,7 +42,7 @@ export default function Footer() {
           {/* Cinematic Title Card (REEL MMXXVI removed) */}
           <div
             id="closing-title-card"
-            className="flex flex-col items-center transition-all duration-1200"
+            className="flex flex-col items-center transition-all duration-[1200ms]"
             style={{
               opacity: inView ? 1 : 0,
               transform: inView ? 'translateY(0)' : 'translateY(28px)',
@@ -68,7 +70,7 @@ export default function Footer() {
                 transitionTimingFunction: MOTION_EASING.cinematic,
               }}
             >
-              SUMMIT '26
+              SUMMIT 26
             </h3>
           </div>
 
@@ -85,7 +87,7 @@ export default function Footer() {
 
           {/* Institution Info */}
           <div
-            className="flex flex-col items-center space-y-2.5 max-w-3xl transition-all duration-800 mb-8"
+            className="flex flex-col items-center space-y-2.5 max-w-3xl transition-all duration-[800ms] mb-8"
             style={{
               opacity: inView ? 1 : 0,
               transform: inView ? 'translateY(0)' : 'translateY(16px)',
@@ -140,7 +142,7 @@ export default function Footer() {
                   </span>
                 </div>
                 <h3 className="font-headline-sm text-2xl sm:text-3xl text-white uppercase tracking-[0.08em] font-bold">
-                  TECHBYTE SUMMIT '26
+                  TECHBYTE SUMMIT 26
                 </h3>
                 <p className="font-body-sm text-xs sm:text-sm text-[#909099] mt-2 leading-relaxed">
                   KPR Institute of Engineering and Technology<br />
@@ -170,7 +172,7 @@ export default function Footer() {
 
               <div className="pt-1">
                 <span className="font-code-md text-[11px] text-[#70707a] uppercase tracking-wider block">
-                  © 2026 TECHBYTE SUMMIT '26. All rights reserved.
+                  © 2026 TECHBYTE SUMMIT 26. All rights reserved.
                 </span>
               </div>
             </div>

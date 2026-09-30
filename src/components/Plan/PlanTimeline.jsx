@@ -27,9 +27,11 @@ export default function PlanTimeline() {
     <section
       ref={sectionRef}
       id="the-plan"
-      className="w-full bg-[#08080a]/25 border-t border-[#1c1b1e]/60 text-[#e5e1e4] select-none py-16 sm:py-20 relative overflow-hidden"
+      className="w-full bg-[#08080a]/25 text-[#e5e1e4] select-none py-16 sm:py-20 relative overflow-hidden"
     >
-      {/* Subtle Ambient Radial Glow */}
+      {/* Cinematic Soft Atmospheric Gradient Transitions (Top & Bottom fades) */}
+      <div className="absolute top-0 inset-x-0 h-28 pointer-events-none bg-gradient-to-b from-[#08080a] via-[#08080a]/40 to-transparent z-0" />
+      <div className="absolute bottom-0 inset-x-0 h-28 pointer-events-none bg-gradient-to-t from-[#08080a] via-[#08080a]/40 to-transparent z-0" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(255,30,39,0.05)_0%,transparent_70%)]" />
 
       <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1720px] mx-auto relative z-10">
@@ -118,13 +120,7 @@ export default function PlanTimeline() {
                       {point.timing}
                     </span>
                     <h3 className="timeline-title font-headline-sm text-xs xl:text-sm text-[#b5b2bb] group-hover:text-white uppercase tracking-[0.03em] transition-colors px-1 text-center w-full">
-                      {point.num === '04' ? (
-                        <span className="flex flex-col items-center leading-[1.12]">
-                          <span>04 EDP / WORKSHOP</span>
-                        </span>
-                      ) : (
-                        <span className="block leading-[1.15]">{point.num} {point.shortTitle || point.title}</span>
-                      )}
+                      <span className="block leading-[1.15]">{point.num} {point.shortTitle || point.title}</span>
                     </h3>
                   </div>
 

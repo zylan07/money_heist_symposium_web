@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navigation/Navbar';
 import Hero from './components/Hero/Hero';
+import EventCountdown from './components/Countdown/EventCountdown';
 import Operation from './components/Operation/Operation';
 import Missions from './components/Missions/Missions';
 import MissionIntelVault from './components/MissionIntel/MissionIntelVault';
@@ -8,6 +9,7 @@ import PlanTimeline from './components/Plan/PlanTimeline';
 import MissionAccess from './components/MissionAccess/MissionAccess';
 import BaseLocation from './components/BaseLocation/BaseLocation';
 import CommandChannel from './components/CommandChannel/CommandChannel';
+import Partners from './components/Partners/Partners';
 import Footer from './components/Footer/Footer';
 import CinematicAtmosphere from './components/Atmosphere/CinematicAtmosphere';
 
@@ -35,6 +37,9 @@ export default function App() {
         {/* HERO SECTION */}
         <Hero />
 
+        {/* MISSION COUNTDOWN TO SYMPOSIUM LAUNCH */}
+        <EventCountdown />
+
         {/* SECTION 01 — THE OPERATION */}
         <Operation />
 
@@ -55,6 +60,9 @@ export default function App() {
 
         {/* SECTION 06 — COMMAND CHANNEL */}
         <CommandChannel />
+
+        {/* SECTION 07 — PARTNERS & POWERED BY */}
+        <Partners />
       </main>
 
       {/* CLOSING FRAME FOOTER */}

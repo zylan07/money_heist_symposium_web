@@ -56,7 +56,7 @@ export default function Navbar() {
             TECHBYTE
           </span>
           <span className="font-code-md text-[8px] min-[360px]:text-[9px] sm:text-[10px] tracking-[0.1em] sm:tracking-[0.2em] bg-[#ff1e27] text-white px-1 sm:px-2 py-0.5 rounded-sm font-bold uppercase shrink-0">
-            SUMMIT '26
+            SUMMIT 26
           </span>
         </a>
 

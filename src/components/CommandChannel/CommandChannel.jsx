@@ -11,8 +11,11 @@ export default function CommandChannel() {
     <section
       ref={sectionRef}
       id="command-channel"
-      className="w-full relative bg-[#08080a]/25 text-[#e5e1e4] border-t border-[#1c1b1e]/60 py-14 sm:py-20 overflow-hidden"
+      className="w-full relative bg-[#08080a]/25 text-[#e5e1e4] py-14 sm:py-20 overflow-hidden"
     >
+      {/* Cinematic Soft Atmospheric Gradient Transitions (Top & Bottom fades) */}
+      <div className="absolute top-0 inset-x-0 h-28 pointer-events-none bg-gradient-to-b from-[#08080a] via-[#08080a]/40 to-transparent z-0" />
+      <div className="absolute bottom-0 inset-x-0 h-28 pointer-events-none bg-gradient-to-t from-[#08080a] via-[#08080a]/40 to-transparent z-0" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_45%,rgba(255,30,39,0.06)_0%,transparent_70%)]" />
 
       <div className="max-w-[1680px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 relative z-10">
