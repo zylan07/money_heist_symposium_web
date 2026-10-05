@@ -143,3 +143,40 @@
     transform: translate3d(calc(var(--dx) * 1.25), calc(var(--dy) - 50px), 150px) scale(calc(var(--scale) * 0.85)) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(calc(var(--rz) * 1.6));
   }
 }
+
+/* Registration Alert Ticker Marquee (Seamless Right -> Left loop) */
+@keyframes tickerMoveLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-alert-ticker {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: tickerMoveLeft 32s linear infinite;
+}
+
+@keyframes tickerScanGlow {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.animate-ticker-scan {
+  animation: tickerScanGlow 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-alert-ticker {
+    animation-duration: 55s;
+  }
+}
+

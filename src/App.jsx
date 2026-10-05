@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navigation/Navbar';
 import Hero from './components/Hero/Hero';
+import RegistrationAlertStrip from './components/AlertStrip/RegistrationAlertStrip';
 import EventCountdown from './components/Countdown/EventCountdown';
 import Operation from './components/Operation/Operation';
 import Missions from './components/Missions/Missions';
@@ -36,6 +37,9 @@ export default function App() {
       <main className="w-full relative z-10">
         {/* HERO SECTION */}
         <Hero />
+
+        {/* REGISTRATION CLOSING SOON — MOVING RIGHT → LEFT TICKER */}
+        <RegistrationAlertStrip />
 
         {/* MISSION COUNTDOWN TO SYMPOSIUM LAUNCH */}
         <EventCountdown />

@@ -2,6 +2,8 @@ import React from 'react';
 import gfgLogo from '../../assets/geeksforgeeks.png';
 import eventopiaLogo from '../../assets/Eventopia.png';
 import ticket9Logo from '../../assets/Ticket9Logo.png';
+import myStartupWaveLogo from '../../assets/mystartupwave.jpeg';
+import codeToCrackLogo from '../../assets/codetocrack.jpeg';
 import { useInViewAnimation } from '../../hooks/useInViewAnimation';
 import { MOTION_EASING } from '../../utils/motion';
 import RollingText from '../Hero/RollingText';
@@ -9,7 +11,7 @@ import RollingText from '../Hero/RollingText';
 export default function Partners() {
   const [sectionRef, inView] = useInViewAnimation({ threshold: 0.15 });
 
-  const partners = [
+  const firstRowPartners = [
     {
       id: 'gfg',
       role: 'HACKATHON POWERED BY',
@@ -44,6 +46,79 @@ export default function Partners() {
       logoHeight: 'h-8 sm:h-10',
     },
   ];
+
+  const secondRowPartners = [
+    {
+      id: 'mystartupwave',
+      role: 'INTERNSHIP & INDUSTRY PARTNER',
+      name: 'MYSTARTUPWAVE',
+      caption: 'Internship & industry partner',
+      url: 'https://mystartupwave.com/',
+      logo: myStartupWaveLogo,
+      haloGlow: 'radial-gradient(circle, rgba(14, 165, 233, 0.25) 0%, rgba(14, 165, 233, 0.04) 50%, transparent 72%)',
+      labelColor: 'text-[#38bdf8]',
+      logoHeight: 'h-9 sm:h-11',
+      extraImgClass: 'rounded-full',
+    },
+    {
+      id: 'codetocrack',
+      role: 'SOCIAL MEDIA & TECHNOLOGY PARTNER',
+      name: 'CODETOCRACK',
+      caption: 'Social media & technology partner',
+      url: 'https://www.instagram.com/code_tocrack/',
+      logo: codeToCrackLogo,
+      haloGlow: 'radial-gradient(circle, rgba(56, 189, 248, 0.28) 0%, rgba(56, 189, 248, 0.05) 50%, transparent 72%)',
+      labelColor: 'text-[#60a5fa]',
+      logoHeight: 'h-9 sm:h-11',
+      extraImgClass: 'rounded-full',
+    },
+  ];
+
+  const renderPartnerCard = (partner, idx) => (
+    <a
+      key={partner.id}
+      href={partner.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${partner.name} - ${partner.role}`}
+      className="group relative flex flex-col items-center text-center cursor-pointer p-4 transition-all duration-300 hover:-translate-y-1"
+      style={{
+        transitionDelay: `${idx * 100}ms`,
+      }}
+    >
+      {/* Soft Atmospheric Halo behind the logo */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 rounded-full pointer-events-none opacity-60 group-hover:opacity-100 group-hover:scale-115 transition-all duration-500 blur-xl"
+        style={{
+          background: partner.haloGlow,
+        }}
+      />
+
+      {/* Floating Logo Area */}
+      <div className="relative z-10 w-full h-16 sm:h-20 flex items-center justify-center mb-3">
+        <img
+          src={partner.logo}
+          alt={partner.name}
+          className={`${partner.logoHeight} ${partner.extraImgClass || ''} max-w-[200px] w-auto object-contain filter brightness-100 contrast-105 group-hover:brightness-125 group-hover:drop-shadow-[0_4px_20px_rgba(255,255,255,0.25)] transition-all duration-300`}
+        />
+      </div>
+
+      {/* Label */}
+      <span className={`relative z-10 font-code-md text-[10px] sm:text-[11px] tracking-[0.24em] uppercase font-bold mb-1 ${partner.labelColor} transition-colors`}>
+        {partner.role}
+      </span>
+
+      {/* Partner Name */}
+      <span className="relative z-10 font-headline-sm text-lg sm:text-xl text-white font-bold uppercase tracking-wider group-hover:text-[#ffdad6] transition-colors leading-tight">
+        {partner.name}
+      </span>
+
+      {/* Caption */}
+      <p className="relative z-10 font-code-md text-[11px] sm:text-xs text-[#a09ca8] leading-snug mt-1.5 max-w-xs group-hover:text-[#c8c5ca] transition-colors">
+        {partner.caption}
+      </p>
+    </a>
+  );
 
   return (
     <section
@@ -89,7 +164,7 @@ export default function Partners() {
           </p>
         </div>
 
-        {/* Lightweight Floating-Logo Ecosystem (No bordered cards, no heavy boxes) */}
+        {/* ROW 1: GeeksforGeeks, Eventopia, Ticket9 */}
         <div
           className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 max-w-5xl mx-auto w-full transition-all duration-[800ms]"
           style={{
@@ -99,51 +174,20 @@ export default function Partners() {
             transitionTimingFunction: MOTION_EASING.cinematic,
           }}
         >
-          {partners.map((partner, idx) => (
-            <a
-              key={partner.id}
-              href={partner.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${partner.name} - ${partner.role}`}
-              className="group relative flex flex-col items-center text-center cursor-pointer p-4 transition-all duration-300 hover:-translate-y-1"
-              style={{
-                transitionDelay: `${idx * 100}ms`,
-              }}
-            >
-              {/* Soft Atmospheric Halo behind the logo */}
-              <div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 rounded-full pointer-events-none opacity-60 group-hover:opacity-100 group-hover:scale-115 transition-all duration-500 blur-xl"
-                style={{
-                  background: partner.haloGlow,
-                }}
-              />
+          {firstRowPartners.map((partner, idx) => renderPartnerCard(partner, idx))}
+        </div>
 
-              {/* Floating Logo Area */}
-              <div className="relative z-10 w-full h-16 sm:h-20 flex items-center justify-center mb-3">
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className={`${partner.logoHeight} max-w-[200px] w-auto object-contain filter brightness-100 contrast-105 group-hover:brightness-125 group-hover:drop-shadow-[0_4px_20px_rgba(255,255,255,0.25)] transition-all duration-300`}
-                />
-              </div>
-
-              {/* Label */}
-              <span className={`relative z-10 font-code-md text-[10px] sm:text-[11px] tracking-[0.24em] uppercase font-bold mb-1 ${partner.labelColor} transition-colors`}>
-                {partner.role}
-              </span>
-
-              {/* Partner Name */}
-              <span className="relative z-10 font-headline-sm text-lg sm:text-xl text-white font-bold uppercase tracking-wider group-hover:text-[#ffdad6] transition-colors leading-tight">
-                {partner.name}
-              </span>
-
-              {/* Caption */}
-              <p className="relative z-10 font-code-md text-[11px] sm:text-xs text-[#a09ca8] leading-snug mt-1.5 max-w-xs group-hover:text-[#c8c5ca] transition-colors">
-                {partner.caption}
-              </p>
-            </a>
-          ))}
+        {/* ROW 2: MyStartupWave, CodeToCrack (Centered under Row 1) */}
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 max-w-[680px] mx-auto w-full mt-8 sm:mt-10 lg:mt-12 transition-all duration-[800ms]"
+          style={{
+            opacity: inView ? 1 : 0,
+            transform: inView ? 'translateY(0)' : 'translateY(20px)',
+            transitionDelay: '250ms',
+            transitionTimingFunction: MOTION_EASING.cinematic,
+          }}
+        >
+          {secondRowPartners.map((partner, idx) => renderPartnerCard(partner, idx + 3))}
         </div>
 
         {/* Subtle Institutional Mark at the bottom */}
