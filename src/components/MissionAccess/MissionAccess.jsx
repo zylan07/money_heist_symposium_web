@@ -423,7 +423,7 @@ export default function MissionAccess() {
             ]}
             rewardLine={{
               primary: 'EXCITING CASH PRIZES & REWARDS',
-              secondary: 'INTERNSHIP OPPORTUNITIES FOR HACKATHON PRIZE WINNERS',
+              secondary: 'INTERNSHIP OPPORTUNITIES WITH STIPEND FOR HACKATHON PRIZE WINNERS',
             }}
             ctaText="GET HACKATHON PASS"
             isFeatured={true}

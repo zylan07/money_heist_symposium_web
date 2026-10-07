@@ -889,7 +889,7 @@ export default function MissionIntelVault({ missionId, onClose }) {
                     <span className="material-symbols-outlined text-[#ff8c42] text-[22px] shrink-0">military_tech</span>
                     <div className="flex flex-col">
                       <span className="font-headline-sm text-xs sm:text-sm text-[#ffdad6] uppercase font-bold tracking-wider">
-                        INTERNSHIP OPPORTUNITIES FOR HACKATHON PRIZE WINNERS
+                        INTERNSHIP OPPORTUNITIES WITH STIPEND FOR HACKATHON PRIZE WINNERS
                       </span>
                       <span className="font-code-md text-[10px] text-[#ffb07c] uppercase tracking-wider mt-0.5">
                         Subject to partner selection process • Career exposure & commendations

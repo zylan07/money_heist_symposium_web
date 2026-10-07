@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './components/Navigation/Navbar';
 import Hero from './components/Hero/Hero';
 import RegistrationAlertStrip from './components/AlertStrip/RegistrationAlertStrip';
+import PrizePool from './components/PrizePool/PrizePool';
 import EventCountdown from './components/Countdown/EventCountdown';
 import Operation from './components/Operation/Operation';
 import Missions from './components/Missions/Missions';
@@ -40,6 +41,9 @@ export default function App() {
 
         {/* REGISTRATION CLOSING SOON — MOVING RIGHT → LEFT TICKER */}
         <RegistrationAlertStrip />
+
+        {/* CINEMATIC PRIZE POOL ROLLING WHEEL SECTION */}
+        <PrizePool />
 
         {/* MISSION COUNTDOWN TO SYMPOSIUM LAUNCH */}
         <EventCountdown />

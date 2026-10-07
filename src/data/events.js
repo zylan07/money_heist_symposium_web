@@ -121,13 +121,13 @@ export const SPECIAL_HACKATHON_DATA = {
   laptopRequirement: "Own laptop required",
   wifiRequirement: "Wi-Fi facilities will be provided",
   prizePool: "EXCITING CASH PRIZES & REWARDS",
-  internshipReward: "INTERNSHIP OPPORTUNITIES FOR HACKATHON PRIZE WINNERS",
+  internshipReward: "INTERNSHIP OPPORTUNITIES WITH STIPEND FOR HACKATHON PRIZE WINNERS",
   internshipDisclaimer:
     "Internship opportunities for prize winners are subject to partner selection process.",
   certificate: "Certificates will be provided to all participants.",
   rewards: [
     "Exciting Cash Prizes & Rewards",
-    "Internship Opportunities for Hackathon Prize Winners (Subject to partner selection process)",
+    "Internship Opportunities with Stipend for Hackathon Prize Winners (Subject to partner selection process)",
     "Hackathon platform and submission support powered by GeeksforGeeks",
     "Certificates will be provided to all participants."
   ],
@@ -145,7 +145,7 @@ export const SPECIAL_HACKATHON_DATA = {
     "Judging criteria: Problem relevance & SDG alignment, technical implementation, innovation & creativity, practical impact & feasibility, and presentation/demo quality.",
     "Own laptop required; high-speed Wi-Fi facilities provided.",
     "Powered by GeeksforGeeks (platform and submission workflow).",
-    "Exciting cash prizes, rewards, and internship opportunities for prize winners (subject to partner selection process)."
+    "Exciting cash prizes, rewards, and internship opportunities with stipend for prize winners (subject to partner selection process)."
   ],
   coordinators: [
     { name: "Sathya R V", phone: "7604903115", role: "HACKATHON COORDINATOR" },

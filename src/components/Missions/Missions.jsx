@@ -373,7 +373,7 @@ export default function Missions({ onSelectMission, activeMissionId }) {
                     </div>
 
                     <h4 className="font-headline-sm text-lg sm:text-xl lg:text-[22px] text-white font-bold uppercase tracking-wide leading-tight drop-shadow">
-                      INTERNSHIP OPPORTUNITIES
+                      INTERNSHIP OPPORTUNITIES WITH STIPEND
                       <span className="block text-[#ff9e59] text-base sm:text-lg lg:text-xl mt-0.5">
                         FOR HACKATHON PRIZE WINNERS
                       </span>
