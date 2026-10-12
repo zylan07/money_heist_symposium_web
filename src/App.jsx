@@ -39,7 +39,7 @@ export default function App() {
         {/* HERO SECTION */}
         <Hero />
 
-        {/* REGISTRATION CLOSING SOON — MOVING RIGHT → LEFT TICKER */}
+        {/* REGISTRATION EXTENDED — MOVING RIGHT → LEFT TICKER */}
         <RegistrationAlertStrip />
 
         {/* CINEMATIC PRIZE POOL ROLLING WHEEL SECTION */}

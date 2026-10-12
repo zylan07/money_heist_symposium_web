@@ -224,3 +224,48 @@
   animation: activeScanSweep 1.25s cubic-bezier(0.25, 1, 0.35, 1) forwards;
 }
 
+/* Hero Vertical Prize Pool Banners — Subtle Ambient Sway & Glow */
+@keyframes heroBannerSwayLeft {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(0.6deg) translateY(2.5px);
+  }
+}
+
+@keyframes heroBannerSwayRight {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(-0.6deg) translateY(2.5px);
+  }
+}
+
+@keyframes heroBannerGlowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(255, 30, 39, 0.16));
+  }
+  50% {
+    filter: drop-shadow(0 0 22px rgba(255, 30, 39, 0.38));
+  }
+}
+
+.animate-hero-banner-left {
+  transform-origin: top center;
+  animation: heroBannerSwayLeft 9s ease-in-out infinite, heroBannerGlowPulse 7s ease-in-out infinite;
+}
+
+.animate-hero-banner-right {
+  transform-origin: top center;
+  animation: heroBannerSwayRight 9.5s ease-in-out infinite, heroBannerGlowPulse 7s ease-in-out 1.8s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-banner-left,
+  .animate-hero-banner-right {
+    animation: none !important;
+  }
+}
+

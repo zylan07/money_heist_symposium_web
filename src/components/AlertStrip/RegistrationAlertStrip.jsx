@@ -35,7 +35,7 @@ export default function RegistrationAlertStrip() {
               REGISTRATION
             </span>{' '}
             <span className="text-[#ff1e27] drop-shadow-[0_0_35px_rgba(255,30,39,0.7),0_4px_20px_rgba(0,0,0,0.9)]">
-              CLOSING SOON
+              EXTENDED
             </span>
           </span>
 
@@ -70,7 +70,7 @@ export default function RegistrationAlertStrip() {
       {/* Large Hero-Scale Interactive Marquee Track */}
       <a
         href="#access"
-        title="Emergency Notice: Registration Closing Soon — Secure Your Syndicate Pass"
+        title="Emergency Notice: Registration Extended — Secure Your Syndicate Pass"
         className="flex items-center h-[72px] min-[400px]:h-[80px] sm:h-[96px] md:h-[112px] lg:h-[128px] xl:h-[136px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ff1e27] cursor-pointer group"
       >
         <div className="animate-alert-ticker flex whitespace-nowrap items-center">

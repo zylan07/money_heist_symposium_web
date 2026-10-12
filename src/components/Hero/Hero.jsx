@@ -3,6 +3,7 @@ import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { easeCinematic, easeOutExpo } from '../../utils/motion';
 import HeroDoubleStairPreloader from './HeroDoubleStairPreloader';
 import RollingText from './RollingText';
+import HeroPrizeBanners from './HeroPrizeBanners';
 import { TICKET9_URL } from '../../data/events';
 
 // Local high-resolution assets provided by the user in public/hero/
@@ -716,6 +717,12 @@ export default function Hero() {
           <div className="w-[1px] h-7 bg-gradient-to-b from-[#ff544b] to-transparent group-hover:h-10 transition-all" />
         </a>
       </div>
+
+      {/* CLASSIFIED ₹50,000 PRIZE POOL HANGING BANNERS (LEFT & RIGHT FRAMING ELEMENTS) */}
+      <HeroPrizeBanners
+        entranceComplete={entranceComplete}
+        prefersReducedMotion={prefersReducedMotion}
+      />
     </section>
   );
 }
